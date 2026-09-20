@@ -1,0 +1,187 @@
+@import 'tailwindcss';
+
+/*
+ * رموز التصميم — مستخرجة من الهوية البصرية المعتمدة.
+ * القاعدة: لا لون خارج هذه القائمة، ولا radius موحّد لكل العناصر.
+ */
+@theme {
+  /* الأساسي: أخضر داكن رصين. لا تدرّجات ولا توهّج. */
+  --color-brand-50:  #EEF3F0;
+  --color-brand-100: #D6E2DA;
+  --color-brand-200: #AFC6B8;
+  --color-brand-300: #85A694;
+  --color-brand-400: #5C8471;
+  --color-brand-500: #3E6653;
+  --color-brand-600: #2E4F40;
+  --color-brand-700: #23382D;  /* الأزرار والعنصر النشط */
+  --color-brand-800: #1A2A22;
+  --color-brand-900: #121D18;
+
+  /* الأسطح */
+  --color-surface:        #FFFFFF;
+  --color-surface-muted:  #FAFAF8;
+  --color-canvas:         #F5F5F2;  /* خلفية الصفحة الدافئة */
+  --color-border-subtle:  #ECECE6;
+  --color-border-strong:  #DCDCD4;
+
+  /* النص */
+  --color-ink:        #14181A;
+  --color-ink-muted:  #6B736F;
+  --color-ink-faint:  #9AA29E;
+  --color-ink-invert: #FFFFFF;
+
+  /* الحالات */
+  --color-success:    #2B7A4B;
+  --color-success-bg: #DCF0E1;
+  --color-warning:    #A9741B;
+  --color-warning-bg: #FBF0DA;
+  --color-danger:     #C0392B;
+  --color-danger-bg:  #FBE4E1;
+  --color-info:       #2B5F8F;
+  --color-info-bg:    #E4EFF9;
+
+  /* الذهبي: للتمييز النادر فقط — سطر الهوية تحت الاسم */
+  --color-accent:     #B8862B;
+  --color-accent-bg:  #F8F1E2;
+  --color-accent-soft: #D8B871;  /* الخطوط الرفيعة والأقواس على الأخضر الداكن */
+
+  /* ورقية دافئة: خلفية الواجهة الأولى وحدها، تفصلها عمّا تحتها */
+  --color-parchment:  #F3F0E6;
+
+  /* أنصاف أقطار متدرّجة حسب نوع العنصر لا قيمة واحدة للكل */
+  --radius-field:  0.625rem;  /* المدخلات والأزرار */
+  --radius-card:   1rem;      /* الكروت */
+  --radius-panel:  1.25rem;   /* اللوحات والحوارات */
+  --radius-pill:   9999px;    /* الشارات */
+
+  /* ظلال خفيفة جدًا؛ الفصل بالحدود أساسًا لا بالظل */
+  --shadow-card:  0 1px 2px rgb(20 24 26 / 0.04), 0 1px 3px rgb(20 24 26 / 0.03);
+  --shadow-raise: 0 4px 12px rgb(20 24 26 / 0.06), 0 2px 4px rgb(20 24 26 / 0.04);
+  --shadow-pop:   0 12px 32px rgb(20 24 26 / 0.12);
+
+  --font-sans: var(--font-plex-arabic), system-ui, sans-serif;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--color-border-subtle);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    /*
+     * الخط العربي يعتمد على الوصلات (ligatures) والتشكيل، وإيقافها يكسر
+     * شكل الكلمة. kern + liga إلزاميان هنا لا تحسينًا اختياريًا.
+     */
+    font-kerning: normal;
+    font-variant-ligatures: common-ligatures contextual;
+    text-rendering: optimizeLegibility;
+  }
+
+  /*
+   * العربية أطول من الإنجليزية بنحو ٢٥٪ للمعنى نفسه، وتحتاج تنفّسًا رأسيًا
+   * أكبر. والعناوين تُوزَّن حتى لا تسقط كلمة وحيدة في سطر أخير.
+   */
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    letter-spacing: -0.003em;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  /* الأرقام في الجداول والعدّادات تتراصّ فلا يرقص السطر مع كل تغيّر */
+  .nums-ar,
+  [role='timer'],
+  table {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* حلقة تركيز واحدة واضحة في كل المنصة — شرط الوصولية (البند 22) */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+    border-radius: var(--radius-field);
+  }
+
+  /* الأرقام العربية الشرقية في العرض، مع إبقاء الحقول بأرقام لاتينية للإدخال */
+  .nums-ar {
+    font-feature-settings: 'ss01';
+    font-variant-numeric: normal;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-100);
+    color: var(--color-brand-900);
+  }
+}
+
+@layer utilities {
+  /* منطقة لمس لا تقل عن 44px على الموبايل (البند 22) */
+  .tap-target {
+    min-block-size: 2.75rem;
+    min-inline-size: 2.75rem;
+  }
+
+  /*
+   * ظهور من الأسفل.
+   * `both` يبدأ العنصر مخفيًا فلا يومض قبل انطلاق الحركة.
+   * المسافة قصيرة والمدة أقل من ثلثَي ثانية: حركة تُحسّ ولا تُنتظر (البند 14).
+   * قاعدة prefers-reduced-motion أدناه تُلغيها لمن طلب تقليل الحركة.
+   */
+  .rise-in {
+    animation: rise-in 0.55s cubic-bezier(0.22, 0.9, 0.28, 1) both;
+    animation-delay: var(--rise-delay, 0ms);
+  }
+
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-border-subtle) 25%,
+      var(--color-surface-muted) 37%,
+      var(--color-border-subtle) 63%
+    );
+    background-size: 400% 100%;
+    animation: skeleton-sweep 1.4s ease infinite;
+  }
+
+  @keyframes skeleton-sweep {
+    0%   { background-position: 100% 50%; }
+    100% { background-position: 0 50%; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
