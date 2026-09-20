@@ -1,23 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import {
-  PlayCircle,
-  FileText,
-  ClipboardCheck,
-  Radio,
-  Ticket,
-  UserPlus,
-  GraduationCap,
-  Timer,
-  ListChecks,
-  Repeat2,
-  Download,
-  ShieldCheck,
-  RefreshCw,
-  MessageCircle,
-  LifeBuoy,
-} from 'lucide-react'
+
 import { Navbar } from '@/components/site/navbar'
+import { SectionHeading, LedgerGrid } from '@/components/site/section'
 import { HeroSection } from '@/components/site/hero-section'
 import { createClient } from '@/lib/supabase/server'
 import { formatNumber } from '@/lib/utils/format'
@@ -44,22 +29,18 @@ export const revalidate = 3600
  */
 const FEATURES = [
   {
-    icon: PlayCircle,
     title: 'دروس بالفيديو',
     body: 'كل درس مشروح خطوة بخطوة، تعيده متى شئت، والمنصة تحفظ لك آخر نقطة وقفت عندها.',
   },
   {
-    icon: FileText,
     title: 'ملازم ومذكرات',
     body: 'ملفات PDF مرتبطة بكل كورس، تحمّلها على جهازك وتذاكر منها بلا إنترنت.',
   },
   {
-    icon: ClipboardCheck,
     title: 'اختبارات مصحّحة',
     body: 'تُصحَّح فور التسليم وتظهر لك نتيجتك ودرجتك في كل سؤال — بلا انتظار.',
   },
   {
-    icon: Radio,
     title: 'حصص مباشرة',
     body: 'مراجعات وحصص بث مباشر، ومن فاتته الحصة يجد تسجيلها في حسابه.',
   },
@@ -67,22 +48,18 @@ const FEATURES = [
 
 const EXAM_POINTS = [
   {
-    icon: ClipboardCheck,
     title: 'تصحيح فوري',
     body: 'النتيجة والدرجة في كل سؤال تظهر لحظة التسليم.',
   },
   {
-    icon: Timer,
     title: 'مؤقّت لا يُخدَع',
     body: 'الوقت محسوب على الخادم، فلا يزيد بإعادة فتح الصفحة.',
   },
   {
-    icon: ListChecks,
     title: 'مراجعة الإجابات',
     body: 'ترى أين أخطأت، والإجابة الصحيحة مع شرحها.',
   },
   {
-    icon: Repeat2,
     title: 'محاولات معلومة',
     body: 'عدد المحاولات مكتوب قبل أن تبدأ، لا مفاجآت.',
   },
@@ -90,22 +67,18 @@ const EXAM_POINTS = [
 
 const FILE_POINTS = [
   {
-    icon: FileText,
     title: 'مرتبطة بالكورس',
     body: 'كل ملف في مكانه تحت الكورس الذي يخصّه.',
   },
   {
-    icon: Download,
     title: 'تحميل للمذاكرة',
     body: 'حمّلها مرة وذاكر منها بلا إنترنت.',
   },
   {
-    icon: ShieldCheck,
     title: 'لمشتركي الكورس',
     body: 'روابط مؤقّتة لا تُشارَك ولا تُفتح من خارج حسابك.',
   },
   {
-    icon: RefreshCw,
     title: 'تتحدّث أولًا بأول',
     body: 'الإضافات الجديدة تظهر في حسابك فور رفعها.',
   },
@@ -113,17 +86,14 @@ const FILE_POINTS = [
 
 const SUPPORT_POINTS = [
   {
-    icon: MessageCircle,
     title: 'سؤال في المنهج',
     body: 'اسأل عن قاعدة أو نص لم يتّضح، ويصلك الرد في حسابك.',
   },
   {
-    icon: Ticket,
     title: 'مشكلة اشتراك',
     body: 'كود لم يُفعَّل أو كورس لم يظهر — أبلغنا وتُحلّ.',
   },
   {
-    icon: LifeBuoy,
     title: 'مشكلة تقنية',
     body: 'فيديو لا يعمل أو ملف لا يفتح، صف ما حدث ونتابعه.',
   },
@@ -131,17 +101,14 @@ const SUPPORT_POINTS = [
 
 const STEPS = [
   {
-    icon: UserPlus,
     title: 'أنشئ حسابك',
     body: 'بياناتك الأساسية ومرحلتك الدراسية، في دقيقة واحدة.',
   },
   {
-    icon: Ticket,
     title: 'فعّل كود الاشتراك',
     body: 'اكتب الكود الذي حصلت عليه، ويُفتح الكورس على حسابك فورًا.',
   },
   {
-    icon: GraduationCap,
     title: 'ابدأ المذاكرة',
     body: 'الدروس والملازم والاختبارات كلها في مكان واحد، ومتابعة لتقدّمك.',
   },
@@ -172,26 +139,15 @@ export default async function LandingPage() {
         <section
           id="features"
           aria-labelledby="features-title"
-          className="mx-auto max-w-7xl scroll-mt-16 lg:scroll-mt-20 px-5 py-12 sm:px-8 sm:py-16"
+          className="mx-auto max-w-7xl scroll-mt-16 px-5 py-16 sm:px-8 sm:py-20 lg:scroll-mt-20"
         >
-          <h2 id="features-title" className="text-xl font-semibold text-ink sm:text-2xl">
-            ما تجده في حسابك
-          </h2>
-
-          <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-            {FEATURES.map(({ icon: Icon, title, body }) => (
-              <li
-                key={title}
-                className="rounded-[var(--radius-card)] border border-border-subtle bg-surface p-5"
-              >
-                <span className="mb-3 grid size-9 place-items-center rounded-[var(--radius-field)] bg-brand-50 text-brand-700">
-                  <Icon className="size-[1.125rem]" aria-hidden />
-                </span>
-                <h3 className="text-sm font-semibold text-ink">{title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">{body}</p>
-              </li>
-            ))}
-          </ul>
+          <SectionHeading
+            id="features-title"
+            eyebrow="ما تقدّمه المنصة"
+            title="ما تجده في حسابك"
+            lead="أربعة عناصر يقوم عليها كل كورس: الشرح، والمادة المكتوبة، والقياس، والمتابعة المباشرة."
+          />
+          <LedgerGrid items={FEATURES} />
         </section>
 
         {/* الصفوف — من قاعدة البيانات لا قائمة ثابتة */}
@@ -202,16 +158,23 @@ export default async function LandingPage() {
             className="scroll-mt-16 lg:scroll-mt-20 border-y border-border-subtle bg-surface"
           >
             <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-14">
-              <h2 id="stages-title" className="text-xl font-semibold text-ink sm:text-2xl">
-                المقررات والصفوف
-              </h2>
-              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted">
-                كل صف له مقرره الخاص: نحو وبلاغة وأدب ونصوص، مقسّمة وحدات ودروسًا
-                بالترتيب الذي تُدرَّس به في المدرسة.
-                {publishedCourses > 0 && (
-                  <span className="nums-ar"> {formatNumber(publishedCourses)} كورس متاح الآن.</span>
-                )}
-              </p>
+              <SectionHeading
+                id="stages-title"
+                eyebrow="المقررات"
+                title="المقررات والصفوف"
+                lead={
+                  <>
+                    كل صف له مقرره الخاص: نحو وبلاغة وأدب ونصوص، مقسّمة وحدات ودروسًا
+                    بالترتيب الذي تُدرَّس به في المدرسة.
+                    {publishedCourses > 0 && (
+                      <span className="nums-ar">
+                        {' '}
+                        {formatNumber(publishedCourses)} كورس متاح الآن.
+                      </span>
+                    )}
+                  </>
+                }
+              />
 
               <div className="mt-6 grid gap-6 sm:grid-cols-2">
                 {stages.map((s) => {
@@ -243,148 +206,86 @@ export default async function LandingPage() {
         <section
           id="exams"
           aria-labelledby="exams-title"
-          className="mx-auto max-w-7xl scroll-mt-16 lg:scroll-mt-20 px-5 py-12 sm:px-8 sm:py-16"
+          className="border-y border-border-subtle bg-surface-muted"
         >
-          <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
-            <div>
-              <p className="flex items-center gap-3 text-sm font-medium text-accent">
-                الاختبارات
-                <span className="h-px w-12 bg-accent-soft" aria-hidden />
-              </p>
-              <h2 id="exams-title" className="mt-3 text-xl font-semibold text-ink sm:text-2xl">
-                تعرف درجتك لحظة ما تسلّم
-              </h2>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-muted">
-                الاختبار يُصحَّح فور التسليم، وتظهر لك درجتك في كل سؤال، والإجابة
-                الصحيحة مع شرحها. المؤقّت يُحسب على ساعة الخادم لا ساعة جهازك، فلا
-                يتأثر بإغلاق الصفحة أو انقطاع الإنترنت.
-              </p>
-            </div>
-
-            <ul className="grid gap-3 sm:grid-cols-2">
-              {EXAM_POINTS.map(({ icon: Icon, title, body }) => (
-                <li
-                  key={title}
-                  className="rounded-[var(--radius-card)] border border-border-subtle bg-surface p-4"
-                >
-                  <Icon className="mb-2.5 size-[1.125rem] text-brand-600" aria-hidden />
-                  <h3 className="text-sm font-semibold text-ink">{title}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-ink-muted">{body}</p>
-                </li>
-              ))}
-            </ul>
+          <div className="mx-auto max-w-7xl scroll-mt-16 px-5 py-16 sm:px-8 sm:py-20 lg:scroll-mt-20">
+            <SectionHeading
+              id="exams-title"
+              eyebrow="الاختبارات"
+              title="تعرف درجتك لحظة ما تسلّم"
+              lead="الاختبار يُصحَّح فور التسليم، وتظهر لك درجتك في كل سؤال والإجابة الصحيحة مع شرحها. والمؤقّت يُحسب على ساعة الخادم لا ساعة جهازك، فلا يتأثر بإغلاق الصفحة أو انقطاع الإنترنت."
+            />
+            <LedgerGrid items={EXAM_POINTS} />
           </div>
         </section>
 
         <section
           id="files"
           aria-labelledby="files-title"
-          className="scroll-mt-16 lg:scroll-mt-20 border-y border-border-subtle bg-surface"
+          className="mx-auto max-w-7xl scroll-mt-16 px-5 py-16 sm:px-8 sm:py-20 lg:scroll-mt-20"
         >
-          <div className="mx-auto grid max-w-7xl gap-8 px-5 py-12 sm:px-8 sm:py-16 lg:grid-cols-2 lg:items-start">
-            <div>
-              <p className="flex items-center gap-3 text-sm font-medium text-accent">
-                الملفات
-                <span className="h-px w-12 bg-accent-soft" aria-hidden />
-              </p>
-              <h2 id="files-title" className="mt-3 text-xl font-semibold text-ink sm:text-2xl">
-                ملازم تحمّلها وتذاكر منها
-              </h2>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-muted">
-                لكل كورس ملفاته: ملازم ومذكرات وأوراق تطبيقات بصيغة PDF. تفتحها من
-                حسابك وتحمّلها على جهازك لتذاكر منها بلا إنترنت.
-              </p>
-            </div>
-
-            <ul className="grid gap-3 sm:grid-cols-2">
-              {FILE_POINTS.map(({ icon: Icon, title, body }) => (
-                <li
-                  key={title}
-                  className="rounded-[var(--radius-card)] border border-border-subtle bg-surface-muted p-4"
-                >
-                  <Icon className="mb-2.5 size-[1.125rem] text-brand-600" aria-hidden />
-                  <h3 className="text-sm font-semibold text-ink">{title}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-ink-muted">{body}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <SectionHeading
+            id="files-title"
+            eyebrow="الملفات"
+            title="ملازم تحمّلها وتذاكر منها"
+            lead="لكل كورس ملفاته: ملازم ومذكرات وأوراق تطبيقات بصيغة PDF، تفتحها من حسابك وتحمّلها على جهازك لتذاكر منها بلا إنترنت."
+          />
+          <LedgerGrid items={FILE_POINTS} />
         </section>
 
         <section
           id="support"
           aria-labelledby="support-title"
-          className="mx-auto max-w-7xl scroll-mt-16 lg:scroll-mt-20 px-5 py-12 sm:px-8 sm:py-16"
+          className="border-y border-border-subtle bg-surface-muted"
         >
-          <p className="flex items-center gap-3 text-sm font-medium text-accent">
-            الدعم
-            <span className="h-px w-12 bg-accent-soft" aria-hidden />
-          </p>
-          <h2 id="support-title" className="mt-3 text-xl font-semibold text-ink sm:text-2xl">
-            سؤالك لا يضيع
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-muted">
-            داخل حسابك محادثة دعم مباشرة. تكتب سؤالك وتتابع الرد عليه في نفس المكان،
-            وتعرف حالة طلبك في كل خطوة.
-          </p>
-
-          <ul className="mt-6 grid gap-3 sm:grid-cols-3">
-            {SUPPORT_POINTS.map(({ icon: Icon, title, body }) => (
-              <li
-                key={title}
-                className="rounded-[var(--radius-card)] border border-border-subtle bg-surface p-5"
-              >
-                <Icon className="mb-2.5 size-[1.125rem] text-brand-600" aria-hidden />
-                <h3 className="text-sm font-semibold text-ink">{title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">{body}</p>
-              </li>
-            ))}
-          </ul>
+          <div className="mx-auto max-w-7xl scroll-mt-16 px-5 py-16 sm:px-8 sm:py-20 lg:scroll-mt-20">
+            <SectionHeading
+              id="support-title"
+              eyebrow="الدعم"
+              title="سؤالك لا يضيع"
+              lead="داخل حسابك محادثة دعم مباشرة: تكتب سؤالك وتتابع الرد عليه في المكان نفسه، وتعرف حالة طلبك في كل خطوة."
+            />
+            <LedgerGrid items={SUPPORT_POINTS} columns={3} />
+          </div>
         </section>
 
         {/* كيف تبدأ */}
         <section
           id="steps"
           aria-labelledby="steps-title"
-          className="mx-auto max-w-7xl scroll-mt-16 lg:scroll-mt-20 px-5 py-12 sm:px-8 sm:py-16"
+          className="mx-auto max-w-7xl scroll-mt-16 px-5 py-16 sm:px-8 sm:py-20 lg:scroll-mt-20"
         >
-          <h2 id="steps-title" className="text-xl font-semibold text-ink sm:text-2xl">
-            كيف تبدأ
-          </h2>
+          <SectionHeading
+            id="steps-title"
+            eyebrow="البداية"
+            title="كيف تبدأ"
+            lead="ثلاث خطوات بينك وبين أول درس."
+          />
+          <LedgerGrid items={STEPS} columns={3} />
 
-          <ol className="mt-6 grid gap-4 sm:grid-cols-3">
-            {STEPS.map(({ icon: Icon, title, body }, i) => (
-              <li
-                key={title}
-                className="rounded-[var(--radius-card)] border border-border-subtle bg-surface p-5"
+          <div className="mt-14 overflow-hidden rounded-[var(--radius-card)] border border-accent/40 bg-brand-800">
+            <div className="relative px-6 py-12 text-center sm:px-10">
+              <p className="flex items-center justify-center gap-3 text-sm font-medium tracking-wide text-accent-soft">
+                <span className="h-px w-14 bg-accent/70" aria-hidden />
+                ابدأ اليوم
+                <span className="h-px w-14 bg-accent/70" aria-hidden />
+              </p>
+              <h2 className="mt-4 text-2xl font-bold text-ink-invert sm:text-3xl">
+                حسابك جاهز في دقيقة
+              </h2>
+              <p className="mx-auto mt-3 max-w-lg text-base leading-[1.9] text-brand-100">
+                أنشئ حسابك الآن، وفعّل كود الاشتراك متى حصلت عليه.
+              </p>
+              <Link
+                href="/register"
+                className="mt-8 inline-flex h-13 items-center rounded-[var(--radius-field)] bg-accent px-8 text-sm font-semibold text-brand-900 transition-colors hover:bg-accent-soft"
               >
-                <div className="mb-3 flex items-center gap-2.5">
-                  <span className="nums-ar grid size-7 place-items-center rounded-full bg-brand-700 text-xs font-semibold text-ink-invert">
-                    {formatNumber(i + 1)}
-                  </span>
-                  <Icon className="size-4 text-ink-faint" aria-hidden />
-                </div>
-                <h3 className="text-sm font-semibold text-ink">{title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">{body}</p>
-              </li>
-            ))}
-          </ol>
-
-          <div className="mt-8 rounded-[var(--radius-panel)] bg-brand-700 px-6 py-8 text-center sm:px-8">
-            <h2 className="text-lg font-semibold text-ink-invert sm:text-xl">
-              حسابك جاهز في دقيقة
-            </h2>
-            <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-brand-100">
-              أنشئ حسابك الآن، وفعّل كود الاشتراك متى حصلت عليه.
-            </p>
-            <Link
-              href="/register"
-              className="mt-5 inline-flex h-12 items-center rounded-[var(--radius-field)] bg-surface px-6 text-sm font-medium text-ink transition-colors hover:bg-surface-muted"
-            >
-              إنشاء حساب
-            </Link>
+                إنشاء حساب
+              </Link>
+            </div>
           </div>
         </section>
+
       </main>
 
       <footer className="border-t border-border-subtle bg-surface">

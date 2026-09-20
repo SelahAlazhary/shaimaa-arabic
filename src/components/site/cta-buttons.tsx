@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { ArrowLeft, BookOpen, LogIn, UserPlus } from 'lucide-react'
-import { AUTH, HERO } from '@/lib/site/content'
+import { LogIn, UserPlus } from 'lucide-react'
+import { AUTH } from '@/lib/site/content'
 import { cn } from '@/lib/utils/cn'
 
 /**
@@ -38,28 +38,5 @@ export function AuthButtons({ block = false }: { block?: boolean }) {
         <UserPlus className="size-4 shrink-0" aria-hidden />
       </Link>
     </>
-  )
-}
-
-/** إجراءا الواجهة الأولى: أساسي ممتلئ وثانوي بإطار، بنفس الارتفاع. */
-export function HeroButtons() {
-  return (
-    <div className="flex flex-wrap gap-3">
-      <Link
-        href="/register"
-        className="inline-flex h-13 items-center gap-2.5 rounded-[var(--radius-field)] bg-brand-800 px-7 text-sm font-semibold text-ink-invert transition-colors hover:bg-brand-900"
-      >
-        {HERO.primaryCta}
-        <ArrowLeft className="size-4" aria-hidden />
-      </Link>
-
-      <a
-        href="#courses"
-        className="inline-flex h-13 items-center gap-2.5 rounded-[var(--radius-field)] border border-border-strong bg-surface px-7 text-sm font-medium text-brand-800 transition-colors hover:border-brand-300 hover:bg-brand-50"
-      >
-        {HERO.secondaryCta}
-        <BookOpen className="size-4" aria-hidden />
-      </a>
-    </div>
   )
 }
