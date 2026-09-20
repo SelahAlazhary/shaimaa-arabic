@@ -21,7 +21,7 @@ export async function generateMetadata({
   const { id } = await params
   const supabase = await createClient()
   const { data } = await supabase.from('courses').select('title').eq('id', id).maybeSingle()
-  return { title: data?.title ?? 'الكورس' }
+  return { title: data?.title ?? 'المقرر' }
 }
 
 export default async function EditCoursePage({ params }: { params: Promise<{ id: string }> }) {
@@ -76,12 +76,12 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
         className="inline-flex items-center gap-1.5 text-base text-ink-muted underline-offset-4 hover:text-ink hover:underline"
       >
         <ArrowRight className="size-4" aria-hidden />
-        كل الكورسات
+        كل المقررات
       </Link>
 
       <PageHeader
         title={course.title}
-        description="عدّل بيانات الكورس، ونظّم وحداته ودروسه."
+        description="عدّل بيانات المقرر، ونظّم وحداته ودروسه."
         action={
           course.status === 'published' ? (
             <Link
@@ -96,7 +96,7 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
       />
 
       <Card>
-        <CardHeader title="بيانات الكورس" icon={BookOpen} />
+        <CardHeader title="بيانات المقرر" icon={BookOpen} />
         <CourseForm
           grades={gradesRes.data ?? []}
           defaults={{
@@ -139,7 +139,7 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
 
       <Card>
         <CardHeader
-          title="دروس الكورس"
+          title="دروس المقرر"
           icon={BookOpen}
           action={
             <span className="nums-ar text-sm text-ink-faint">

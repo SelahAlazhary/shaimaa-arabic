@@ -22,7 +22,7 @@ export async function GET(
     return NextResponse.redirect(new URL('/login', process.env.NEXT_PUBLIC_SITE_URL))
   }
 
-  // RLS على attachments تشترط تسجيلًا نشطًا في كورس مرتبط بالمرفق
+  // RLS على attachments تشترط تسجيلًا نشطًا في مقرر مرتبط بالمرفق
   const { data: attachment } = await supabase
     .from('attachments')
     .select('storage_path, file_name')

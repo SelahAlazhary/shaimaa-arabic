@@ -26,7 +26,7 @@ function SubmitButton({ editing }: { editing: boolean }) {
   return (
     <Button type="submit" loading={pending} loadingText="جارٍ الحفظ…">
       <Save aria-hidden />
-      {editing ? 'حفظ التعديلات' : 'إنشاء الكورس'}
+      {editing ? 'حفظ التعديلات' : 'إنشاء المقرر'}
     </Button>
   )
 }
@@ -74,7 +74,7 @@ export function CourseForm({
         </p>
       )}
 
-      <Field label="عنوان الكورس" error={fieldErrors?.title} required>
+      <Field label="عنوان المقرر" error={fieldErrors?.title} required>
         {({ id, describedBy, invalid }) => (
           <Input
             id={id}
@@ -89,7 +89,7 @@ export function CourseForm({
         )}
       </Field>
 
-      <Field label="وصف الكورس" error={fieldErrors?.description}>
+      <Field label="وصف المقرر" error={fieldErrors?.description}>
         {({ id, describedBy, invalid }) => (
           <textarea
             id={id}
@@ -127,7 +127,7 @@ export function CourseForm({
           )}
         </Field>
 
-        <Field label="السعر بالجنيه" error={fieldErrors?.price} hint="صفر أو فارغ يعني كورسًا مجانيًا">
+        <Field label="السعر بالجنيه" error={fieldErrors?.price} hint="صفر أو فارغ يعني مقررًا مجانيًا">
           {({ id, describedBy, invalid }) => (
             <Input
               id={id}

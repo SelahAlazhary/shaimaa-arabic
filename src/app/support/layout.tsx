@@ -5,7 +5,7 @@ export default async function SupportLayout({ children }: { children: React.Reac
   const user = await requireSupport()
 
   return (
-    <AppShell user={user} area="support" areaLabel="لوحة الدعم" pageTitle="التذاكر">
+    <AppShell user={user} area="support" areaLabel="لوحة الدعم" pageTitle="المحادثات">
       {children}
     </AppShell>
   )

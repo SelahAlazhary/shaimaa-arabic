@@ -23,7 +23,7 @@ export async function generateCodes(
   const grantsDays = String(formData.get('grantsDays') ?? '').trim()
   const batch = String(formData.get('batch') ?? '').trim()
 
-  if (!courseId) return { status: 'error', message: 'اختر الكورس أولًا.' }
+  if (!courseId) return { status: 'error', message: 'اختر المقرر أولًا.' }
   if (!Number.isInteger(quantity) || quantity <= 0) {
     return { status: 'error', message: 'أدخل عددًا صحيحًا أكبر من صفر.' }
   }

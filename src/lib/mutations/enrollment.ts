@@ -10,7 +10,7 @@ export type RedeemState =
   | { status: 'success'; message: string; courseTitle: string }
 
 /**
- * تفعيل كود الاشتراك.
+ * تفعيل كود التفعيل.
  * لا منطق أعمال هنا إطلاقًا: كل الفحوص والمعاملة داخل redeem_activation_code
  * في القاعدة — تنفيذ واحد مركزي (القاعدة 4)، وذرّي ضد الطلبات المتزامنة.
  */
@@ -29,7 +29,7 @@ export async function redeemCode(_prev: RedeemState, formData: FormData): Promis
   }
 
   const result = data as { course_title?: string } | null
-  const courseTitle = result?.course_title ?? 'الكورس'
+  const courseTitle = result?.course_title ?? 'المقرر'
 
   revalidatePath('/student', 'layout')
 

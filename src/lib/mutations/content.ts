@@ -56,7 +56,7 @@ async function adminClient() {
   return supabase
 }
 
-// ===== الكورسات =====
+// ===== المقررات =====
 
 export async function saveCourse(_prev: FormState, formData: FormData): Promise<FormState> {
   const parsed = courseSchema.safeParse({
@@ -177,7 +177,7 @@ export async function deleteModule(moduleId: string, courseId: string) {
 }
 
 /**
- * حذف كورس: مسموح فقط ما دام لم يشترك فيه أحد ولم تُصدَر له أكواد.
+ * حذف مقرر: مسموح فقط ما دام لم يشترك فيه أحد ولم تُصدَر له أكواد.
  * القاعدة نفسها تمنعه (`enrollments` و`activation_codes` عليهما RESTRICT)،
  * لكننا نفحص أولًا لنقول للمستخدمة السبب بدل خطأ مفتاح أجنبي خام.
  * وما يسقط معه محتوى فقط: الدروس والوحدات والاختبارات والبث وروابط المرفقات.
@@ -194,14 +194,14 @@ export async function deleteCourse(courseId: string) {
   if (enrollments.count) {
     return {
       ok: false,
-      message: `لا يمكن حذف كورس اشترك فيه ${formatNumber(enrollments.count)} طالب — الحذف يمحو اشتراكاتهم وتقدّمهم. أرشفي الكورس بدل حذفه.`,
+      message: `لا يمكن حذف مقرر اشترك فيه ${formatNumber(enrollments.count)} طالب — الحذف يمحو اشتراكاتهم وتقدّمهم. أرشفي المقرر بدل حذفه.`,
     }
   }
 
   if (codes.count) {
     return {
       ok: false,
-      message: `لهذا الكورس ${formatNumber(codes.count)} كود تفعيل. احذفي الأكواد أولًا أو أرشفي الكورس.`,
+      message: `لهذا المقرر ${formatNumber(codes.count)} كود تفعيل. احذفي الأكواد أولًا أو أرشفي المقرر.`,
     }
   }
 
@@ -210,7 +210,7 @@ export async function deleteCourse(courseId: string) {
 
   revalidatePath('/admin/courses')
   revalidatePath('/student', 'layout')
-  return { ok: true, message: 'تم حذف الكورس.' }
+  return { ok: true, message: 'تم حذف المقرر.' }
 }
 
 // ===== الدروس =====

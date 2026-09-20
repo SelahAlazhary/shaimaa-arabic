@@ -9,7 +9,7 @@ import { Card, CardHeader, EmptyState, Badge } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
 import { formatNumber, formatPrice, formatDate } from '@/lib/utils/format'
 
-export const metadata: Metadata = { title: 'الكورسات' }
+export const metadata: Metadata = { title: 'المقررات' }
 
 const STATUS = {
   draft: { label: 'مسودّة', tone: 'neutral' as const },
@@ -48,34 +48,34 @@ export default async function AdminCoursesPage() {
   return (
     <div>
       <PageHeader
-        title="الكورسات"
-        description="كل الكورسات وحالة نشرها وعدد دروسها وطلابها."
+        title="المقررات"
+        description="كل المقررات وحالة نشرها وعدد دروسها وطلابها."
         action={
           <Link
             href="/admin/courses/new"
             className="inline-flex h-11 items-center gap-2 rounded-[var(--radius-field)] bg-brand-700 px-4 text-base font-medium text-ink-invert transition-colors hover:bg-brand-800"
           >
             <Plus className="size-4" aria-hidden />
-            كورس جديد
+            مقرر جديد
           </Link>
         }
       />
 
       <Card>
-        <CardHeader title="قائمة الكورسات" icon={BookOpen} />
+        <CardHeader title="قائمة المقررات" icon={BookOpen} />
 
         {courses.length === 0 ? (
           <EmptyState
             icon={BookOpen}
-            title="لا توجد كورسات بعد"
-            description="أنشئ أول كورس لتبدأ في إضافة الوحدات والدروس ونشرها للطلاب."
+            title="لا توجد مقررات بعد"
+            description="أنشئ أول مقرر لتبدأ في إضافة الوحدات والدروس ونشرها للطلاب."
             action={
               <Link
                 href="/admin/courses/new"
                 className="inline-flex h-11 items-center gap-2 rounded-[var(--radius-field)] bg-brand-700 px-4 text-base font-medium text-ink-invert transition-colors hover:bg-brand-800"
               >
                 <Plus className="size-4" aria-hidden />
-                كورس جديد
+                مقرر جديد
               </Link>
             }
           />
@@ -114,9 +114,9 @@ export default async function AdminCoursesPage() {
                     label=""
                     srLabel={`حذف ${c.title}`}
                     icon={<Trash2 aria-hidden />}
-                    title="حذف الكورس؟"
+                    title="حذف المقرر؟"
                     body={`سيُحذف «${c.title}» بكل دروسه ووحداته واختباراته. الحذف ممنوع إن كان فيه طلاب أو أكواد.`}
-                    confirmLabel="احذف الكورس"
+                    confirmLabel="احذف المقرر"
                     action={deleteCourseAction.bind(null, c.id)}
                   />
                 </span>

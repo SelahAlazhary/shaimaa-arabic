@@ -110,7 +110,7 @@ export function LessonPlayer({
         <Lock className="mb-3 size-6 text-ink-faint" aria-hidden />
         <p className="text-base font-medium text-ink">هذا الدرس للمشتركين</p>
         <p className="mt-1.5 max-w-xs text-base leading-relaxed text-ink-muted">
-          فعّل كود الاشتراك من صفحة «كورساتي» لفتح الكورس كاملًا.
+          فعّل كود التفعيل من صفحة «مقرراتي» لفتح المقرر كاملًا.
         </p>
       </div>
     )

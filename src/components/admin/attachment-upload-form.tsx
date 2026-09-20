@@ -113,14 +113,14 @@ export function AttachmentUploadForm({ courses }: { courses: { id: string; title
 
       <fieldset>
         <legend className="mb-2 text-base font-medium text-ink">
-          اربطه بالكورسات
+          اربطه بالمقررات
           <span className="ms-2 text-sm font-normal text-ink-faint">
-            المرفق لا يظهر لأي طالب حتى تربطه بكورس
+            المرفق لا يظهر لأي طالب حتى تربطه بمقرر
           </span>
         </legend>
 
         {courses.length === 0 ? (
-          <p className="text-base text-ink-muted">أنشئ كورسًا أولًا لتربط به المرفقات.</p>
+          <p className="text-base text-ink-muted">أنشئ مقررًا أولًا لتربط به المرفقات.</p>
         ) : (
           <div className="max-h-44 space-y-1.5 overflow-y-auto rounded-[var(--radius-field)] border border-border-subtle p-3">
             {courses.map((c) => (

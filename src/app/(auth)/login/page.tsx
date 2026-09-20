@@ -5,7 +5,7 @@ import { LoginForm } from '@/components/auth/login-form'
 
 export const metadata: Metadata = {
   title: 'تسجيل الدخول',
-  description: 'ادخل إلى حسابك لمتابعة كورساتك واختباراتك.',
+  description: 'ادخل إلى حسابك لمتابعة مقرراتك واختباراتك.',
 }
 
 export default async function LoginPage({
@@ -18,7 +18,7 @@ export default async function LoginPage({
   return (
     <div>
       <h1 className="text-2xl font-semibold text-ink">تسجيل الدخول</h1>
-      <p className="mt-1.5 text-base text-ink-muted">أدخل بياناتك للمتابعة إلى حسابك.</p>
+      <p className="mt-1.5 text-base text-ink-muted">أدخل بريدك وكلمة المرور للمتابعة.</p>
 
       {params.reset === 'done' && (
         <div

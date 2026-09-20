@@ -43,7 +43,7 @@ export default async function AdminCodesPage() {
     <div className="space-y-6">
       <PageHeader
         title="أكواد التفعيل"
-        description="ولّد أكوادًا لكل كورس، بِعها للطلاب، وتابع المستخدَم منها."
+        description="ولّد أكوادًا لكل مقرر، وزّعها على الطلاب، وتابع المستخدَم منها."
         action={
           <Link
             href="/admin/codes/export"

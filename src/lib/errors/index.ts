@@ -50,15 +50,15 @@ const MESSAGES: Record<ErrorCode, string> = {
   FORBIDDEN: 'ليست لديك صلاحية لهذا الإجراء.',
   ACCOUNT_SUSPENDED: 'حسابك موقوف. تواصل مع الدعم لمعرفة السبب.',
 
-  INVALID_CODE: 'هذا الكود غير صحيح. راجع الحروف والأرقام وحاول مرة أخرى.',
+  INVALID_CODE: 'الكود غير صحيح. راجع الحروف والأرقام ثم أعد المحاولة.',
   CODE_EXPIRED: 'انتهت صلاحية هذا الكود.',
   CODE_ALREADY_USED: 'هذا الكود مُستخدَم من قبل.',
   CODE_CANCELLED: 'تم إلغاء هذا الكود.',
   CODE_GENERATION_FAILED: 'تعذّر توليد الأكواد. أعد المحاولة.',
 
-  ENROLLMENT_EXISTS: 'أنت مشترك في هذا الكورس بالفعل.',
-  COURSE_NOT_FOUND: 'الكورس غير موجود.',
-  COURSE_NOT_AVAILABLE: 'هذا الكورس غير متاح حاليًا.',
+  ENROLLMENT_EXISTS: 'أنت مشترك في هذا المقرر بالفعل.',
+  COURSE_NOT_FOUND: 'المقرر غير موجود.',
+  COURSE_NOT_AVAILABLE: 'هذا المقرر غير متاح حاليًا.',
   STUDENT_NOT_FOUND: 'لم نعثر على هذا الطالب.',
 
   INVALID_QUANTITY: 'أدخل عددًا صحيحًا أكبر من صفر.',
@@ -68,7 +68,7 @@ const MESSAGES: Record<ErrorCode, string> = {
   EXAM_NOT_AVAILABLE: 'هذا الاختبار غير متاح.',
   EXAM_NOT_STARTED: 'لم يبدأ الاختبار بعد.',
   EXAM_ENDED: 'انتهى وقت هذا الاختبار.',
-  MAX_ATTEMPTS_REACHED: 'استنفدت عدد المحاولات المسموح بها.',
+  MAX_ATTEMPTS_REACHED: 'استنفدت محاولاتك المتاحة في هذا الاختبار.',
   QUESTION_NOT_FOUND: 'لم نعثر على هذا السؤال.',
   ATTEMPT_NOT_FOUND: 'لم نعثر على هذه المحاولة.',
   ATTEMPT_NOT_ACTIVE: 'هذه المحاولة لم تعد جارية.',
@@ -81,13 +81,13 @@ const MESSAGES: Record<ErrorCode, string> = {
   EMAIL_ALREADY_REGISTERED: 'هذا البريد مسجَّل بالفعل. جرّب تسجيل الدخول.',
   EMAIL_NOT_CONFIRMED: 'أكّد بريدك الإلكتروني أولًا من الرسالة المُرسَلة إليك.',
   INVALID_EMAIL: 'هذا البريد غير مقبول. استخدم بريدًا حقيقيًا مثل Gmail أو Outlook.',
-  WEAK_PASSWORD: 'كلمة المرور ضعيفة. استخدم ٨ أحرف على الأقل.',
-  RATE_LIMITED: 'محاولات كثيرة في وقت قصير. انتظر دقائق ثم أعد المحاولة.',
+  WEAK_PASSWORD: 'كلمة المرور قصيرة. استخدم ٨ أحرف على الأقل.',
+  RATE_LIMITED: 'محاولات كثيرة في وقت قصير. انتظر دقائق ثم حاول من جديد.',
   EMAIL_SEND_LIMIT:
     'تعذّر إرسال رسالة التأكيد الآن بسبب ضغط على خدمة البريد. انتظر قليلًا ثم أعد المحاولة، أو تواصل مع الدعم.',
 
   NETWORK_ERROR: 'تعذّر الاتصال. تأكد من الإنترنت وأعد المحاولة.',
-  UNKNOWN: 'حدث خطأ غير متوقّع. أعد المحاولة، وإن تكرر تواصل مع الدعم.',
+  UNKNOWN: 'تعذّر إتمام العملية. أعد المحاولة، وإن تكرّر تواصل مع الدعم.',
 }
 
 export class AppError extends Error {

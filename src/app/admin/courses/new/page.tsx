@@ -8,7 +8,7 @@ import { PageHeader } from '@/components/ui/page-header'
 import { CourseForm } from '@/components/admin/course-form'
 import { BookOpen } from 'lucide-react'
 
-export const metadata: Metadata = { title: 'كورس جديد' }
+export const metadata: Metadata = { title: 'مقرر جديد' }
 
 export default async function NewCoursePage() {
   await requireAdmin()
@@ -25,16 +25,16 @@ export default async function NewCoursePage() {
         className="mb-4 inline-flex items-center gap-1.5 text-base text-ink-muted underline-offset-4 hover:text-ink hover:underline"
       >
         <ArrowRight className="size-4" aria-hidden />
-        كل الكورسات
+        كل المقررات
       </Link>
 
       <PageHeader
-        title="كورس جديد"
-        description="أدخل بيانات الكورس، ثم أضف الوحدات والدروس في الخطوة التالية."
+        title="مقرر جديد"
+        description="أدخل بيانات المقرر، ثم أضف الوحدات والدروس في الخطوة التالية."
       />
 
       <Card>
-        <CardHeader title="بيانات الكورس" icon={BookOpen} />
+        <CardHeader title="بيانات المقرر" icon={BookOpen} />
         <CourseForm grades={grades ?? []} />
       </Card>
     </div>

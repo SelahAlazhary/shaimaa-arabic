@@ -20,7 +20,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             دروسك ومذكراتك واختباراتك في مكان واحد.
           </p>
           <p className="mt-3 text-base leading-relaxed text-brand-200">
-            تابع تقدّمك في كل كورس، حمّل الملازم، واحضر الحصص المباشرة — من أي جهاز.
+            تابع تقدّمك في كل مقرر، حمّل الملازم، واحضر الحصص المباشرة — من أي جهاز.
           </p>
         </div>
 

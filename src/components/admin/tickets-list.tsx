@@ -13,7 +13,7 @@ const TONE: Record<TicketStatus, 'success' | 'warning' | 'info' | 'neutral'> = {
 }
 
 /**
- * قائمة التذاكر — مشتركة بين لوحة الإدارة ولوحة الدعم.
+ * قائمة المحادثات — مشتركة بين لوحة الإدارة ولوحة الدعم.
  * RLS هي من تحدّد ما يراه كل دور: المدير يرى الكل، والدعم يرى ما يخصّه.
  */
 export async function TicketsList({ basePath }: { basePath: string }) {
@@ -50,7 +50,7 @@ export async function TicketsList({ basePath }: { basePath: string }) {
         <EmptyState
           icon={LifeBuoy}
           title="لا توجد محادثات"
-          description="أول ما يفتح طالب محادثة دعم، هتظهر هنا مع بياناته."
+          description="تظهر هنا محادثات الدعم فور فتح أي طالب محادثة جديدة."
         />
       ) : (
         <ul className="divide-y divide-border-subtle">

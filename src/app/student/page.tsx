@@ -32,7 +32,7 @@ export default async function StudentHomePage() {
         <p className="mt-2 max-w-lg text-base leading-relaxed text-brand-100">
           {home.courses.length > 0
             ? 'كمّل من حيث وقفت، ولا تنسَ مراجعة المرفقات قبل الاختبار.'
-            : 'مفيش كورسات مفتوحة على حسابك لسه. فعّل كود الاشتراك عشان تبدأ.'}
+            : 'لا توجد مقررات مفتوحة على حسابك بعد. فعّل كودك لتبدأ.'}
         </p>
 
         <div className="mt-5">
@@ -60,7 +60,7 @@ export default async function StudentHomePage() {
       <section aria-label="ملخّص سريع" className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard
           icon={BookOpen}
-          label="كورساتي"
+          label="مقرراتي"
           value={formatNumber(home.courses.length)}
           tone="info"
         />
@@ -84,10 +84,10 @@ export default async function StudentHomePage() {
         />
       </section>
 
-      {/* كورساتي */}
+      {/* مقرراتي */}
       <Card>
         <CardHeader
-          title="كورساتي"
+          title="مقرراتي"
           icon={BookOpen}
           action={
             home.courses.length > 0 ? (
@@ -105,8 +105,8 @@ export default async function StudentHomePage() {
         {home.courses.length === 0 ? (
           <EmptyState
             icon={BookOpen}
-            title="لا توجد كورسات بعد"
-            description="بعد ما تفعّل كود الاشتراك، هيظهر الكورس هنا وتقدر تبدأ الدروس فورًا."
+            title="لا توجد مقررات بعد"
+            description="بعد تفعيل كودك، يظهر المقرر هنا وتبدأ الدروس فورًا."
             action={
               <Link
                 href="/student/courses"
@@ -151,7 +151,7 @@ export default async function StudentHomePage() {
             <EmptyState
               icon={CalendarClock}
               title="لا حصص مباشرة قادمة"
-              description="هيوصلك إشعار فور جدولة حصة جديدة في كورساتك."
+              description="يصلك إشعار فور جدولة حصة جديدة في مقرراتك."
             />
           ) : (
             <ul className="divide-y divide-border-subtle">
@@ -170,12 +170,12 @@ export default async function StudentHomePage() {
 
         {/* المرفقات */}
         <Card>
-          <CardHeader title="مرفقات كورساتي" icon={FileText} />
+          <CardHeader title="مرفقات مقرراتي" icon={FileText} />
           {home.attachments.length === 0 ? (
             <EmptyState
               icon={FileText}
               title="لا توجد مرفقات"
-              description="الملازم والمذكرات المرتبطة بكورساتك هتظهر هنا للتحميل."
+              description="ملازم مقرراتك ومذكراتها ستظهر هنا جاهزة للتحميل."
             />
           ) : (
             <ul className="divide-y divide-border-subtle">

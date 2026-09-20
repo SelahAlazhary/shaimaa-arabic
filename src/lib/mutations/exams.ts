@@ -24,7 +24,7 @@ const fieldErrorsFrom = (issues: { path: PropertyKey[]; message: string }[]) => 
 }
 
 const examSchema = z.object({
-  courseId: optionalUuidField('اختر الكورس'),
+  courseId: optionalUuidField('اختر المقرر'),
   title: z.string({ error: 'العنوان مطلوب' }).trim().min(3, 'العنوان قصير جدًا').max(150, 'العنوان طويل جدًا'),
   description: z.string().trim().max(1000, 'الوصف طويل جدًا').optional().or(z.literal('')),
   durationMinutes: z.string().trim().regex(/^\d{1,3}$/, 'المدة بالدقائق من ١ إلى ٩٩٩').or(z.literal('')),

@@ -41,16 +41,16 @@ export function GenerateCodesForm({ courses }: { courses: { id: string; title: s
     <div className="p-5">
       {courses.length === 0 ? (
         <p className="text-base text-ink-muted">
-          أنشئ كورسًا أولًا، فالأكواد تُولَّد لكورس محدّد.
+          أنشئ مقررًا أولًا، فالأكواد تُولَّد لمقرر محدّد.
         </p>
       ) : (
         <form action={formAction} className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="الكورس" required>
+            <Field label="المقرر" required>
               {({ id, invalid }) => (
                 <Select id={id} name="courseId" defaultValue="" invalid={invalid} required>
                   <option value="" disabled>
-                    اختر الكورس
+                    اختر المقرر
                   </option>
                   {courses.map((c) => (
                     <option key={c.id} value={c.id}>

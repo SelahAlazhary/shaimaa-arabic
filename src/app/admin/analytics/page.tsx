@@ -47,7 +47,7 @@ export default async function AdminAnalyticsPage() {
         id: c.id,
         title: c.title,
         students,
-        // الإيراد تقديري: عدد الاشتراكات النشطة × سعر الكورس المعلن
+        // الإيراد تقديري: عدد الاشتراكات النشطة × سعر المقرر المعلن
         revenue: students * Number(c.price ?? 0),
         percent:
           courseLessons.length === 0 || students === 0
@@ -71,13 +71,13 @@ export default async function AdminAnalyticsPage() {
       </section>
 
       <Card>
-        <CardHeader title="أداء الكورسات" icon={BarChart3} />
+        <CardHeader title="أداء المقررات" icon={BarChart3} />
 
         {perCourse.length === 0 ? (
           <EmptyState
             icon={BarChart3}
             title="لا بيانات كافية"
-            description="بعد اشتراك الطلاب في الكورسات ستظهر هنا أرقام المشاهدة والإكمال."
+            description="بعد اشتراك الطلاب في المقررات ستظهر هنا أرقام المشاهدة والإكمال."
           />
         ) : (
           <ul className="divide-y divide-border-subtle">
@@ -102,7 +102,7 @@ export default async function AdminAnalyticsPage() {
       </Card>
 
       <p className="text-sm leading-relaxed text-ink-faint">
-        الإيراد تقديري: عدد الاشتراكات النشطة مضروبًا في السعر المعلن للكورس. لا يشمل
+        الإيراد تقديري: عدد الاشتراكات النشطة مضروبًا في السعر المعلن للمقرر. لا يشمل
         الخصومات ولا الاشتراكات اليدوية المجانية.
       </p>
     </div>

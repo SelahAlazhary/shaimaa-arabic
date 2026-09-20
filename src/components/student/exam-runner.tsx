@@ -74,7 +74,7 @@ export function ExamRunner({
       setError(null)
       const started = await startAttempt(examId)
       if (started.status !== 'started') {
-        setError(started.status === 'error' ? started.message : 'تعذّر بدء الاختبار.')
+        setError(started.status === 'error' ? started.message : 'تعذّر بدء الاختبار. أعد المحاولة.')
         return
       }
       const loaded = await getAttemptQuestions(started.attemptId)
@@ -158,7 +158,7 @@ export function ExamRunner({
         </span>
 
         <h2 className="text-lg font-semibold text-ink">
-          {result.passed ? 'مبروك، نجحت' : 'لم تجتز الاختبار'}
+          {result.passed ? 'نجحت، مبروك' : 'لم تجتز الاختبار'}
         </h2>
 
         <p className="nums-ar mt-2 text-3xl font-semibold text-ink">
@@ -173,7 +173,7 @@ export function ExamRunner({
             راجع إجاباتك
           </Button>
           <Button variant="secondary" onClick={() => router.push('/student/exams')}>
-            العودة للاختبارات
+            كل الاختبارات
           </Button>
         </div>
       </Card>
@@ -187,8 +187,8 @@ export function ExamRunner({
         <h2 className="text-lg font-semibold text-ink">{examTitle}</h2>
         <p className="mt-2 text-base leading-relaxed text-ink-muted">
           {hasTimer
-            ? 'المؤقّت يبدأ فور الضغط ولا يتوقّف — جهّز نفسك قبل البدء.'
-            : 'هذا الاختبار بلا مؤقّت، لكن المحاولة تُحتسب فور البدء.'}
+            ? 'المؤقّت يبدأ فور الضغط ولا يتوقّف. تأكّد أنك جاهز قبل البدء.'
+            : 'لا مؤقّت في هذا الاختبار، لكن المحاولة تُحتسب فور البدء.'}
         </p>
 
         {error && (
@@ -303,7 +303,7 @@ export function ExamRunner({
 
       <Card className="p-5">
         <p className="mb-3 text-base text-ink-muted">
-          راجع إجاباتك قبل التسليم — لا يمكن التعديل بعده.
+          راجع إجاباتك قبل التسليم، فلا تعديل بعده.
         </p>
         <Button
           size="lg"

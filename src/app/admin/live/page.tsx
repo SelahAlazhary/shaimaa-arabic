@@ -57,7 +57,7 @@ export default async function AdminLivePage() {
           <EmptyState
             icon={Radio}
             title="لا حصص مباشرة بعد"
-            description="أنشئ حصة، حدّد موعدها ورابطها والكورس التابعة له، ثم أشعر الطلاب."
+            description="أنشئ حصة، حدّد موعدها ورابطها والمقرر التابعة له، ثم أشعر الطلاب."
           />
         ) : (
           <ul className="divide-y divide-border-subtle">

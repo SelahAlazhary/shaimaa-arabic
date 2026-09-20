@@ -37,11 +37,11 @@ export default async function AdminOverviewPage() {
         <StatCard icon={Users} label="إجمالي الطلاب" value={formatNumber(o.totalStudents)} tone="info" />
         <StatCard icon={UserCheck} label="طلاب نشطون" value={formatNumber(o.activeStudents)} tone="success" />
         <StatCard icon={UserX} label="حسابات موقوفة" value={formatNumber(o.suspendedStudents)} tone="warning" />
-        <StatCard icon={BookOpen} label="كورسات منشورة" value={formatNumber(o.publishedCourses)} tone="neutral" />
+        <StatCard icon={BookOpen} label="مقررات منشورة" value={formatNumber(o.publishedCourses)} tone="neutral" />
         <StatCard icon={GraduationCap} label="اشتراكات نشطة" value={formatNumber(o.activeEnrollments)} tone="success" />
         <StatCard icon={Ticket} label="أكواد متاحة" value={formatNumber(o.availableCodes)} tone="info" />
         <StatCard icon={TicketCheck} label="أكواد مستخدمة" value={formatNumber(o.usedCodes)} tone="neutral" />
-        <StatCard icon={LifeBuoy} label="تذاكر مفتوحة" value={formatNumber(o.openTickets)} tone="warning" />
+        <StatCard icon={LifeBuoy} label="محادثات مفتوحة" value={formatNumber(o.openTickets)} tone="warning" />
       </section>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_18rem]">
@@ -66,7 +66,7 @@ export default async function AdminOverviewPage() {
             <EmptyState
               icon={Users}
               title="لا يوجد طلاب بعد"
-              description="أول ما يسجّل طالب في المنصة هيظهر هنا."
+              description="يظهر هنا آخر الطلاب المسجَّلين بمجرد إنشاء أول حساب."
             />
           ) : (
             <ul className="divide-y divide-border-subtle">
@@ -99,7 +99,7 @@ export default async function AdminOverviewPage() {
           <ul className="divide-y divide-border-subtle">
             {[
               { href: '/admin/students', label: 'إدارة الطلاب', icon: Users, hint: `${formatNumber(o.totalStudents)} طالب` },
-              { href: '/admin/courses', label: 'الكورسات', icon: BookOpen, hint: `${formatNumber(o.totalCourses)} كورس` },
+              { href: '/admin/courses', label: 'المقررات', icon: BookOpen, hint: `${formatNumber(o.totalCourses)} مقرر` },
               { href: '/admin/codes', label: 'أكواد التفعيل', icon: Ticket, hint: `${formatNumber(o.availableCodes)} متاح` },
               { href: '/admin/support', label: 'الدعم', icon: LifeBuoy, hint: `${formatNumber(o.openTickets)} مفتوحة` },
             ].map(({ href, label, icon: Icon, hint }) => (

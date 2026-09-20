@@ -13,7 +13,7 @@ export default async function StudentExamsPage() {
   await requireStudent()
   const supabase = await createClient()
 
-  // RLS تُظهر المنشور فقط ولكورسات الطالب المسجَّل فيها — لا فلترة يدوية هنا
+  // RLS تُظهر المنشور فقط ولمقررات الطالب المسجَّل فيها — لا فلترة يدوية هنا
   const [examsRes, attemptsRes] = await Promise.all([
     supabase
       .from('exams')
@@ -68,7 +68,7 @@ export default async function StudentExamsPage() {
           <EmptyState
             icon={ClipboardList}
             title="لا توجد اختبارات متاحة"
-            description="الاختبارات بتظهر هنا بعد ما تفتح كورس وتنشر الأستاذة اختباراته."
+            description="تظهر اختباراتك هنا بعد فتح مقرر ونشر اختباراته."
           />
         ) : (
           <ul className="divide-y divide-border-subtle">

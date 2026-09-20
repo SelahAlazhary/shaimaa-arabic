@@ -65,7 +65,7 @@ export default async function AdminExamsPage() {
           <EmptyState
             icon={ClipboardList}
             title="لا توجد اختبارات"
-            description="أنشئ اختبارًا وأضف أسئلته، ثم انشره ليظهر لطلاب الكورس."
+            description="أنشئ اختبارًا وأضف أسئلته، ثم انشره ليظهر لطلاب المقرر."
             action={
               <Link
                 href="/admin/exams/new"

@@ -3,7 +3,7 @@ import { requireSupport } from '@/lib/permissions'
 import { PageHeader } from '@/components/ui/page-header'
 import { TicketsList } from '@/components/admin/tickets-list'
 
-export const metadata: Metadata = { title: 'التذاكر' }
+export const metadata: Metadata = { title: 'المحادثات' }
 
 export default async function SupportHomePage() {
   await requireSupport()
@@ -12,7 +12,7 @@ export default async function SupportHomePage() {
     <div>
       <PageHeader
         title="تذاكر الدعم"
-        description="المحادثات المسندة إليك. ردّ على الطالب وحدّث حالة التذكرة."
+        description="المحادثات المسندة إليك. ردّ على الطالب وحدّث حالة المحادثة."
       />
       <TicketsList basePath="/support" />
     </div>

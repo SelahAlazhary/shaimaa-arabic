@@ -53,7 +53,7 @@ export function AttachmentRow({
 
       <div className="mt-2 flex flex-wrap items-center gap-2">
         {courses.length === 0 ? (
-          <Badge tone="warning">غير مرتبط بكورس — لا يراه أحد</Badge>
+          <Badge tone="warning">غير مرتبط بمقرر — لا يراه أحد</Badge>
         ) : (
           courses.map((c) => (
             <span
@@ -61,7 +61,7 @@ export function AttachmentRow({
               className="inline-flex items-center gap-1 rounded-[var(--radius-pill)] bg-surface-muted py-1 pe-2.5 ps-1 text-sm text-ink-muted"
             >
               {c.title}
-              {/* فكّ الربط يخفي الملف عن طلاب الكورس ولا يحذفه، فلا يحتاج تأكيدًا */}
+              {/* فكّ الربط يخفي الملف عن طلاب المقرر ولا يحذفه، فلا يحتاج تأكيدًا */}
               <button
                 type="button"
                 onClick={() => unlink(c.courseId)}
@@ -77,14 +77,14 @@ export function AttachmentRow({
 
         {available.length > 0 && (
           <label className="inline-flex items-center gap-1.5 text-sm text-ink-muted">
-            <span className="sr-only">اربط {file.title} بكورس</span>
+            <span className="sr-only">اربط {file.title} بمقرر</span>
             <select
               value=""
               onChange={(e) => e.target.value && link(e.target.value)}
               disabled={unlinking}
               className="h-8 rounded-[var(--radius-field)] border border-border-strong bg-surface px-2 text-sm text-ink"
             >
-              <option value="">اربط بكورس…</option>
+              <option value="">اربط بمقرر…</option>
               {available.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.title}
@@ -98,7 +98,7 @@ export function AttachmentRow({
           label="حذف الملف"
           icon={<Trash2 aria-hidden />}
           title="حذف الملف نهائيًا؟"
-          body={`سيُحذف «${file.title}» من التخزين ويختفي عن كل الكورسات المرتبطة به. لا يمكن التراجع.`}
+          body={`سيُحذف «${file.title}» من التخزين ويختفي عن كل المقررات المرتبطة به. لا يمكن التراجع.`}
           confirmLabel="احذف الملف"
           action={() => deleteAttachment(file.id)}
         />

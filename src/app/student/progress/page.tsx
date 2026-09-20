@@ -40,10 +40,10 @@ export default async function StudentProgressPage() {
 
   return (
     <div>
-      <PageHeader title="تقدّمي" description="ملخّص إنجازك في كل كورس مفتوح على حسابك." />
+      <PageHeader title="تقدّمي" description="ملخّص إنجازك في كل مقرر مفتوح على حسابك." />
 
       <section aria-label="ملخّص التقدّم" className="mb-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-        <StatCard icon={BookOpen} label="كورساتي" value={formatNumber(totals.courses)} tone="info" />
+        <StatCard icon={BookOpen} label="مقرراتي" value={formatNumber(totals.courses)} tone="info" />
         <StatCard
           icon={CheckCircle2}
           label="دروس مكتملة"
@@ -65,13 +65,13 @@ export default async function StudentProgressPage() {
       </section>
 
       <Card>
-        <CardHeader title="تقدّمك في الكورسات" icon={TrendingUp} />
+        <CardHeader title="تقدّمك في المقررات" icon={TrendingUp} />
 
         {courses.length === 0 ? (
           <EmptyState
             icon={TrendingUp}
             title="لا يوجد تقدّم بعد"
-            description="أول ما تفتح كورس وتبدأ الدروس، هتلاقي نسبة إنجازك هنا."
+            description="ابدأ أول درس، وستجد نسبة إنجازك في كل مقرر هنا."
           />
         ) : (
           <ul className="divide-y divide-border-subtle">

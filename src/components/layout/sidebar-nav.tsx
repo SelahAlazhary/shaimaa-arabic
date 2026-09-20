@@ -35,7 +35,7 @@ type NavItem = { href: string; label: string; icon: LucideIcon }
 const NAV: Record<NavArea, NavItem[]> = {
   student: [
     { href: '/student', label: 'الرئيسية', icon: LayoutGrid },
-    { href: '/student/courses', label: 'كورساتي', icon: BookOpen },
+    { href: '/student/courses', label: 'مقرراتي', icon: BookOpen },
     { href: '/student/progress', label: 'تقدّمي', icon: TrendingUp },
     { href: '/student/exams', label: 'الاختبارات', icon: ClipboardList },
     { href: '/student/profile', label: 'حسابي', icon: User },
@@ -45,7 +45,7 @@ const NAV: Record<NavArea, NavItem[]> = {
   admin: [
     { href: '/admin', label: 'نظرة عامة', icon: LayoutGrid },
     { href: '/admin/students', label: 'الطلاب', icon: Users },
-    { href: '/admin/courses', label: 'الكورسات', icon: BookOpen },
+    { href: '/admin/courses', label: 'المقررات', icon: BookOpen },
     { href: '/admin/codes', label: 'أكواد التفعيل', icon: Ticket },
     { href: '/admin/support', label: 'الدعم', icon: LifeBuoy },
     { href: '/admin/grades', label: 'الصفوف', icon: GraduationCap },
@@ -57,7 +57,7 @@ const NAV: Record<NavArea, NavItem[]> = {
     { href: '/admin/settings', label: 'الإعدادات', icon: Settings },
   ],
   support: [
-    { href: '/support', label: 'التذاكر', icon: LifeBuoy },
+    { href: '/support', label: 'المحادثات', icon: LifeBuoy },
     { href: '/support/profile', label: 'حسابي', icon: User },
   ],
 }

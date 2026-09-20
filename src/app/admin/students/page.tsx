@@ -72,7 +72,7 @@ export default async function AdminStudentsPage({
             description={
               sp.q || sp.status || sp.grade
                 ? 'جرّب تعديل البحث أو إزالة الفلاتر.'
-                : 'أول ما يسجّل طالب في المنصة هيظهر هنا.'
+                : 'لم يسجّل أي طالب بعد. ستظهر حساباتهم هنا فور التسجيل.'
             }
           />
         ) : (

@@ -87,7 +87,7 @@ export function ExamForm({
         )}
       </Field>
 
-      <Field label="الكورس" error={fieldErrors?.courseId} hint="اتركه فارغًا ليتاح لكل الطلاب">
+      <Field label="المقرر" error={fieldErrors?.courseId} hint="اتركه فارغًا ليتاح لكل الطلاب">
         {({ id, describedBy, invalid }) => (
           <Select
             id={id}

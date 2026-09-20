@@ -16,7 +16,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const course = await getCourseOutline(slug)
-  return { title: course?.title ?? 'الكورس' }
+  return { title: course?.title ?? 'المقرر' }
 }
 
 export default async function CoursePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -33,7 +33,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
         className="inline-flex items-center gap-1.5 text-base text-ink-muted underline-offset-4 hover:text-ink hover:underline"
       >
         <ArrowRight className="size-4" aria-hidden />
-        كل الكورسات
+        كل المقررات
       </Link>
 
       <section className="rounded-[var(--radius-panel)] bg-brand-700 px-6 py-7 text-ink-invert sm:px-8">
@@ -140,12 +140,12 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
       ))}
 
       <Card>
-        <CardHeader title="مرفقات الكورس" icon={FileText} />
+        <CardHeader title="مرفقات المقرر" icon={FileText} />
         {course.attachments.length === 0 ? (
           <EmptyState
             icon={FileText}
             title="لا توجد مرفقات"
-            description="الملازم والمذكرات المرتبطة بالكورس هتظهر هنا."
+            description="ملازم هذا المقرر ومذكراته ستظهر هنا فور رفعها."
           />
         ) : (
           <ul className="divide-y divide-border-subtle">

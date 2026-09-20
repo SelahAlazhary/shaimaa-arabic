@@ -8,7 +8,7 @@ import { PageHeader } from '@/components/ui/page-header'
 import { RedeemCodeForm } from '@/components/student/redeem-code-form'
 import { formatNumber, formatDate } from '@/lib/utils/format'
 
-export const metadata: Metadata = { title: 'كورساتي' }
+export const metadata: Metadata = { title: 'مقرراتي' }
 
 export default async function StudentCoursesPage() {
   await requireStudent()
@@ -17,8 +17,8 @@ export default async function StudentCoursesPage() {
   return (
     <div>
       <PageHeader
-        title="كورساتي"
-        description="الكورسات المفتوحة على حسابك. فعّل كود جديد لإضافة كورس."
+        title="مقرراتي"
+        description="المقررات المفتوحة على حسابك. فعّل كود جديد لإضافة مقرر."
       />
 
       {/* التفعيل أعلى الصفحة: هو الإجراء الأساسي هنا (البند 11) */}
@@ -30,7 +30,7 @@ export default async function StudentCoursesPage() {
           <div>
             <h2 className="text-base font-semibold text-ink">عندك كود تفعيل؟</h2>
             <p className="mt-0.5 text-base text-ink-muted">
-              اكتب الكود هنا وهيتفتح الكورس على حسابك فورًا.
+              اكتب الكود هنا وهيتفتح المقرر على حسابك فورًا.
             </p>
           </div>
         </div>
@@ -38,13 +38,13 @@ export default async function StudentCoursesPage() {
       </Card>
 
       <Card>
-        <CardHeader title="الكورسات المفتوحة" icon={BookOpen} />
+        <CardHeader title="المقررات المفتوحة" icon={BookOpen} />
 
         {courses.length === 0 ? (
           <EmptyState
             icon={BookOpen}
-            title="لا توجد كورسات بعد"
-            description="فعّل كود الاشتراك من الأعلى وهيظهر الكورس هنا مباشرة."
+            title="لا توجد مقررات بعد"
+            description="فعّل كودك من الأعلى، ويُفتح المقرر هنا مباشرة."
           />
         ) : (
           <ul className="divide-y divide-border-subtle">

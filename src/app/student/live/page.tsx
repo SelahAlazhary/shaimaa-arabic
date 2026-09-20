@@ -23,7 +23,7 @@ export default async function StudentLivePage() {
   await requireStudent()
   const supabase = await createClient()
 
-  // RLS تقصر النتائج على كورسات الطالب المسجَّل فيها
+  // RLS تقصر النتائج على مقررات الطالب المسجَّل فيها
   const { data } = await supabase
     .from('live_streams')
     .select('id, title, description, stream_url, recording_url, starts_at, status, courses(title)')
@@ -50,7 +50,7 @@ export default async function StudentLivePage() {
           <EmptyState
             icon={CalendarClock}
             title="لا حصص مباشرة قادمة"
-            description="هيوصلك إشعار فور جدولة حصة جديدة في أحد كورساتك."
+            description="يصلك إشعار فور جدولة حصة جديدة في أحد مقرراتك."
           />
         ) : (
           <ul className="divide-y divide-border-subtle">
@@ -95,7 +95,7 @@ export default async function StudentLivePage() {
           <EmptyState
             icon={PlayCircle}
             title="لا تسجيلات بعد"
-            description="تسجيلات الحصص المنتهية هتظهر هنا لتقدر تراجعها في أي وقت."
+            description="تسجيلات الحصص المنتهية تُحفظ هنا لمراجعتها في أي وقت."
           />
         ) : (
           <ul className="divide-y divide-border-subtle">

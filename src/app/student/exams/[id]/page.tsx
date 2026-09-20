@@ -23,7 +23,7 @@ export default async function TakeExamPage({ params }: { params: Promise<{ id: s
   const { id } = await params
   const supabase = await createClient()
 
-  // RLS تُرجع null لاختبار غير منشور أو لكورس غير مشترك فيه
+  // RLS تُرجع null لاختبار غير منشور أو لمقرر غير مشترك فيه
   const { data: exam } = await supabase
     .from('exams')
     .select('id, title, description, duration_minutes, passing_percentage, max_attempts')

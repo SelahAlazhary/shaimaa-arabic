@@ -83,7 +83,7 @@ export function NewTicketForm() {
           name="message"
           rows={4}
           maxLength={2000}
-          placeholder="اشرح سؤالك أو مشكلتك بالتفصيل عشان نقدر نساعدك بسرعة."
+          placeholder="اشرح سؤالك أو مشكلتك بالتفصيل، ليصلك ردّ دقيق وسريع."
           className="block w-full rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 py-2.5 text-base leading-relaxed text-ink placeholder:text-ink-faint hover:border-ink-faint"
         />
       </div>

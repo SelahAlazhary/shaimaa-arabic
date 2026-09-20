@@ -12,7 +12,7 @@ export default async function AdminSupportPage() {
     <div>
       <PageHeader
         title="الدعم والمحادثات"
-        description="محادثات الطلاب مع الدعم — ردّ، صنّف، وأغلق التذاكر."
+        description="ردّ على أسئلة الطلاب، وتابع حالة كل محادثة حتى إغلاقها."
       />
       <TicketsList basePath="/admin/support" />
     </div>

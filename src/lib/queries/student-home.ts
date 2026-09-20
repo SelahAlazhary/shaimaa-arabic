@@ -69,7 +69,7 @@ export async function getStudentHome(): Promise<StudentHome> {
   const courseIds = enrollments.map((e) => e.courses.id)
 
   // الدروس والتقدّم في استعلامين فقط، ثم التجميع في الذاكرة:
-  // أرخص بكثير من استعلام لكل كورس (البند 37)
+  // أرخص بكثير من استعلام لكل مقرر (البند 37)
   const [lessonsRes, progressRes, attachRes] = await Promise.all([
     courseIds.length
       ? supabase.from('lessons').select('id, course_id').eq('is_published', true).in('course_id', courseIds)
