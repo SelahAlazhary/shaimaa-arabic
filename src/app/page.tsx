@@ -183,12 +183,12 @@ export default async function LandingPage() {
 
                   return (
                     <div key={s.id}>
-                      <h3 className="text-sm font-semibold text-ink">{s.name_ar}</h3>
+                      <h3 className="text-lg font-semibold text-brand-800">{s.name_ar}</h3>
                       <ul className="mt-2.5 flex flex-wrap gap-2">
                         {stageGrades.map((g) => (
                           <li
                             key={g.id}
-                            className="rounded-[var(--radius-pill)] bg-surface-muted px-3 py-1 text-sm text-ink-muted"
+                            className="rounded-[var(--radius-pill)] border border-border-subtle bg-surface-muted px-4 py-1.5 text-base text-ink-muted"
                           >
                             {g.name_ar}
                           </li>
@@ -265,7 +265,7 @@ export default async function LandingPage() {
 
           <div className="mt-14 overflow-hidden rounded-[var(--radius-card)] border border-accent/40 bg-brand-800">
             <div className="relative px-6 py-12 text-center sm:px-10">
-              <p className="flex items-center justify-center gap-3 text-sm font-medium tracking-wide text-accent-soft">
+              <p className="flex items-center justify-center gap-3 text-[0.9375rem] font-semibold tracking-wide text-accent-soft">
                 <span className="h-px w-14 bg-accent/70" aria-hidden />
                 ابدأ اليوم
                 <span className="h-px w-14 bg-accent/70" aria-hidden />
@@ -273,12 +273,12 @@ export default async function LandingPage() {
               <h2 className="mt-4 text-2xl font-bold text-ink-invert sm:text-3xl">
                 حسابك جاهز في دقيقة
               </h2>
-              <p className="mx-auto mt-3 max-w-lg text-base leading-[1.9] text-brand-100">
+              <p className="mx-auto mt-4 max-w-lg text-[1.0625rem] leading-[1.95] text-brand-100">
                 أنشئ حسابك الآن، وفعّل كود الاشتراك متى حصلت عليه.
               </p>
               <Link
                 href="/register"
-                className="mt-8 inline-flex h-13 items-center rounded-[var(--radius-field)] bg-accent px-8 text-sm font-semibold text-brand-900 transition-colors hover:bg-accent-soft"
+                className="mt-8 inline-flex h-14 items-center rounded-[var(--radius-field)] bg-accent px-9 text-[0.9375rem] font-semibold text-brand-900 transition-colors hover:bg-accent-soft"
               >
                 إنشاء حساب
               </Link>
@@ -290,10 +290,10 @@ export default async function LandingPage() {
 
       <footer className="border-t border-border-subtle bg-surface">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-5 py-6 sm:px-8">
-          <p className="nums-ar text-xs text-ink-faint">
+          <p className="nums-ar text-sm text-ink-muted">
             © {formatNumber(new Date().getFullYear())} منصة الأستاذة الشيماء أحمد
           </p>
-          <nav aria-label="روابط" className="flex gap-4 text-xs text-ink-muted">
+          <nav aria-label="روابط" className="flex gap-5 text-sm text-ink-muted">
             <Link href="/login" className="underline-offset-4 hover:underline">
               تسجيل الدخول
             </Link>

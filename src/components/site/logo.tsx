@@ -41,10 +41,10 @@ export function Logo() {
     >
       <LogoMark className="size-9 shrink-0 text-accent-soft sm:size-10" />
       <span className="min-w-0">
-        <span className="block truncate text-sm font-semibold leading-tight text-ink-invert sm:text-base">
+        <span className="block truncate text-base font-semibold leading-tight text-ink-invert sm:text-[1.0625rem]">
           {SITE.name}
         </span>
-        <span className="block truncate text-[0.7rem] leading-tight text-accent-soft sm:text-xs">
+        <span className="block truncate text-xs leading-tight text-accent-soft sm:text-[0.8125rem]">
           {SITE.tagline}
         </span>
       </span>

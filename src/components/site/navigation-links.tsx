@@ -56,7 +56,7 @@ export function NavigationLinks({
               onClick={onNavigate}
               aria-current={isActive ? 'true' : undefined}
               className={cn(
-                'relative block rounded-[var(--radius-field)] px-3.5 text-sm transition-colors',
+                'relative block rounded-[var(--radius-field)] px-4 text-[0.9375rem] transition-colors',
                 vertical ? 'py-3' : 'py-2',
                 isActive
                   ? 'font-medium text-ink-invert'
@@ -64,7 +64,7 @@ export function NavigationLinks({
                 // الخط الذهبي أسفل الرابط النشط — أفقيًا فقط كما في التصميم
                 !vertical &&
                   isActive &&
-                  'after:absolute after:inset-x-3.5 after:-bottom-2 after:h-0.5 after:rounded-full after:bg-accent',
+                  'after:absolute after:inset-x-4 after:-bottom-2 after:h-0.5 after:rounded-full after:bg-accent',
                 vertical && isActive && 'bg-brand-700',
               )}
             >

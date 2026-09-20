@@ -15,7 +15,7 @@ export function AuthButtons({ block = false }: { block?: boolean }) {
         aria-label={AUTH.login}
         className={cn(
           'inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-field)]',
-          'border border-accent-soft/60 px-4 text-sm font-medium text-ink-invert',
+          'border border-accent-soft/60 px-4 text-[0.9375rem] font-medium text-ink-invert',
           'transition-colors hover:border-accent-soft hover:bg-brand-700',
           block ? 'w-full' : 'size-11 px-0 sm:w-auto sm:px-4',
         )}
@@ -29,7 +29,7 @@ export function AuthButtons({ block = false }: { block?: boolean }) {
         aria-label={AUTH.register}
         className={cn(
           'inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-field)]',
-          'bg-accent px-4 text-sm font-semibold text-brand-900',
+          'bg-accent px-4 text-[0.9375rem] font-semibold text-brand-900',
           'transition-colors hover:bg-accent-soft',
           block ? 'w-full' : 'size-11 px-0 sm:w-auto sm:px-4',
         )}

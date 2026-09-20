@@ -14,7 +14,7 @@ export function SectionHeading({
 }) {
   return (
     <div className="max-w-2xl">
-      <p className="flex items-center gap-3 text-sm font-medium tracking-wide text-accent-ink">
+      <p className="flex items-center gap-3 text-[0.9375rem] font-semibold tracking-wide text-accent-ink">
         {eyebrow}
         <span className="flex items-center gap-1.5" aria-hidden>
           <span className="h-px w-14 bg-accent/70" />
@@ -23,11 +23,11 @@ export function SectionHeading({
         </span>
       </p>
 
-      <h2 id={id} className="mt-4 text-2xl font-bold text-brand-800 sm:text-3xl">
+      <h2 id={id} className="mt-4 text-[1.75rem] font-bold leading-[1.35] text-brand-800 sm:text-[2.125rem]">
         {title}
       </h2>
 
-      {lead && <p className="mt-3 text-base leading-[1.9] text-ink-muted">{lead}</p>}
+      {lead && <p className="mt-4 text-[1.0625rem] leading-[1.95] text-ink-muted">{lead}</p>}
     </div>
   )
 }
@@ -53,11 +53,11 @@ export function LedgerGrid({
     >
       {items.map((item, i) => (
         <li key={item.title} className="p-7 sm:p-8">
-          <p className="nums-ar text-sm font-semibold tabular-nums text-accent-ink">
+          <p className="nums-ar text-base font-bold tabular-nums text-accent-ink">
             {formatNumber(i + 1).padStart(2, '٠')}
           </p>
-          <h3 className="mt-3 text-base font-semibold text-brand-800">{item.title}</h3>
-          <p className="mt-2 text-sm leading-[1.85] text-ink-muted">{item.body}</p>
+          <h3 className="mt-3 text-lg font-semibold text-brand-800">{item.title}</h3>
+          <p className="mt-2.5 text-base leading-[1.9] text-ink-muted">{item.body}</p>
         </li>
       ))}
     </ul>

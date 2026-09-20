@@ -33,7 +33,7 @@ function PrimaryButton() {
   return (
     <Link
       href="/register"
-      className="inline-flex h-13 items-center gap-2.5 rounded-[var(--radius-field)] bg-accent px-7 text-sm font-semibold text-brand-900 transition-colors hover:bg-accent-soft"
+      className="inline-flex h-14 items-center gap-2.5 rounded-[var(--radius-field)] bg-accent px-8 text-[0.9375rem] font-semibold text-brand-900 transition-colors hover:bg-accent-soft"
     >
       {HERO.primaryCta}
       <ArrowLeft className="size-4" aria-hidden />
@@ -45,7 +45,7 @@ function SecondaryButton() {
   return (
     <a
       href="#courses"
-      className="inline-flex h-13 items-center gap-2.5 rounded-[var(--radius-field)] border border-brand-500 px-7 text-sm font-medium text-ink-invert transition-colors hover:bg-brand-700"
+      className="inline-flex h-14 items-center gap-2.5 rounded-[var(--radius-field)] border border-brand-400 px-8 text-[0.9375rem] font-medium text-ink-invert transition-colors hover:bg-brand-700"
     >
       {HERO.secondaryCta}
       <BookOpen className="size-4" aria-hidden />
@@ -68,17 +68,17 @@ export function HeroSection() {
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[1fr_26rem] lg:gap-14 lg:py-20">
         <div>
-          <p className="flex items-center gap-3 text-sm font-medium tracking-wide text-accent-soft">
+          <p className="flex items-center gap-3 text-[0.9375rem] font-semibold tracking-wide text-accent-soft">
             {HERO.eyebrow}
             <GoldRule />
           </p>
 
-          <h1 className="mt-6 text-[1.875rem] font-bold leading-[1.28] text-ink-invert sm:text-[2.375rem] lg:text-[3rem]">
+          <h1 className="mt-6 text-[2rem] font-bold leading-[1.3] text-ink-invert sm:text-[2.5rem] lg:text-[3.25rem]">
             {HERO.titleLine1}
             <br className="hidden sm:block" /> {HERO.titleLine2}
           </h1>
 
-          <p className="mt-6 max-w-[34rem] text-base leading-[1.9] text-brand-100">
+          <p className="mt-6 max-w-[36rem] text-[1.125rem] leading-[1.95] text-brand-100">
             {HERO.description}
           </p>
 
