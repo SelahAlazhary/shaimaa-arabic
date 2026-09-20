@@ -55,7 +55,7 @@ export default async function AdminAttachmentsPage() {
           title="الملفات"
           icon={FileText}
           action={
-            <span className="nums-ar text-xs text-ink-faint">{formatNumber(files.length)} ملف</span>
+            <span className="nums-ar text-sm text-ink-faint">{formatNumber(files.length)} ملف</span>
           }
         />
 

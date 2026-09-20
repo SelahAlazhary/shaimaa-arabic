@@ -23,7 +23,7 @@ export function SectionHeading({
         </span>
       </p>
 
-      <h2 id={id} className="mt-4 text-[1.75rem] font-bold leading-[1.35] text-brand-800 sm:text-[2.125rem]">
+      <h2 id={id} className="mt-4 font-display text-[2rem] font-bold leading-[1.5] text-brand-800 sm:text-[2.375rem]">
         {title}
       </h2>
 

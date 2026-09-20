@@ -47,7 +47,7 @@ export function ModuleList({
                 }}
                 aria-label={`اسم الوحدة ${m.title}`}
                 autoFocus
-                className="h-10 min-w-0 flex-1 rounded-[var(--radius-field)] border border-border-strong bg-surface px-3 text-sm text-ink"
+                className="h-10 min-w-0 flex-1 rounded-[var(--radius-field)] border border-border-strong bg-surface px-3 text-base text-ink"
               />
               <span className="flex shrink-0 gap-1">
                 <Button
@@ -72,8 +72,8 @@ export function ModuleList({
           ) : (
             <>
               <span className="min-w-0">
-                <span className="block truncate text-sm text-ink">{m.title}</span>
-                <span className="nums-ar text-xs text-ink-faint">
+                <span className="block truncate text-base text-ink">{m.title}</span>
+                <span className="nums-ar text-sm text-ink-faint">
                   {formatNumber(m.lessonCount)} درس
                 </span>
               </span>

@@ -53,7 +53,7 @@ export default async function AdminOverviewPage() {
               o.recentStudents.length > 0 ? (
                 <Link
                   href="/admin/students"
-                  className="flex items-center gap-1 text-sm text-brand-600 underline-offset-4 hover:underline"
+                  className="flex items-center gap-1 text-base text-brand-600 underline-offset-4 hover:underline"
                 >
                   عرض الكل
                   <ArrowLeft className="size-3.5" aria-hidden />
@@ -73,12 +73,12 @@ export default async function AdminOverviewPage() {
               {o.recentStudents.map((s) => (
                 <li key={s.id} className="flex items-center justify-between gap-3 px-5 py-3.5">
                   <span className="min-w-0">
-                    <span className="block truncate text-sm font-medium text-ink">{s.fullName}</span>
-                    <span className="block truncate text-xs text-ink-faint" dir="ltr">
+                    <span className="block truncate text-base font-medium text-ink">{s.fullName}</span>
+                    <span className="block truncate text-sm text-ink-faint" dir="ltr">
                       {s.email}
                     </span>
                     {s.gradeName && (
-                      <span className="mt-0.5 block text-xs text-ink-muted">{s.gradeName}</span>
+                      <span className="mt-0.5 block text-sm text-ink-muted">{s.gradeName}</span>
                     )}
                   </span>
 
@@ -86,7 +86,7 @@ export default async function AdminOverviewPage() {
                     <Badge tone={s.status === 'active' ? 'success' : 'warning'}>
                       {s.status === 'active' ? 'نشط' : 'موقوف'}
                     </Badge>
-                    <span className="nums-ar text-xs text-ink-faint">{formatDate(s.createdAt)}</span>
+                    <span className="nums-ar text-sm text-ink-faint">{formatDate(s.createdAt)}</span>
                   </span>
                 </li>
               ))}
@@ -112,8 +112,8 @@ export default async function AdminOverviewPage() {
                     <Icon className="size-4" aria-hidden />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-medium text-ink">{label}</span>
-                    <span className="nums-ar block text-xs text-ink-faint">{hint}</span>
+                    <span className="block text-base font-medium text-ink">{label}</span>
+                    <span className="nums-ar block text-sm text-ink-faint">{hint}</span>
                   </span>
                   <ArrowLeft className="size-4 shrink-0 text-ink-faint" aria-hidden />
                 </Link>

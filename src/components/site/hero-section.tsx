@@ -73,7 +73,7 @@ export function HeroSection() {
             <GoldRule />
           </p>
 
-          <h1 className="mt-6 text-[2rem] font-bold leading-[1.3] text-ink-invert sm:text-[2.5rem] lg:text-[3.25rem]">
+          <h1 className="mt-6 font-display text-[2.25rem] font-bold leading-[1.45] text-ink-invert sm:text-[2.75rem] lg:text-[3.5rem]">
             {HERO.titleLine1}
             <br className="hidden sm:block" /> {HERO.titleLine2}
           </h1>

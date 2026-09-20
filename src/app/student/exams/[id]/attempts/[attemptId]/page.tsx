@@ -26,7 +26,7 @@ export default async function AttemptReviewPage({
     <div className="space-y-5">
       <Link
         href={`/student/exams`}
-        className="inline-flex items-center gap-1.5 text-sm text-ink-muted underline-offset-4 hover:text-ink hover:underline"
+        className="inline-flex items-center gap-1.5 text-base text-ink-muted underline-offset-4 hover:text-ink hover:underline"
       >
         <ArrowRight className="size-4" aria-hidden />
         كل الاختبارات
@@ -37,14 +37,14 @@ export default async function AttemptReviewPage({
         <p className="nums-ar mt-3 text-3xl font-semibold text-ink">
           {formatNumber(Math.round(review.percentage))}٪
         </p>
-        <p className="nums-ar mt-1 text-sm text-ink-muted">
+        <p className="nums-ar mt-1 text-base text-ink-muted">
           {formatNumber(review.score)} من {formatNumber(review.maxScore)} درجة
         </p>
         <div className="mt-3 flex items-center justify-center gap-2">
           <Badge tone={review.passed ? 'success' : 'warning'}>
             {review.passed ? 'ناجح' : 'لم تجتز'}
           </Badge>
-          <span className="nums-ar text-xs text-ink-faint">
+          <span className="nums-ar text-sm text-ink-faint">
             {formatDateTime(review.submittedAt)}
           </span>
         </div>
@@ -58,13 +58,13 @@ export default async function AttemptReviewPage({
             <li key={q.id}>
               <Card className="p-5">
                 <div className="flex items-start justify-between gap-3">
-                  <p className="text-sm leading-relaxed text-ink">
+                  <p className="text-base leading-relaxed text-ink">
                     <span className="nums-ar text-ink-faint">{formatNumber(i + 1)}. </span>
                     {q.question_text}
                   </p>
                   <span
                     className={cn(
-                      'nums-ar flex shrink-0 items-center gap-1.5 text-xs font-medium',
+                      'nums-ar flex shrink-0 items-center gap-1.5 text-sm font-medium',
                       q.is_correct ? 'text-success' : 'text-danger',
                     )}
                   >
@@ -78,7 +78,7 @@ export default async function AttemptReviewPage({
                 </div>
 
                 {q.question_type === 'short_answer' ? (
-                  <dl className="mt-3 space-y-2 text-sm">
+                  <dl className="mt-3 space-y-2 text-base">
                     <div className="flex gap-2">
                       <dt className="shrink-0 text-ink-faint">إجابتك:</dt>
                       <dd className={q.is_correct ? 'text-success' : 'text-danger'}>
@@ -104,7 +104,7 @@ export default async function AttemptReviewPage({
                           : 'text-ink-muted'
 
                       return (
-                        <li key={o.id} className={cn('flex items-center gap-2 text-sm', tone)}>
+                        <li key={o.id} className={cn('flex items-center gap-2 text-base', tone)}>
                           {o.is_correct ? (
                             <CheckCircle2 className="size-4 shrink-0" aria-hidden />
                           ) : picked ? (
@@ -114,7 +114,7 @@ export default async function AttemptReviewPage({
                           )}
                           <span>{o.option_text}</span>
                           {picked && (
-                            <span className="text-xs text-ink-faint">(اخترتها)</span>
+                            <span className="text-sm text-ink-faint">(اخترتها)</span>
                           )}
                         </li>
                       )
@@ -123,7 +123,7 @@ export default async function AttemptReviewPage({
                 )}
 
                 {q.explanation && (
-                  <p className="mt-3 flex items-start gap-2 rounded-[var(--radius-field)] bg-info-bg p-3 text-sm leading-relaxed text-info">
+                  <p className="mt-3 flex items-start gap-2 rounded-[var(--radius-field)] bg-info-bg p-3 text-base leading-relaxed text-info">
                     <Lightbulb className="mt-0.5 size-4 shrink-0" aria-hidden />
                     {q.explanation}
                   </p>
@@ -136,7 +136,7 @@ export default async function AttemptReviewPage({
 
       <Link
         href={`/student/exams/${id}`}
-        className="inline-flex h-11 items-center rounded-[var(--radius-field)] border border-border-strong bg-surface px-4 text-sm font-medium text-ink transition-colors hover:bg-surface-muted"
+        className="inline-flex h-11 items-center rounded-[var(--radius-field)] border border-border-strong bg-surface px-4 text-base font-medium text-ink transition-colors hover:bg-surface-muted"
       >
         صفحة الاختبار
       </Link>

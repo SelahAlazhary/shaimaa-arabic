@@ -63,7 +63,7 @@ export function AttachmentUploadForm({ courses }: { courses: { id: string; title
       </Field>
 
       <div>
-        <label htmlFor="attachment-file" className="mb-1.5 block text-sm font-medium text-ink">
+        <label htmlFor="attachment-file" className="mb-1.5 block text-base font-medium text-ink">
           الملف <span className="text-danger">*</span>
         </label>
 
@@ -71,8 +71,8 @@ export function AttachmentUploadForm({ courses }: { courses: { id: string; title
           <div className="flex items-center gap-3 rounded-[var(--radius-field)] border border-border-strong bg-surface-muted px-3.5 py-2.5">
             <FileText className="size-4 shrink-0 text-ink-muted" aria-hidden />
             <span className="min-w-0 flex-1">
-              <span className="block truncate text-sm text-ink">{file.name}</span>
-              <span className={`nums-ar block text-xs ${tooBig ? 'text-danger' : 'text-ink-faint'}`}>
+              <span className="block truncate text-base text-ink">{file.name}</span>
+              <span className={`nums-ar block text-sm ${tooBig ? 'text-danger' : 'text-ink-faint'}`}>
                 {formatFileSize(file.size)}
                 {tooBig && ' — أكبر من الحد المسموح'}
               </span>
@@ -100,27 +100,27 @@ export function AttachmentUploadForm({ courses }: { courses: { id: string; title
           onChange={(e) => setFile(e.target.files?.[0] ?? null)}
           required
           className={[
-            'mt-2 block w-full text-sm text-ink-muted',
+            'mt-2 block w-full text-base text-ink-muted',
             'file:me-3 file:rounded-[var(--radius-field)] file:border file:border-border-strong',
-            'file:bg-surface file:px-4 file:py-2 file:text-sm file:font-medium file:text-ink',
+            'file:bg-surface file:px-4 file:py-2 file:text-base file:font-medium file:text-ink',
             'hover:file:bg-surface-muted',
             file ? 'sr-only' : '',
           ].join(' ')}
         />
 
-        <p className="mt-1.5 text-xs text-ink-faint">PDF أو صورة JPG/PNG · حتى ١٠٠ ميجابايت.</p>
+        <p className="mt-1.5 text-sm text-ink-faint">PDF أو صورة JPG/PNG · حتى ١٠٠ ميجابايت.</p>
       </div>
 
       <fieldset>
-        <legend className="mb-2 text-sm font-medium text-ink">
+        <legend className="mb-2 text-base font-medium text-ink">
           اربطه بالكورسات
-          <span className="ms-2 text-xs font-normal text-ink-faint">
+          <span className="ms-2 text-sm font-normal text-ink-faint">
             المرفق لا يظهر لأي طالب حتى تربطه بكورس
           </span>
         </legend>
 
         {courses.length === 0 ? (
-          <p className="text-sm text-ink-muted">أنشئ كورسًا أولًا لتربط به المرفقات.</p>
+          <p className="text-base text-ink-muted">أنشئ كورسًا أولًا لتربط به المرفقات.</p>
         ) : (
           <div className="max-h-44 space-y-1.5 overflow-y-auto rounded-[var(--radius-field)] border border-border-subtle p-3">
             {courses.map((c) => (
@@ -133,7 +133,7 @@ export function AttachmentUploadForm({ courses }: { courses: { id: string; title
                   onChange={() => toggleCourse(c.id)}
                   className="size-4 rounded border-border-strong"
                 />
-                <span className="text-sm text-ink">{c.title}</span>
+                <span className="text-base text-ink">{c.title}</span>
               </label>
             ))}
           </div>
@@ -141,7 +141,7 @@ export function AttachmentUploadForm({ courses }: { courses: { id: string; title
       </fieldset>
 
       {state.status === 'error' && (
-        <p role="alert" className="flex items-center gap-1.5 text-sm text-danger">
+        <p role="alert" className="flex items-center gap-1.5 text-base text-danger">
           <AlertCircle className="size-4 shrink-0" aria-hidden />
           {state.message}
         </p>

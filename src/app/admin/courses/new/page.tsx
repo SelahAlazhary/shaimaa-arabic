@@ -22,7 +22,7 @@ export default async function NewCoursePage() {
     <div>
       <Link
         href="/admin/courses"
-        className="mb-4 inline-flex items-center gap-1.5 text-sm text-ink-muted underline-offset-4 hover:text-ink hover:underline"
+        className="mb-4 inline-flex items-center gap-1.5 text-base text-ink-muted underline-offset-4 hover:text-ink hover:underline"
       >
         <ArrowRight className="size-4" aria-hidden />
         كل الكورسات

@@ -65,9 +65,9 @@ export default async function StudentProfilePage() {
           {rows.map(({ icon: Icon, label, value, ltr }) => (
             <div key={label} className="flex items-center gap-3 px-5 py-3.5">
               <Icon className="size-4 shrink-0 text-ink-faint" aria-hidden />
-              <dt className="w-28 shrink-0 text-sm text-ink-muted">{label}</dt>
+              <dt className="w-28 shrink-0 text-base text-ink-muted">{label}</dt>
               <dd
-                className={`min-w-0 flex-1 truncate text-sm ${value ? 'text-ink' : 'text-ink-faint'}`}
+                className={`min-w-0 flex-1 truncate text-base ${value ? 'text-ink' : 'text-ink-faint'}`}
                 dir={ltr && value ? 'ltr' : undefined}
                 style={ltr && value ? { textAlign: 'start' } : undefined}
               >
@@ -78,22 +78,22 @@ export default async function StudentProfilePage() {
         </dl>
 
         {p?.created_at && (
-          <p className="nums-ar border-t border-border-subtle px-5 py-3 text-xs text-ink-faint">
+          <p className="nums-ar border-t border-border-subtle px-5 py-3 text-sm text-ink-faint">
             عضو منذ {formatDate(p.created_at)}
           </p>
         )}
       </Card>
 
       <Card className="p-5">
-        <h2 className="text-sm font-semibold text-ink">تعديل البيانات</h2>
-        <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">
+        <h2 className="text-base font-semibold text-ink">تعديل البيانات</h2>
+        <p className="mt-1.5 text-base leading-relaxed text-ink-muted">
           لتعديل الاسم أو الصف أو المدرسة، تواصل مع الدعم من صفحة المساعدة. بعض البيانات
           مرتبطة باشتراكاتك فلا تُعدَّل مباشرة.
         </p>
       </Card>
 
       <Card className="p-5">
-        <h2 className="mb-3 text-sm font-semibold text-ink">الخروج من الحساب</h2>
+        <h2 className="mb-3 text-base font-semibold text-ink">الخروج من الحساب</h2>
         <div className="max-w-xs">
           <LogoutButton />
         </div>

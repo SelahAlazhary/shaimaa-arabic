@@ -73,7 +73,7 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
     <div className="space-y-6">
       <Link
         href="/admin/courses"
-        className="inline-flex items-center gap-1.5 text-sm text-ink-muted underline-offset-4 hover:text-ink hover:underline"
+        className="inline-flex items-center gap-1.5 text-base text-ink-muted underline-offset-4 hover:text-ink hover:underline"
       >
         <ArrowRight className="size-4" aria-hidden />
         كل الكورسات
@@ -86,7 +86,7 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
           course.status === 'published' ? (
             <Link
               href={`/student/courses/${course.slug}`}
-              className="inline-flex h-11 items-center gap-2 rounded-[var(--radius-field)] border border-border-strong bg-surface px-4 text-sm font-medium text-ink transition-colors hover:bg-surface-muted"
+              className="inline-flex h-11 items-center gap-2 rounded-[var(--radius-field)] border border-border-strong bg-surface px-4 text-base font-medium text-ink transition-colors hover:bg-surface-muted"
             >
               <ExternalLink className="size-4" aria-hidden />
               معاينة كطالب
@@ -116,7 +116,7 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
           title="الوحدات"
           icon={Layers}
           action={
-            <span className="nums-ar text-xs text-ink-faint">
+            <span className="nums-ar text-sm text-ink-faint">
               {formatNumber(modules.length)} وحدة
             </span>
           }
@@ -142,7 +142,7 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
           title="دروس الكورس"
           icon={BookOpen}
           action={
-            <span className="nums-ar text-xs text-ink-faint">
+            <span className="nums-ar text-sm text-ink-faint">
               {formatNumber(lessons.length)} درس
             </span>
           }

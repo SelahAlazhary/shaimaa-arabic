@@ -48,7 +48,7 @@ export default async function AdminCodesPage() {
           <Link
             href="/admin/codes/export"
             prefetch={false}
-            className="inline-flex h-11 items-center gap-2 rounded-[var(--radius-field)] border border-border-strong bg-surface px-4 text-sm font-medium text-ink transition-colors hover:bg-surface-muted"
+            className="inline-flex h-11 items-center gap-2 rounded-[var(--radius-field)] border border-border-strong bg-surface px-4 text-base font-medium text-ink transition-colors hover:bg-surface-muted"
           >
             <Download className="size-4" aria-hidden />
             تصدير CSV
@@ -81,10 +81,10 @@ export default async function AdminCodesPage() {
             {codes.map((c) => (
               <li key={c.id} className="flex flex-wrap items-center justify-between gap-2 px-5 py-3.5">
                 <span className="min-w-0">
-                  <span className="block font-mono text-sm tracking-wider text-ink" dir="ltr">
+                  <span className="block font-mono text-base tracking-wider text-ink" dir="ltr">
                     {c.code}
                   </span>
-                  <span className="nums-ar mt-0.5 block text-xs text-ink-faint">
+                  <span className="nums-ar mt-0.5 block text-sm text-ink-faint">
                     {[
                       c.courses?.title,
                       c.grants_days ? `${formatNumber(c.grants_days)} يوم` : null,

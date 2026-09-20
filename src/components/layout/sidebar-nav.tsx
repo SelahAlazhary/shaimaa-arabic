@@ -80,7 +80,7 @@ export function SidebarNav({ area }: { area: NavArea }) {
 
   return (
     <nav aria-label="القائمة الرئيسية" className="px-3">
-      <p className="px-3 pb-2 text-xs font-medium text-ink-faint">القائمة</p>
+      <p className="px-3 pb-2 text-sm font-medium text-ink-faint">القائمة</p>
       <ul className="space-y-1">
         {NAV[area].map(({ href, label, icon: Icon }) => {
           const active = isActive(pathname, href, ROOTS)
@@ -90,7 +90,7 @@ export function SidebarNav({ area }: { area: NavArea }) {
                 href={href}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'flex items-center gap-3 rounded-[var(--radius-field)] px-3 py-2.5 text-sm transition-colors',
+                  'flex items-center gap-3 rounded-[var(--radius-field)] px-3 py-2.5 text-base transition-colors',
                   active
                     ? 'bg-brand-700 font-medium text-ink-invert'
                     : 'text-ink-muted hover:bg-surface-muted hover:text-ink',

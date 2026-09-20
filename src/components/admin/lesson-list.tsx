@@ -69,12 +69,12 @@ export function LessonList({
             <div className="flex items-start justify-between gap-3">
               <span className="min-w-0">
                 <span className="flex flex-wrap items-center gap-2">
-                  <span className="nums-ar text-xs text-ink-faint">{formatNumber(i + 1)}.</span>
-                  <span className="text-sm font-medium text-ink">{l.title}</span>
+                  <span className="nums-ar text-sm text-ink-faint">{formatNumber(i + 1)}.</span>
+                  <span className="text-base font-medium text-ink">{l.title}</span>
                   {l.isFree && <Badge tone="info">مجاني</Badge>}
                   {!l.hasVideo && <Badge tone="warning">بلا فيديو</Badge>}
                 </span>
-                <span className="nums-ar mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-faint">
+                <span className="nums-ar mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-faint">
                   {l.durationSeconds > 0 && (
                     <span className="flex items-center gap-1">
                       <Clock className="size-3" aria-hidden />

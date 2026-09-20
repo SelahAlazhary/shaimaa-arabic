@@ -25,7 +25,7 @@ export function Field({ label, error, hint, required, children }: FieldProps) {
 
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="block text-sm font-medium text-ink">
+      <label htmlFor={id} className="block text-base font-medium text-ink">
         {label}
         {required && (
           <span className="text-danger" aria-label="مطلوب">
@@ -38,12 +38,12 @@ export function Field({ label, error, hint, required, children }: FieldProps) {
       {children({ id, describedBy, invalid: Boolean(error) })}
 
       {error ? (
-        <p id={errorId} role="alert" className="flex items-center gap-1.5 text-sm text-danger">
+        <p id={errorId} role="alert" className="flex items-center gap-1.5 text-base text-danger">
           <AlertCircle className="size-4 shrink-0" aria-hidden />
           {error}
         </p>
       ) : hint ? (
-        <p id={hintId} className="text-sm text-ink-faint">
+        <p id={hintId} className="text-base text-ink-faint">
           {hint}
         </p>
       ) : null}
@@ -52,7 +52,7 @@ export function Field({ label, error, hint, required, children }: FieldProps) {
 }
 
 const inputBase = [
-  'block w-full rounded-[var(--radius-field)] border bg-surface px-3.5 text-sm text-ink',
+  'block w-full rounded-[var(--radius-field)] border bg-surface px-3.5 text-base text-ink',
   'h-11 placeholder:text-ink-faint',
   'transition-[border-color,box-shadow] duration-150',
   'disabled:cursor-not-allowed disabled:bg-surface-muted disabled:text-ink-faint',

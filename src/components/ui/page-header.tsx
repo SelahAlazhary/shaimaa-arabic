@@ -12,7 +12,7 @@ export function PageHeader({
       <div>
         <h1 className="text-xl font-semibold text-ink sm:text-2xl">{title}</h1>
         {description && (
-          <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-ink-muted">{description}</p>
+          <p className="mt-1.5 max-w-xl text-base leading-relaxed text-ink-muted">{description}</p>
         )}
       </div>
       {action}

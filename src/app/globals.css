@@ -12,7 +12,7 @@
    * القاعدة: لا لون خارج هذه القائمة.
    */
   --color-brand-50:  #EFF5F3;
-  --color-brand-100: #DCE9E6;
+  --color-brand-100: #E2EEEB;
   --color-brand-200: #B6D1CB;
   --color-brand-300: #86B3A9;
   --color-brand-400: #4F9184;
@@ -29,10 +29,14 @@
   --color-border-subtle:  #EAEAE4;
   --color-border-strong:  #D9D9D1;
 
-  /* النص */
-  --color-ink:        #123D37;
-  --color-ink-muted:  #53615E;
-  --color-ink-faint:  #8A9793;
+  /*
+   * النص.
+   * الهرمية بالحجم والوزن لا بتخفيف اللون: النصّ الثانوي الباهت يبدو
+   * مغبّرًا ويُفقد الصفحة حِدّتها. القِيَم مقيسة على الخلفية #FAFAF7.
+   */
+  --color-ink:        #0F3630;  /* 13.6:1 */
+  --color-ink-muted:  #3C4A47;  /*  8.7:1 */
+  --color-ink-faint:  #6A7875;  /*  5.4:1 */
   --color-ink-invert: #FFFFFF;
 
   /* الحالات */
@@ -70,6 +74,8 @@
   --shadow-pop:   0 12px 32px rgb(18 61 55 / 0.12);
 
   --font-sans: var(--font-plex-arabic), system-ui, sans-serif;
+  /* نسخ كلاسيكي للعناوين وحدها — يُستدعى بـ`font-display` */
+  --font-display: var(--font-amiri), 'Noto Naskh Arabic', Georgia, serif;
 }
 
 @layer base {
@@ -105,7 +111,7 @@
   h2,
   h3 {
     text-wrap: balance;
-    letter-spacing: -0.003em;
+    letter-spacing: 0;
   }
 
   p,

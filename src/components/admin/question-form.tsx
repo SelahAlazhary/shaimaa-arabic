@@ -137,7 +137,7 @@ export function QuestionForm({
       )}
 
       {locked && (
-        <p className="flex items-start gap-2 rounded-[var(--radius-field)] bg-warning-bg px-3.5 py-3 text-sm leading-relaxed text-warning">
+        <p className="flex items-start gap-2 rounded-[var(--radius-field)] bg-warning-bg px-3.5 py-3 text-base leading-relaxed text-warning">
           <Lock className="mt-0.5 size-4 shrink-0" aria-hidden />
           بدأ طلاب هذا الاختبار بالفعل. التصحيح متاح لصياغة السؤال والخيارات فقط — النوع
           والدرجة والإجابة الصحيحة مقفلة حتى لا تتغيّر نتائج مسجَّلة.
@@ -145,7 +145,7 @@ export function QuestionForm({
       )}
 
       {generalError && (
-        <p role="alert" className="flex items-center gap-1.5 text-sm text-danger">
+        <p role="alert" className="flex items-center gap-1.5 text-base text-danger">
           <AlertCircle className="size-4 shrink-0" aria-hidden />
           {generalError}
         </p>
@@ -205,7 +205,7 @@ export function QuestionForm({
             aria-describedby={describedBy}
             aria-invalid={invalid || undefined}
             placeholder="مثال: ما إعراب كلمة «العلمُ» في قولنا: العلمُ نورٌ؟"
-            className="block w-full rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 py-2.5 text-sm leading-relaxed text-ink placeholder:text-ink-faint hover:border-ink-faint"
+            className="block w-full rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 py-2.5 text-base leading-relaxed text-ink placeholder:text-ink-faint hover:border-ink-faint"
             required
           />
         )}
@@ -213,9 +213,9 @@ export function QuestionForm({
 
       {isChoice ? (
         <fieldset>
-          <legend className="mb-2 text-sm font-medium text-ink">
+          <legend className="mb-2 text-base font-medium text-ink">
             الخيارات
-            <span className="ms-2 text-xs font-normal text-ink-faint">
+            <span className="ms-2 text-sm font-normal text-ink-faint">
               {type === 'multiple_choice'
                 ? 'علّم كل الإجابات الصحيحة'
                 : 'علّم الإجابة الصحيحة الواحدة'}
@@ -243,7 +243,7 @@ export function QuestionForm({
                   placeholder={`الخيار ${i + 1}`}
                   aria-label={`نص الخيار ${i + 1}`}
                   className={[
-                    'h-11 flex-1 rounded-[var(--radius-field)] border bg-surface px-3.5 text-sm text-ink',
+                    'h-11 flex-1 rounded-[var(--radius-field)] border bg-surface px-3.5 text-base text-ink',
                     'placeholder:text-ink-faint border-border-strong hover:border-ink-faint',
                     type === 'true_false' ? 'bg-surface-muted' : '',
                   ].join(' ')}
@@ -321,7 +321,7 @@ export function QuestionForm({
             aria-describedby={describedBy}
             aria-invalid={invalid || undefined}
             placeholder="مثال: «العلمُ» مبتدأ مرفوع وعلامة رفعه الضمة الظاهرة."
-            className="block w-full rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 py-2.5 text-sm leading-relaxed text-ink placeholder:text-ink-faint hover:border-ink-faint"
+            className="block w-full rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 py-2.5 text-base leading-relaxed text-ink placeholder:text-ink-faint hover:border-ink-faint"
           />
         )}
       </Field>

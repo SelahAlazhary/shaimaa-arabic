@@ -106,7 +106,7 @@ export function TicketThread({
                   mine ? 'bg-brand-700 text-ink-invert' : 'bg-surface-muted text-ink',
                 )}
               >
-                <p className="whitespace-pre-wrap text-sm leading-relaxed">{m.message}</p>
+                <p className="whitespace-pre-wrap text-base leading-relaxed">{m.message}</p>
                 <p
                   className={cn(
                     'nums-ar mt-1 text-[0.6875rem]',
@@ -124,7 +124,7 @@ export function TicketThread({
 
       <div className="border-t border-border-subtle p-4">
         {closed ? (
-          <p className="text-center text-sm text-ink-muted">
+          <p className="text-center text-base text-ink-muted">
             هذه المحادثة مغلقة. افتح محادثة جديدة لو عندك استفسار آخر.
           </p>
         ) : (
@@ -140,13 +140,13 @@ export function TicketThread({
                 rows={1}
                 maxLength={2000}
                 placeholder="اكتب رسالتك…"
-                className="min-h-11 flex-1 resize-y rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 py-2.5 text-sm leading-relaxed text-ink placeholder:text-ink-faint hover:border-ink-faint"
+                className="min-h-11 flex-1 resize-y rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 py-2.5 text-base leading-relaxed text-ink placeholder:text-ink-faint hover:border-ink-faint"
               />
               <SendButton />
             </form>
 
             {state.status === 'error' && (
-              <p role="alert" className="mt-2 flex items-center gap-1.5 text-sm text-danger">
+              <p role="alert" className="mt-2 flex items-center gap-1.5 text-base text-danger">
                 <AlertCircle className="size-4 shrink-0" aria-hidden />
                 {state.message}
               </p>

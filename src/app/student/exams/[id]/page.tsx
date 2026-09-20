@@ -37,7 +37,7 @@ export default async function TakeExamPage({ params }: { params: Promise<{ id: s
     <div className="space-y-5">
       <Link
         href="/student/exams"
-        className="inline-flex items-center gap-1.5 text-sm text-ink-muted underline-offset-4 hover:text-ink hover:underline"
+        className="inline-flex items-center gap-1.5 text-base text-ink-muted underline-offset-4 hover:text-ink hover:underline"
       >
         <ArrowRight className="size-4" aria-hidden />
         كل الاختبارات
@@ -46,10 +46,10 @@ export default async function TakeExamPage({ params }: { params: Promise<{ id: s
       <div>
         <h1 className="text-lg font-semibold text-ink sm:text-xl">{exam.title}</h1>
         {exam.description && (
-          <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">{exam.description}</p>
+          <p className="mt-1.5 text-base leading-relaxed text-ink-muted">{exam.description}</p>
         )}
 
-        <ul className="nums-ar mt-2.5 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-faint">
+        <ul className="nums-ar mt-2.5 flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-faint">
           <li className="flex items-center gap-1.5">
             <Timer className="size-3.5" aria-hidden />
             {exam.duration_minutes

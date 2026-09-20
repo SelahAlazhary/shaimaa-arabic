@@ -97,7 +97,7 @@ export function RegisterForm({ reference }: { reference: RegistrationReference }
       {generalError && (
         <div
           role="alert"
-          className="flex items-start gap-2.5 rounded-[var(--radius-card)] bg-danger-bg p-3.5 text-sm text-danger"
+          className="flex items-start gap-2.5 rounded-[var(--radius-card)] bg-danger-bg p-3.5 text-base text-danger"
         >
           <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden />
           <span>{generalError}</span>
@@ -334,7 +334,7 @@ export function RegisterForm({ reference }: { reference: RegistrationReference }
         </Field>
       </div>
 
-      <p className="text-sm text-ink-faint">كل الحقول مطلوبة.</p>
+      <p className="text-base text-ink-faint">كل الحقول مطلوبة.</p>
 
       <SubmitButton />
     </form>

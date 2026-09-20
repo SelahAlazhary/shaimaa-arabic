@@ -24,7 +24,7 @@ export function CardHeader({
 }) {
   return (
     <div className="flex items-center justify-between gap-3 border-b border-border-subtle px-5 py-4">
-      <h3 className="flex items-center gap-2 text-sm font-semibold text-ink">
+      <h3 className="flex items-center gap-2 text-base font-semibold text-ink">
         {Icon && <Icon className="size-4 text-ink-muted" aria-hidden />}
         {title}
       </h3>
@@ -53,8 +53,8 @@ export function EmptyState({
       <span className="mb-4 grid size-12 place-items-center rounded-full bg-surface-muted text-ink-faint">
         <Icon className="size-5" aria-hidden />
       </span>
-      <p className="text-sm font-medium text-ink">{title}</p>
-      <p className="mt-1.5 max-w-xs text-sm leading-relaxed text-ink-muted">{description}</p>
+      <p className="text-base font-medium text-ink">{title}</p>
+      <p className="mt-1.5 max-w-xs text-base leading-relaxed text-ink-muted">{description}</p>
       {action && <div className="mt-5">{action}</div>}
     </div>
   )
@@ -84,7 +84,7 @@ export function StatCard({
         <Icon className="size-[1.125rem]" aria-hidden />
       </span>
       <p className="nums-ar text-2xl font-semibold leading-none text-ink">{value}</p>
-      <p className="mt-1.5 text-sm text-ink-muted">{label}</p>
+      <p className="mt-1.5 text-base text-ink-muted">{label}</p>
     </Card>
   )
 }
@@ -107,7 +107,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-[var(--radius-pill)] px-2.5 py-0.5 text-xs font-medium',
+        'inline-flex items-center rounded-[var(--radius-pill)] px-2.5 py-0.5 text-sm font-medium',
         tones[tone],
       )}
     >

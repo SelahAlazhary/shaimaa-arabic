@@ -38,7 +38,7 @@ export function AppShell({
       {/* تخطٍّ إلى المحتوى: أول ما يصله التنقّل بلوحة المفاتيح */}
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-4 focus:z-50 focus:rounded-[var(--radius-field)] focus:bg-brand-700 focus:px-4 focus:py-2 focus:text-sm focus:text-ink-invert"
+        className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-4 focus:z-50 focus:rounded-[var(--radius-field)] focus:bg-brand-700 focus:px-4 focus:py-2 focus:text-base focus:text-ink-invert"
       >
         تخطٍّ إلى المحتوى
       </a>
@@ -50,7 +50,7 @@ export function AppShell({
             <span className="block text-base font-semibold leading-tight text-ink">
               الأستاذة الشيماء أحمد
             </span>
-            <span className="mt-0.5 block text-xs text-accent">اللغة العربية</span>
+            <span className="mt-0.5 block text-sm text-accent">اللغة العربية</span>
           </Link>
         </div>
 
@@ -61,14 +61,14 @@ export function AppShell({
         <div className="border-t border-border-subtle p-4">
           <div className="mb-3 flex items-center gap-2.5">
             <span
-              className="grid size-9 shrink-0 place-items-center rounded-full bg-brand-100 text-xs font-semibold text-brand-700"
+              className="grid size-9 shrink-0 place-items-center rounded-full bg-brand-100 text-sm font-semibold text-brand-700"
               aria-hidden
             >
               {initials(user.fullName)}
             </span>
             <span className="min-w-0">
-              <span className="block truncate text-sm font-medium text-ink">{user.fullName}</span>
-              <span className="block truncate text-xs text-ink-faint" dir="ltr">
+              <span className="block truncate text-base font-medium text-ink">{user.fullName}</span>
+              <span className="block truncate text-sm text-ink-faint" dir="ltr">
                 {user.email}
               </span>
             </span>
@@ -81,12 +81,12 @@ export function AppShell({
       <header className="sticky top-0 z-30 border-b border-border-subtle bg-surface lg:me-[17.5rem]">
         <div className="flex h-16 items-center justify-between gap-4 px-5 sm:px-8">
           <div className="min-w-0">
-            <p className="text-xs text-ink-faint">{areaLabel}</p>
-            <h2 className="truncate text-sm font-semibold text-ink">{pageTitle}</h2>
+            <p className="text-sm text-ink-faint">{areaLabel}</p>
+            <h2 className="truncate text-base font-semibold text-ink">{pageTitle}</h2>
           </div>
 
           <span
-            className="grid size-9 shrink-0 place-items-center rounded-full bg-brand-100 text-xs font-semibold text-brand-700 lg:hidden"
+            className="grid size-9 shrink-0 place-items-center rounded-full bg-brand-100 text-sm font-semibold text-brand-700 lg:hidden"
             aria-label={user.fullName}
           >
             {initials(user.fullName)}

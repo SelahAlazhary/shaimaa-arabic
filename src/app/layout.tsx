@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { IBM_Plex_Sans_Arabic } from 'next/font/google'
+import { IBM_Plex_Sans_Arabic, Amiri } from 'next/font/google'
 import { Toaster } from 'sonner'
 import './globals.css'
 
@@ -7,6 +7,18 @@ const plexArabic = IBM_Plex_Sans_Arabic({
   subsets: ['arabic', 'latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-plex-arabic',
+  display: 'swap',
+})
+
+/*
+ * خطّ النسخ الكلاسيكي للعناوين وحدها.
+ * منصة لغة عربية تُقرأ عناوينها بخطّ نسخي أقرب إلى كتب المادة نفسها،
+ * والخطّ الهندسي المحايد يبقى للواجهة والنصوص الصغيرة حيث الوضوح أهمّ.
+ */
+const amiri = Amiri({
+  subsets: ['arabic'],
+  weight: ['400', '700'],
+  variable: '--font-amiri',
   display: 'swap',
 })
 
@@ -28,7 +40,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ar" dir="rtl" className={plexArabic.variable} suppressHydrationWarning>
+    <html lang="ar" dir="rtl" className={`${plexArabic.variable} ${amiri.variable}`} suppressHydrationWarning>
       <body className="min-h-dvh antialiased">
         {children}
         <Toaster

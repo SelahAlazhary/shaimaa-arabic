@@ -68,7 +68,7 @@ export function CourseForm({
       {defaults?.id && <input type="hidden" name="id" value={defaults.id} />}
 
       {generalError && (
-        <p role="alert" className="flex items-center gap-1.5 text-sm text-danger">
+        <p role="alert" className="flex items-center gap-1.5 text-base text-danger">
           <AlertCircle className="size-4 shrink-0" aria-hidden />
           {generalError}
         </p>
@@ -101,7 +101,7 @@ export function CourseForm({
             aria-describedby={describedBy}
             aria-invalid={invalid || undefined}
             placeholder="نبذة يراها الطالب قبل الاشتراك."
-            className="block w-full rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 py-2.5 text-sm leading-relaxed text-ink placeholder:text-ink-faint hover:border-ink-faint"
+            className="block w-full rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 py-2.5 text-base leading-relaxed text-ink placeholder:text-ink-faint hover:border-ink-faint"
           />
         )}
       </Field>

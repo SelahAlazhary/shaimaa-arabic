@@ -38,8 +38,8 @@ export function AttachmentRow({
     <li className="px-5 py-4">
       <div className="flex items-start justify-between gap-3">
         <span className="min-w-0">
-          <span className="block text-sm font-medium text-ink">{file.title}</span>
-          <span className="nums-ar mt-0.5 block text-xs text-ink-faint">{file.meta}</span>
+          <span className="block text-base font-medium text-ink">{file.title}</span>
+          <span className="nums-ar mt-0.5 block text-sm text-ink-faint">{file.meta}</span>
         </span>
 
         <a
@@ -58,7 +58,7 @@ export function AttachmentRow({
           courses.map((c) => (
             <span
               key={c.courseId}
-              className="inline-flex items-center gap-1 rounded-[var(--radius-pill)] bg-surface-muted py-1 pe-2.5 ps-1 text-xs text-ink-muted"
+              className="inline-flex items-center gap-1 rounded-[var(--radius-pill)] bg-surface-muted py-1 pe-2.5 ps-1 text-sm text-ink-muted"
             >
               {c.title}
               {/* فكّ الربط يخفي الملف عن طلاب الكورس ولا يحذفه، فلا يحتاج تأكيدًا */}
@@ -76,13 +76,13 @@ export function AttachmentRow({
         )}
 
         {available.length > 0 && (
-          <label className="inline-flex items-center gap-1.5 text-xs text-ink-muted">
+          <label className="inline-flex items-center gap-1.5 text-sm text-ink-muted">
             <span className="sr-only">اربط {file.title} بكورس</span>
             <select
               value=""
               onChange={(e) => e.target.value && link(e.target.value)}
               disabled={unlinking}
-              className="h-8 rounded-[var(--radius-field)] border border-border-strong bg-surface px-2 text-xs text-ink"
+              className="h-8 rounded-[var(--radius-field)] border border-border-strong bg-surface px-2 text-sm text-ink"
             >
               <option value="">اربط بكورس…</option>
               {available.map((c) => (

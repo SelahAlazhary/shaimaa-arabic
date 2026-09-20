@@ -80,9 +80,9 @@ export default async function StudentExamsPage() {
                 <li key={e.id} className="px-5 py-4">
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-ink">{e.title}</p>
+                      <p className="text-base font-medium text-ink">{e.title}</p>
                       {e.courses?.title && (
-                        <p className="mt-0.5 text-xs text-ink-muted">{e.courses.title}</p>
+                        <p className="mt-0.5 text-sm text-ink-muted">{e.courses.title}</p>
                       )}
                     </div>
 
@@ -94,10 +94,10 @@ export default async function StudentExamsPage() {
                   </div>
 
                   {e.description && (
-                    <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">{e.description}</p>
+                    <p className="mt-1.5 text-base leading-relaxed text-ink-muted">{e.description}</p>
                   )}
 
-                  <ul className="nums-ar mt-2.5 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-faint">
+                  <ul className="nums-ar mt-2.5 flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-faint">
                     <li className="flex items-center gap-1.5">
                       <Timer className="size-3.5" aria-hidden />
                       {e.duration_minutes ? `${formatNumber(e.duration_minutes)} دقيقة` : 'بدون مؤقّت'}
@@ -118,14 +118,14 @@ export default async function StudentExamsPage() {
                   {state === 'open' && (
                     <Link
                       href={`/student/exams/${e.id}`}
-                      className="mt-3 inline-flex h-10 items-center gap-2 rounded-[var(--radius-field)] bg-brand-700 px-4 text-sm font-medium text-ink-invert transition-colors hover:bg-brand-800"
+                      className="mt-3 inline-flex h-10 items-center gap-2 rounded-[var(--radius-field)] bg-brand-700 px-4 text-base font-medium text-ink-invert transition-colors hover:bg-brand-800"
                     >
                       {best ? 'محاولة جديدة' : 'ابدأ الاختبار'}
                       <ArrowLeft className="size-3.5" aria-hidden />
                     </Link>
                   )}
 
-                  <p className="nums-ar mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+                  <p className="nums-ar mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
                     {best ? (
                       <>
                         <span className={best.passed ? 'text-success' : 'text-warning'}>

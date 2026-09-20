@@ -40,7 +40,7 @@ export function GenerateCodesForm({ courses }: { courses: { id: string; title: s
   return (
     <div className="p-5">
       {courses.length === 0 ? (
-        <p className="text-sm text-ink-muted">
+        <p className="text-base text-ink-muted">
           أنشئ كورسًا أولًا، فالأكواد تُولَّد لكورس محدّد.
         </p>
       ) : (
@@ -111,7 +111,7 @@ export function GenerateCodesForm({ courses }: { courses: { id: string; title: s
           </div>
 
           {state.status === 'error' && (
-            <p role="alert" className="flex items-center gap-1.5 text-sm text-danger">
+            <p role="alert" className="flex items-center gap-1.5 text-base text-danger">
               <AlertCircle className="size-4 shrink-0" aria-hidden />
               {state.message}
             </p>
@@ -122,7 +122,7 @@ export function GenerateCodesForm({ courses }: { courses: { id: string; title: s
           {state.status === 'success' && state.codes.length > 0 && (
             <div className="rounded-[var(--radius-card)] border border-border-subtle bg-surface-muted p-4">
               <div className="mb-2 flex items-center justify-between gap-3">
-                <p className="text-sm font-medium text-ink">{state.message}</p>
+                <p className="text-base font-medium text-ink">{state.message}</p>
                 <Button type="button" variant="secondary" size="sm" onClick={copyAll}>
                   <Copy aria-hidden />
                   نسخ الكل
@@ -130,7 +130,7 @@ export function GenerateCodesForm({ courses }: { courses: { id: string; title: s
               </div>
               <pre
                 dir="ltr"
-                className="max-h-40 overflow-auto whitespace-pre-wrap break-all font-mono text-xs leading-relaxed text-ink-muted"
+                className="max-h-40 overflow-auto whitespace-pre-wrap break-all font-mono text-sm leading-relaxed text-ink-muted"
               >
                 {state.codes.join('\n')}
               </pre>

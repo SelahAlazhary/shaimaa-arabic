@@ -98,7 +98,7 @@ export function LessonForm({
       {editing && <input type="hidden" name="id" value={lesson!.id} />}
 
       {generalError && (
-        <p role="alert" className="flex items-center gap-1.5 text-sm text-danger">
+        <p role="alert" className="flex items-center gap-1.5 text-base text-danger">
           <AlertCircle className="size-4 shrink-0" aria-hidden />
           {generalError}
         </p>
@@ -192,7 +192,7 @@ export function LessonForm({
             aria-describedby={describedBy}
             aria-invalid={invalid || undefined}
             placeholder="ما يتعلّمه الطالب في هذا الدرس."
-            className="block w-full rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 py-2.5 text-sm leading-relaxed text-ink placeholder:text-ink-faint hover:border-ink-faint"
+            className="block w-full rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 py-2.5 text-base leading-relaxed text-ink placeholder:text-ink-faint hover:border-ink-faint"
           />
         )}
       </Field>
@@ -209,8 +209,8 @@ export function LessonForm({
             className="mt-0.5 size-4 rounded border-border-strong"
           />
           <span>
-            <span className="block text-sm font-medium text-ink">درس مجاني</span>
-            <span className="block text-xs text-ink-muted">
+            <span className="block text-base font-medium text-ink">درس مجاني</span>
+            <span className="block text-sm text-ink-muted">
               يشاهده أي طالب حتى بلا اشتراك — مفيد كعيّنة تشجّع على الشراء.
             </span>
           </span>
@@ -225,8 +225,8 @@ export function LessonForm({
             className="mt-0.5 size-4 rounded border-border-strong"
           />
           <span>
-            <span className="block text-sm font-medium text-ink">منشور</span>
-            <span className="block text-xs text-ink-muted">
+            <span className="block text-base font-medium text-ink">منشور</span>
+            <span className="block text-sm text-ink-muted">
               أزل العلامة لإخفاء الدرس عن الطلاب حتى تنتهي من تجهيزه.
             </span>
           </span>

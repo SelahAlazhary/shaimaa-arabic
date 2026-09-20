@@ -28,8 +28,8 @@ export default async function StudentCoursesPage() {
             <Ticket className="size-[1.125rem]" aria-hidden />
           </span>
           <div>
-            <h2 className="text-sm font-semibold text-ink">عندك كود تفعيل؟</h2>
-            <p className="mt-0.5 text-sm text-ink-muted">
+            <h2 className="text-base font-semibold text-ink">عندك كود تفعيل؟</h2>
+            <p className="mt-0.5 text-base text-ink-muted">
               اكتب الكود هنا وهيتفتح الكورس على حسابك فورًا.
             </p>
           </div>
@@ -55,18 +55,18 @@ export default async function StudentCoursesPage() {
                   className="block px-5 py-4 transition-colors hover:bg-surface-muted"
                 >
                   <div className="flex flex-wrap items-start justify-between gap-2">
-                    <p className="text-sm font-medium text-ink">{c.title}</p>
+                    <p className="text-base font-medium text-ink">{c.title}</p>
                     <Badge tone={c.percent === 100 ? 'success' : 'neutral'}>
                       {formatNumber(c.percent)}٪
                     </Badge>
                   </div>
 
-                  <p className="nums-ar mt-1 text-xs text-ink-faint">
+                  <p className="nums-ar mt-1 text-sm text-ink-faint">
                     {formatNumber(c.completedLessons)} من {formatNumber(c.totalLessons)} درس
                   </p>
 
                   {c.expiresAt && (
-                    <p className="nums-ar mt-1 flex items-center gap-1.5 text-xs text-warning">
+                    <p className="nums-ar mt-1 flex items-center gap-1.5 text-sm text-warning">
                       <CalendarClock className="size-3.5" aria-hidden />
                       الاشتراك ينتهي في {formatDate(c.expiresAt)}
                     </p>

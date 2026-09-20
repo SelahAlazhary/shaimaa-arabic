@@ -37,7 +37,7 @@ export default async function LessonPage({
     <div className="space-y-5">
       <Link
         href={`/student/courses/${slug}`}
-        className="inline-flex items-center gap-1.5 text-sm text-ink-muted underline-offset-4 hover:text-ink hover:underline"
+        className="inline-flex items-center gap-1.5 text-base text-ink-muted underline-offset-4 hover:text-ink hover:underline"
       >
         <ArrowRight className="size-4" aria-hidden />
         {lesson.courseTitle}
@@ -46,7 +46,7 @@ export default async function LessonPage({
       <div>
         <h1 className="text-lg font-semibold text-ink sm:text-xl">{lesson.title}</h1>
         {lesson.durationSeconds > 0 && (
-          <p className="nums-ar mt-1 flex items-center gap-1.5 text-sm text-ink-faint">
+          <p className="nums-ar mt-1 flex items-center gap-1.5 text-base text-ink-faint">
             <Clock className="size-3.5" aria-hidden />
             {formatDuration(lesson.durationSeconds)}
           </p>
@@ -64,8 +64,8 @@ export default async function LessonPage({
 
       {lesson.description && (
         <Card className="p-5">
-          <h2 className="mb-2 text-sm font-semibold text-ink">عن الدرس</h2>
-          <p className="whitespace-pre-wrap text-sm leading-relaxed text-ink-muted">
+          <h2 className="mb-2 text-base font-semibold text-ink">عن الدرس</h2>
+          <p className="whitespace-pre-wrap text-base leading-relaxed text-ink-muted">
             {lesson.description}
           </p>
         </Card>
@@ -75,7 +75,7 @@ export default async function LessonPage({
         {lesson.prevId ? (
           <Link
             href={`/student/courses/${slug}/lessons/${lesson.prevId}`}
-            className="inline-flex h-11 items-center gap-1.5 rounded-[var(--radius-field)] border border-border-strong bg-surface px-4 text-sm hover:bg-surface-muted"
+            className="inline-flex h-11 items-center gap-1.5 rounded-[var(--radius-field)] border border-border-strong bg-surface px-4 text-base hover:bg-surface-muted"
           >
             <ChevronRight className="size-4" aria-hidden />
             الدرس السابق
@@ -87,7 +87,7 @@ export default async function LessonPage({
         {lesson.nextId ? (
           <Link
             href={`/student/courses/${slug}/lessons/${lesson.nextId}`}
-            className="inline-flex h-11 items-center gap-1.5 rounded-[var(--radius-field)] bg-brand-700 px-4 text-sm font-medium text-ink-invert hover:bg-brand-800"
+            className="inline-flex h-11 items-center gap-1.5 rounded-[var(--radius-field)] bg-brand-700 px-4 text-base font-medium text-ink-invert hover:bg-brand-800"
           >
             الدرس التالي
             <ChevronLeft className="size-4" aria-hidden />

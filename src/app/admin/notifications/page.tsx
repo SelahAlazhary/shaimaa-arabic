@@ -36,12 +36,12 @@ export default async function AdminNotificationsPage() {
       />
 
       <Card className="p-5">
-        <p className="nums-ar text-sm text-ink-muted">
+        <p className="nums-ar text-base text-ink-muted">
           يصل الإشعار إلى <strong className="text-ink">{formatNumber(studentsRes.count ?? 0)}</strong>{' '}
           طالبًا نشطًا. أُرسل حتى الآن{' '}
           <strong className="text-ink">{formatNumber(totalRes.count ?? 0)}</strong> إشعارًا.
         </p>
-        <p className="mt-2 text-sm leading-relaxed text-ink-faint">
+        <p className="mt-2 text-base leading-relaxed text-ink-faint">
           الإشعارات التلقائية (تفعيل كود، فتح كورس) تُرسل من القاعدة مباشرة ولا تحتاج تدخّلًا.
         </p>
       </Card>
@@ -59,11 +59,11 @@ export default async function AdminNotificationsPage() {
           <ul className="divide-y divide-border-subtle">
             {items.map((n) => (
               <li key={n.id} className="px-5 py-3.5">
-                <p className="text-sm font-medium text-ink">{n.title}</p>
+                <p className="text-base font-medium text-ink">{n.title}</p>
                 {n.body && (
-                  <p className="mt-0.5 text-sm leading-relaxed text-ink-muted">{n.body}</p>
+                  <p className="mt-0.5 text-base leading-relaxed text-ink-muted">{n.body}</p>
                 )}
-                <p className="nums-ar mt-1 text-xs text-ink-faint">
+                <p className="nums-ar mt-1 text-sm text-ink-faint">
                   {formatDateTime(n.created_at)} · {n.is_read ? 'مقروء' : 'غير مقروء'}
                 </p>
               </li>

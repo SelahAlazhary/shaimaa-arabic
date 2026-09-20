@@ -31,7 +31,7 @@ export function LoginForm({ next }: { next?: string | undefined }) {
       {generalError && (
         <div
           role="alert"
-          className="flex items-start gap-2.5 rounded-[var(--radius-card)] bg-danger-bg p-3.5 text-sm text-danger"
+          className="flex items-start gap-2.5 rounded-[var(--radius-card)] bg-danger-bg p-3.5 text-base text-danger"
         >
           <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden />
           <span>{generalError}</span>
@@ -75,7 +75,7 @@ export function LoginForm({ next }: { next?: string | undefined }) {
       <div className="flex justify-end">
         <Link
           href="/forgot-password"
-          className="text-sm text-brand-600 underline-offset-4 hover:underline"
+          className="text-base text-brand-600 underline-offset-4 hover:underline"
         >
           نسيت كلمة المرور؟
         </Link>

@@ -108,8 +108,8 @@ export function LessonPlayer({
     return (
       <div className="flex aspect-video flex-col items-center justify-center rounded-[var(--radius-card)] border border-border-subtle bg-surface-muted px-6 text-center">
         <Lock className="mb-3 size-6 text-ink-faint" aria-hidden />
-        <p className="text-sm font-medium text-ink">هذا الدرس للمشتركين</p>
-        <p className="mt-1.5 max-w-xs text-sm leading-relaxed text-ink-muted">
+        <p className="text-base font-medium text-ink">هذا الدرس للمشتركين</p>
+        <p className="mt-1.5 max-w-xs text-base leading-relaxed text-ink-muted">
           فعّل كود الاشتراك من صفحة «كورساتي» لفتح الكورس كاملًا.
         </p>
       </div>
@@ -120,8 +120,8 @@ export function LessonPlayer({
     return (
       <div className="flex aspect-video flex-col items-center justify-center rounded-[var(--radius-card)] border border-border-subtle bg-surface-muted px-6 text-center">
         <VideoOff className="mb-3 size-6 text-ink-faint" aria-hidden />
-        <p className="text-sm font-medium text-ink">لا يوجد فيديو لهذا الدرس</p>
-        <p className="mt-1.5 text-sm text-ink-muted">راجع شرح الدرس والمرفقات بالأسفل.</p>
+        <p className="text-base font-medium text-ink">لا يوجد فيديو لهذا الدرس</p>
+        <p className="mt-1.5 text-base text-ink-muted">راجع شرح الدرس والمرفقات بالأسفل.</p>
       </div>
     )
   }
@@ -158,7 +158,7 @@ export function LessonPlayer({
             href={videoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex aspect-video items-center justify-center p-6 text-center text-sm text-ink-invert underline-offset-4 hover:underline"
+            className="flex aspect-video items-center justify-center p-6 text-center text-base text-ink-invert underline-offset-4 hover:underline"
           >
             افتح الفيديو في نافذة جديدة
           </a>
@@ -167,12 +167,12 @@ export function LessonPlayer({
 
       <div className="flex items-center justify-between gap-3">
         {isComplete ? (
-          <p className="flex items-center gap-1.5 text-sm text-success">
+          <p className="flex items-center gap-1.5 text-base text-success">
             <CheckCircle2 className="size-4" aria-hidden />
             أكملت هذا الدرس
           </p>
         ) : (
-          <p className="text-sm text-ink-faint">
+          <p className="text-base text-ink-faint">
             {isDirect ? 'يُحفظ تقدّمك تلقائيًا أثناء المشاهدة.' : 'علّم الدرس كمكتمل بعد مشاهدته.'}
           </p>
         )}

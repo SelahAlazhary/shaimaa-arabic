@@ -30,22 +30,22 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
     <div className="space-y-6">
       <Link
         href="/student/courses"
-        className="inline-flex items-center gap-1.5 text-sm text-ink-muted underline-offset-4 hover:text-ink hover:underline"
+        className="inline-flex items-center gap-1.5 text-base text-ink-muted underline-offset-4 hover:text-ink hover:underline"
       >
         <ArrowRight className="size-4" aria-hidden />
         كل الكورسات
       </Link>
 
       <section className="rounded-[var(--radius-panel)] bg-brand-700 px-6 py-7 text-ink-invert sm:px-8">
-        {course.gradeName && <p className="text-xs text-brand-200">{course.gradeName}</p>}
+        {course.gradeName && <p className="text-sm text-brand-200">{course.gradeName}</p>}
         <h1 className="mt-1 text-xl font-semibold sm:text-2xl">{course.title}</h1>
         {course.description && (
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-brand-100">
+          <p className="mt-2 max-w-2xl text-base leading-relaxed text-brand-100">
             {course.description}
           </p>
         )}
 
-        <div className="nums-ar mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-brand-100">
+        <div className="nums-ar mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-base text-brand-100">
           <span>{formatNumber(course.totalLessons)} درس</span>
           <span>
             أكملت {formatNumber(course.completedLessons)} ({formatNumber(course.percent)}٪)
@@ -59,7 +59,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
         </div>
 
         {!course.enrolled && (
-          <p className="mt-4 inline-flex items-center gap-2 rounded-[var(--radius-field)] bg-brand-800 px-3.5 py-2 text-sm">
+          <p className="mt-4 inline-flex items-center gap-2 rounded-[var(--radius-field)] bg-brand-800 px-3.5 py-2 text-base">
             <Lock className="size-4" aria-hidden />
             غير مشترك — الدروس المجانية فقط متاحة لك
           </p>
@@ -72,7 +72,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
             title={m.title}
             icon={PlayCircle}
             action={
-              <span className="nums-ar text-xs text-ink-faint">
+              <span className="nums-ar text-sm text-ink-faint">
                 {formatNumber(m.lessons.length)} درس
               </span>
             }
@@ -96,7 +96,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                     >
                       <span
                         className={[
-                          'nums-ar mt-0.5 grid size-7 shrink-0 place-items-center rounded-full text-xs font-medium',
+                          'nums-ar mt-0.5 grid size-7 shrink-0 place-items-center rounded-full text-sm font-medium',
                           l.completed
                             ? 'bg-success-bg text-success'
                             : locked
@@ -115,11 +115,11 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
 
                       <span className="min-w-0 flex-1">
                         <span className="flex flex-wrap items-center gap-2">
-                          <span className="text-sm font-medium text-ink">{l.title}</span>
+                          <span className="text-base font-medium text-ink">{l.title}</span>
                           {l.isFree && <Badge tone="info">مجاني</Badge>}
                         </span>
                         {l.durationSeconds > 0 && (
-                          <span className="nums-ar mt-1 flex items-center gap-1.5 text-xs text-ink-faint">
+                          <span className="nums-ar mt-1 flex items-center gap-1.5 text-sm text-ink-faint">
                             <Clock className="size-3.5" aria-hidden />
                             {formatDuration(l.durationSeconds)}
                           </span>
@@ -156,8 +156,8 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                   className="flex items-center justify-between gap-3 px-5 py-3.5 transition-colors hover:bg-surface-muted"
                 >
                   <span className="min-w-0">
-                    <span className="block truncate text-sm font-medium text-ink">{a.title}</span>
-                    <span className="nums-ar mt-0.5 block text-xs text-ink-faint">
+                    <span className="block truncate text-base font-medium text-ink">{a.title}</span>
+                    <span className="nums-ar mt-0.5 block text-sm text-ink-faint">
                       {formatFileSize(a.fileSize)}
                     </span>
                   </span>

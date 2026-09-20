@@ -164,7 +164,7 @@ export function ExamRunner({
         <p className="nums-ar mt-2 text-3xl font-semibold text-ink">
           {formatNumber(Math.round(result.percentage))}٪
         </p>
-        <p className="nums-ar mt-1 text-sm text-ink-muted">
+        <p className="nums-ar mt-1 text-base text-ink-muted">
           {formatNumber(result.score)} من {formatNumber(result.maxScore)} درجة
         </p>
 
@@ -185,14 +185,14 @@ export function ExamRunner({
     return (
       <Card className="p-8 text-center">
         <h2 className="text-lg font-semibold text-ink">{examTitle}</h2>
-        <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+        <p className="mt-2 text-base leading-relaxed text-ink-muted">
           {hasTimer
             ? 'المؤقّت يبدأ فور الضغط ولا يتوقّف — جهّز نفسك قبل البدء.'
             : 'هذا الاختبار بلا مؤقّت، لكن المحاولة تُحتسب فور البدء.'}
         </p>
 
         {error && (
-          <p role="alert" className="mt-4 flex items-center justify-center gap-1.5 text-sm text-danger">
+          <p role="alert" className="mt-4 flex items-center justify-center gap-1.5 text-base text-danger">
             <AlertCircle className="size-4 shrink-0" aria-hidden />
             {error}
           </p>
@@ -220,14 +220,14 @@ export function ExamRunner({
   return (
     <div className="space-y-4">
       <div className="sticky top-16 z-20 flex items-center justify-between gap-3 rounded-[var(--radius-card)] border border-border-subtle bg-surface px-4 py-3 shadow-[var(--shadow-card)]">
-        <p className="nums-ar text-sm text-ink-muted">
+        <p className="nums-ar text-base text-ink-muted">
           أجبت {formatNumber(answeredCount)} من {formatNumber(payload.questions.length)}
         </p>
 
         {remaining !== null && (
           <p
             className={cn(
-              'nums-ar flex items-center gap-1.5 text-sm font-medium tabular-nums',
+              'nums-ar flex items-center gap-1.5 text-base font-medium tabular-nums',
               lowTime ? 'text-danger' : 'text-ink',
             )}
             role="timer"
@@ -244,11 +244,11 @@ export function ExamRunner({
           <li key={q.id}>
             <Card className="p-5">
               <div className="flex items-start justify-between gap-3">
-                <p className="text-sm leading-relaxed text-ink">
+                <p className="text-base leading-relaxed text-ink">
                   <span className="nums-ar text-ink-faint">{formatNumber(i + 1)}. </span>
                   {q.question_text}
                 </p>
-                <span className="nums-ar shrink-0 text-xs text-ink-faint">
+                <span className="nums-ar shrink-0 text-sm text-ink-faint">
                   {formatNumber(Number(q.points))} درجة
                 </span>
               </div>
@@ -259,7 +259,7 @@ export function ExamRunner({
                   onChange={(e) => write(q.id, e.target.value)}
                   aria-label={`إجابة السؤال ${i + 1}`}
                   placeholder="اكتب إجابتك"
-                  className="mt-3 h-11 w-full rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 text-sm text-ink placeholder:text-ink-faint hover:border-ink-faint"
+                  className="mt-3 h-11 w-full rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 text-base text-ink placeholder:text-ink-faint hover:border-ink-faint"
                 />
               ) : (
                 <ul className="mt-3 space-y-2">
@@ -282,7 +282,7 @@ export function ExamRunner({
                             onChange={() => pick(q, o.id)}
                             className="size-4 shrink-0 border-border-strong"
                           />
-                          <span className="text-sm text-ink">{o.option_text}</span>
+                          <span className="text-base text-ink">{o.option_text}</span>
                         </label>
                       </li>
                     )
@@ -295,14 +295,14 @@ export function ExamRunner({
       </ol>
 
       {error && (
-        <p role="alert" className="flex items-center gap-1.5 text-sm text-danger">
+        <p role="alert" className="flex items-center gap-1.5 text-base text-danger">
           <AlertCircle className="size-4 shrink-0" aria-hidden />
           {error}
         </p>
       )}
 
       <Card className="p-5">
-        <p className="mb-3 text-sm text-ink-muted">
+        <p className="mb-3 text-base text-ink-muted">
           راجع إجاباتك قبل التسليم — لا يمكن التعديل بعده.
         </p>
         <Button

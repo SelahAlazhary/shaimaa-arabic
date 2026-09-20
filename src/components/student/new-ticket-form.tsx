@@ -34,7 +34,7 @@ export function NewTicketForm() {
   return (
     <form action={formAction} className="space-y-5 p-5">
       <fieldset>
-        <legend className="mb-3 text-sm font-medium text-ink">ما نوع المساعدة التي تحتاجها؟</legend>
+        <legend className="mb-3 text-base font-medium text-ink">ما نوع المساعدة التي تحتاجها؟</legend>
 
         <div className="grid gap-2.5 sm:grid-cols-2">
           {OPTIONS.map(({ value, icon: Icon, hint }) => (
@@ -64,10 +64,10 @@ export function NewTicketForm() {
                 <Icon className="size-4" aria-hidden />
               </span>
               <span className="min-w-0">
-                <span className="block text-sm font-medium text-ink">
+                <span className="block text-base font-medium text-ink">
                   {TICKET_TYPE_LABELS[value]}
                 </span>
-                <span className="mt-0.5 block text-xs leading-relaxed text-ink-muted">{hint}</span>
+                <span className="mt-0.5 block text-sm leading-relaxed text-ink-muted">{hint}</span>
               </span>
             </label>
           ))}
@@ -75,7 +75,7 @@ export function NewTicketForm() {
       </fieldset>
 
       <div>
-        <label htmlFor="ticket-message" className="mb-1.5 block text-sm font-medium text-ink">
+        <label htmlFor="ticket-message" className="mb-1.5 block text-base font-medium text-ink">
           رسالتك
         </label>
         <textarea
@@ -84,12 +84,12 @@ export function NewTicketForm() {
           rows={4}
           maxLength={2000}
           placeholder="اشرح سؤالك أو مشكلتك بالتفصيل عشان نقدر نساعدك بسرعة."
-          className="block w-full rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 py-2.5 text-sm leading-relaxed text-ink placeholder:text-ink-faint hover:border-ink-faint"
+          className="block w-full rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 py-2.5 text-base leading-relaxed text-ink placeholder:text-ink-faint hover:border-ink-faint"
         />
       </div>
 
       {state.status === 'error' && (
-        <p role="alert" className="flex items-center gap-1.5 text-sm text-danger">
+        <p role="alert" className="flex items-center gap-1.5 text-base text-danger">
           <AlertCircle className="size-4 shrink-0" aria-hidden />
           {state.message}
         </p>

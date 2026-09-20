@@ -14,7 +14,7 @@ export default async function RegisterPage() {
   return (
     <div>
       <h1 className="text-2xl font-semibold text-ink">إنشاء حساب طالب</h1>
-      <p className="mt-1.5 text-sm text-ink-muted">
+      <p className="mt-1.5 text-base text-ink-muted">
         سجّل بياناتك للبدء في دراسة اللغة العربية.
       </p>
 
@@ -22,7 +22,7 @@ export default async function RegisterPage() {
         <RegisterForm reference={reference} />
       </div>
 
-      <p className="mt-6 text-center text-sm text-ink-muted">
+      <p className="mt-6 text-center text-base text-ink-muted">
         لديك حساب بالفعل؟{' '}
         <Link href="/login" className="font-medium text-brand-600 underline-offset-4 hover:underline">
           سجّل الدخول

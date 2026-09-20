@@ -59,7 +59,7 @@ export function LiveForm({ courses }: { courses: { id: string; title: string }[]
   return (
     <form key={formKey} action={formAction} className="space-y-4 p-5" noValidate>
       {generalError && (
-        <p role="alert" className="flex items-center gap-1.5 text-sm text-danger">
+        <p role="alert" className="flex items-center gap-1.5 text-base text-danger">
           <AlertCircle className="size-4 shrink-0" aria-hidden />
           {generalError}
         </p>

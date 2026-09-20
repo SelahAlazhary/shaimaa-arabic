@@ -72,20 +72,20 @@ export function QuestionList({
         return (
           <li key={q.id} className="px-5 py-4">
             <div className="flex flex-wrap items-start justify-between gap-2">
-              <p className="text-sm text-ink">
+              <p className="text-base text-ink">
                 <span className="nums-ar text-ink-faint">{formatNumber(i + 1)}. </span>
                 {q.questionText}
               </p>
               <span className="flex shrink-0 items-center gap-2">
                 <Badge tone="neutral">{TYPE_LABELS[q.questionType]}</Badge>
-                <span className="nums-ar text-xs text-ink-faint">
+                <span className="nums-ar text-sm text-ink-faint">
                   {formatNumber(Number(q.points))} درجة
                 </span>
               </span>
             </div>
 
             {q.questionType === 'short_answer' ? (
-              <p className="mt-2 flex items-center gap-1.5 text-sm text-success">
+              <p className="mt-2 flex items-center gap-1.5 text-base text-success">
                 <CheckCircle2 className="size-3.5" aria-hidden />
                 {q.correctText}
               </p>
@@ -94,7 +94,7 @@ export function QuestionList({
                 {q.options.map((o, idx) => (
                   <li
                     key={idx}
-                    className={`flex items-center gap-1.5 text-sm ${
+                    className={`flex items-center gap-1.5 text-base ${
                       o.isCorrect ? 'text-success' : 'text-ink-muted'
                     }`}
                   >
@@ -110,7 +110,7 @@ export function QuestionList({
             )}
 
             {q.explanation && (
-              <p className="mt-2 flex items-start gap-1.5 text-xs leading-relaxed text-ink-faint">
+              <p className="mt-2 flex items-start gap-1.5 text-sm leading-relaxed text-ink-faint">
                 <Lightbulb className="mt-0.5 size-3.5 shrink-0" aria-hidden />
                 {q.explanation}
               </p>

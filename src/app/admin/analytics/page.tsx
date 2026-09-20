@@ -84,15 +84,15 @@ export default async function AdminAnalyticsPage() {
             {perCourse.map((c) => (
               <li key={c.id} className="px-5 py-4">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <p className="text-sm font-medium text-ink">{c.title}</p>
-                  <p className="nums-ar text-xs text-ink-muted">
+                  <p className="text-base font-medium text-ink">{c.title}</p>
+                  <p className="nums-ar text-sm text-ink-muted">
                     {formatNumber(c.students)} طالب · {formatPrice(c.revenue)}
                   </p>
                 </div>
                 <div className="mt-3">
                   <ProgressBar value={c.percent} label={`متوسط إكمال ${c.title}`} />
                 </div>
-                <p className="nums-ar mt-1.5 text-xs text-ink-faint">
+                <p className="nums-ar mt-1.5 text-sm text-ink-faint">
                   متوسط الإكمال {formatNumber(c.percent)}٪
                 </p>
               </li>
@@ -101,7 +101,7 @@ export default async function AdminAnalyticsPage() {
         )}
       </Card>
 
-      <p className="text-xs leading-relaxed text-ink-faint">
+      <p className="text-sm leading-relaxed text-ink-faint">
         الإيراد تقديري: عدد الاشتراكات النشطة مضروبًا في السعر المعلن للكورس. لا يشمل
         الخصومات ولا الاشتراكات اليدوية المجانية.
       </p>

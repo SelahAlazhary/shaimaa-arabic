@@ -40,7 +40,7 @@ export async function TicketsList({ basePath }: { basePath: string }) {
         title="المحادثات"
         icon={LifeBuoy}
         action={
-          <span className="nums-ar text-xs text-ink-faint">
+          <span className="nums-ar text-sm text-ink-faint">
             {formatNumber(tickets.length)} محادثة
           </span>
         }
@@ -62,7 +62,7 @@ export async function TicketsList({ basePath }: { basePath: string }) {
               >
                 <span className="min-w-0">
                   <span className="flex items-center gap-2">
-                    <span className="truncate text-sm font-medium text-ink">
+                    <span className="truncate text-base font-medium text-ink">
                       {t.profiles?.full_name ?? 'طالب'}
                     </span>
                     {t.unread_for_staff > 0 && (
@@ -71,10 +71,10 @@ export async function TicketsList({ basePath }: { basePath: string }) {
                       </span>
                     )}
                   </span>
-                  <span className="mt-0.5 block truncate text-xs text-ink-muted">
+                  <span className="mt-0.5 block truncate text-sm text-ink-muted">
                     {TICKET_TYPE_LABELS[t.type]}
                   </span>
-                  <span className="nums-ar mt-0.5 block text-xs text-ink-faint">
+                  <span className="nums-ar mt-0.5 block text-sm text-ink-faint">
                     {formatDateTime(t.last_message_at)}
                   </span>
                 </span>

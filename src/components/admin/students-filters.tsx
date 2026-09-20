@@ -55,7 +55,7 @@ export function StudentsFilters({
           value={term}
           onChange={(e) => setTerm(e.target.value)}
           placeholder="ابحث بالاسم أو البريد أو الهاتف…"
-          className="h-11 w-full rounded-[var(--radius-field)] border border-border-strong bg-surface ps-10 pe-10 text-sm text-ink placeholder:text-ink-faint hover:border-ink-faint"
+          className="h-11 w-full rounded-[var(--radius-field)] border border-border-strong bg-surface ps-10 pe-10 text-base text-ink placeholder:text-ink-faint hover:border-ink-faint"
         />
         {pending && (
           <Loader2

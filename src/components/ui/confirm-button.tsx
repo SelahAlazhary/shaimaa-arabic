@@ -70,8 +70,8 @@ export function ConfirmButton({
               <AlertTriangle className="size-5" aria-hidden />
             </span>
             <div>
-              <h2 className="text-sm font-semibold text-ink">{title}</h2>
-              <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">{body}</p>
+              <h2 className="text-base font-semibold text-ink">{title}</h2>
+              <p className="mt-1.5 text-base leading-relaxed text-ink-muted">{body}</p>
             </div>
           </div>
 

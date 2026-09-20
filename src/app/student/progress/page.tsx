@@ -78,12 +78,12 @@ export default async function StudentProgressPage() {
             {courses.map((c) => (
               <li key={c.course_id} className="px-5 py-4">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <p className="text-sm font-medium text-ink">{c.title}</p>
-                  <p className="nums-ar text-sm text-ink-muted">
+                  <p className="text-base font-medium text-ink">{c.title}</p>
+                  <p className="nums-ar text-base text-ink-muted">
                     {formatNumber(Math.round(c.percent))}٪
                   </p>
                 </div>
-                <p className="nums-ar mt-1 text-xs text-ink-faint">
+                <p className="nums-ar mt-1 text-sm text-ink-faint">
                   {formatNumber(c.completed_lessons)} من {formatNumber(c.total_lessons)} درس
                 </p>
                 <div className="mt-3">

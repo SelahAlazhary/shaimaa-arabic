@@ -64,8 +64,8 @@ export default async function AdminLivePage() {
             {streams.map((s) => (
               <li key={s.id} className="flex flex-wrap items-center justify-between gap-2 px-5 py-4">
                 <span className="min-w-0">
-                  <span className="block text-sm font-medium text-ink">{s.title}</span>
-                  <span className="nums-ar mt-0.5 block text-xs text-ink-faint">
+                  <span className="block text-base font-medium text-ink">{s.title}</span>
+                  <span className="nums-ar mt-0.5 block text-sm text-ink-faint">
                     {[s.courses?.title, formatDateTime(s.starts_at)].filter(Boolean).join(' · ')}
                   </span>
                 </span>

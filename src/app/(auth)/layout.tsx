@@ -9,7 +9,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <aside className="relative hidden overflow-hidden bg-brand-800 lg:flex lg:flex-col">
         <div className="rise-in relative z-10 p-12">
           <p className="text-lg font-semibold text-ink-invert">الأستاذة الشيماء أحمد</p>
-          <p className="mt-1 text-sm text-accent">اللغة العربية</p>
+          <p className="mt-1 text-base text-accent">اللغة العربية</p>
         </div>
 
         <div
@@ -19,7 +19,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <p className="text-2xl font-semibold leading-relaxed text-ink-invert">
             دروسك ومذكراتك واختباراتك في مكان واحد.
           </p>
-          <p className="mt-3 text-sm leading-relaxed text-brand-200">
+          <p className="mt-3 text-base leading-relaxed text-brand-200">
             تابع تقدّمك في كل كورس، حمّل الملازم، واحضر الحصص المباشرة — من أي جهاز.
           </p>
         </div>
@@ -61,10 +61,10 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
               <GraduationCap className="size-5" aria-hidden />
             </span>
             <span>
-              <span className="block text-sm font-semibold leading-tight">
+              <span className="block text-base font-semibold leading-tight">
                 الأستاذة الشيماء أحمد
               </span>
-              <span className="block text-xs text-accent">اللغة العربية</span>
+              <span className="block text-sm text-accent">اللغة العربية</span>
             </span>
           </Link>
           {children}

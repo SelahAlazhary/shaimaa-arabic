@@ -11,13 +11,13 @@ export default function ResetSentPage() {
         <MailCheck className="size-6" aria-hidden />
       </span>
       <h1 className="text-2xl font-semibold text-ink">تحقّق من بريدك</h1>
-      <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+      <p className="mt-2 text-base leading-relaxed text-ink-muted">
         إن كان هذا البريد مسجَّلًا لدينا، ستصلك رسالة بها رابط تعيين كلمة مرور جديدة.
         الرابط صالح لمدة محدودة.
       </p>
       <Link
         href="/login"
-        className="mt-6 inline-block text-sm font-medium text-brand-600 underline-offset-4 hover:underline"
+        className="mt-6 inline-block text-base font-medium text-brand-600 underline-offset-4 hover:underline"
       >
         العودة لتسجيل الدخول
       </Link>

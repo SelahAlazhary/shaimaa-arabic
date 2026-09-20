@@ -53,7 +53,7 @@ export function ModuleForm({ courseId }: { courseId: string }) {
             placeholder="مثال: الوحدة الأولى — المرفوعات"
             aria-invalid={Boolean(error) || undefined}
             className={[
-              'h-11 w-full rounded-[var(--radius-field)] border bg-surface px-3.5 text-sm text-ink',
+              'h-11 w-full rounded-[var(--radius-field)] border bg-surface px-3.5 text-base text-ink',
               'placeholder:text-ink-faint',
               error ? 'border-danger' : 'border-border-strong hover:border-ink-faint',
             ].join(' ')}
@@ -63,7 +63,7 @@ export function ModuleForm({ courseId }: { courseId: string }) {
       </div>
 
       {error && (
-        <p role="alert" className="flex items-center gap-1.5 text-sm text-danger">
+        <p role="alert" className="flex items-center gap-1.5 text-base text-danger">
           <AlertCircle className="size-4 shrink-0" aria-hidden />
           {error}
         </p>

@@ -29,7 +29,7 @@ export default async function StudentHomePage() {
       {/* الترحيب + الخطوة التالية الوحيدة المهمة (البند 29) */}
       <section className="rounded-[var(--radius-panel)] bg-brand-700 px-6 py-7 text-ink-invert sm:px-8">
         <h1 className="text-xl font-semibold sm:text-2xl">أهلًا، {firstName}</h1>
-        <p className="mt-2 max-w-lg text-sm leading-relaxed text-brand-100">
+        <p className="mt-2 max-w-lg text-base leading-relaxed text-brand-100">
           {home.courses.length > 0
             ? 'كمّل من حيث وقفت، ولا تنسَ مراجعة المرفقات قبل الاختبار.'
             : 'مفيش كورسات مفتوحة على حسابك لسه. فعّل كود الاشتراك عشان تبدأ.'}
@@ -39,7 +39,7 @@ export default async function StudentHomePage() {
           {inProgress ? (
             <Link
               href={`/student/courses/${inProgress.slug}`}
-              className="inline-flex h-11 items-center gap-2 rounded-[var(--radius-field)] bg-surface px-4 text-sm font-medium text-ink transition-colors hover:bg-surface-muted"
+              className="inline-flex h-11 items-center gap-2 rounded-[var(--radius-field)] bg-surface px-4 text-base font-medium text-ink transition-colors hover:bg-surface-muted"
             >
               <BookOpen className="size-4" aria-hidden />
               تابع: {inProgress.title}
@@ -47,7 +47,7 @@ export default async function StudentHomePage() {
           ) : (
             <Link
               href="/student/courses"
-              className="inline-flex h-11 items-center gap-2 rounded-[var(--radius-field)] bg-surface px-4 text-sm font-medium text-ink transition-colors hover:bg-surface-muted"
+              className="inline-flex h-11 items-center gap-2 rounded-[var(--radius-field)] bg-surface px-4 text-base font-medium text-ink transition-colors hover:bg-surface-muted"
             >
               <BookOpen className="size-4" aria-hidden />
               تفعيل كود اشتراك
@@ -93,7 +93,7 @@ export default async function StudentHomePage() {
             home.courses.length > 0 ? (
               <Link
                 href="/student/courses"
-                className="flex items-center gap-1 text-sm text-brand-600 underline-offset-4 hover:underline"
+                className="flex items-center gap-1 text-base text-brand-600 underline-offset-4 hover:underline"
               >
                 عرض الكل
                 <ArrowLeft className="size-3.5" aria-hidden />
@@ -110,7 +110,7 @@ export default async function StudentHomePage() {
             action={
               <Link
                 href="/student/courses"
-                className="inline-flex h-11 items-center rounded-[var(--radius-field)] bg-brand-700 px-4 text-sm font-medium text-ink-invert transition-colors hover:bg-brand-800"
+                className="inline-flex h-11 items-center rounded-[var(--radius-field)] bg-brand-700 px-4 text-base font-medium text-ink-invert transition-colors hover:bg-brand-800"
               >
                 تفعيل كود اشتراك
               </Link>
@@ -125,12 +125,12 @@ export default async function StudentHomePage() {
                   className="block px-5 py-4 transition-colors hover:bg-surface-muted"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <p className="text-sm font-medium text-ink">{c.title}</p>
+                    <p className="text-base font-medium text-ink">{c.title}</p>
                     <Badge tone={c.percent === 100 ? 'success' : 'neutral'}>
                       {formatNumber(c.percent)}٪
                     </Badge>
                   </div>
-                  <p className="nums-ar mt-1 text-xs text-ink-faint">
+                  <p className="nums-ar mt-1 text-sm text-ink-faint">
                     {formatNumber(c.completedLessons)} من {formatNumber(c.totalLessons)} درس
                   </p>
                   <div className="mt-3">
@@ -157,10 +157,10 @@ export default async function StudentHomePage() {
             <ul className="divide-y divide-border-subtle">
               {home.upcoming.map((l) => (
                 <li key={l.id} className="px-5 py-4">
-                  <p className="text-sm font-medium text-ink">{l.title}</p>
-                  <p className="nums-ar mt-1 text-xs text-ink-faint">{formatDateTime(l.startsAt)}</p>
+                  <p className="text-base font-medium text-ink">{l.title}</p>
+                  <p className="nums-ar mt-1 text-sm text-ink-faint">{formatDateTime(l.startsAt)}</p>
                   {l.courseTitle && (
-                    <p className="mt-1 text-xs text-ink-muted">{l.courseTitle}</p>
+                    <p className="mt-1 text-sm text-ink-muted">{l.courseTitle}</p>
                   )}
                 </li>
               ))}
@@ -186,8 +186,8 @@ export default async function StudentHomePage() {
                     className="flex items-center justify-between gap-3 px-5 py-4 transition-colors hover:bg-surface-muted"
                   >
                     <span className="min-w-0">
-                      <span className="block truncate text-sm font-medium text-ink">{a.title}</span>
-                      <span className="nums-ar mt-0.5 block text-xs text-ink-faint">
+                      <span className="block truncate text-base font-medium text-ink">{a.title}</span>
+                      <span className="nums-ar mt-0.5 block text-sm text-ink-faint">
                         {a.courseTitle} · {formatFileSize(a.fileSize)}
                       </span>
                     </span>

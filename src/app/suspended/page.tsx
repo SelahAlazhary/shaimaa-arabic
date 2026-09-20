@@ -12,7 +12,7 @@ export default function SuspendedPage() {
           <ShieldAlert className="size-6" aria-hidden />
         </span>
         <h1 className="text-xl font-semibold text-ink">حسابك موقوف مؤقتًا</h1>
-        <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+        <p className="mt-2 text-base leading-relaxed text-ink-muted">
           لا يمكنك استخدام المنصة حاليًا. تواصل مع الدعم لمعرفة السبب وكيفية إعادة التفعيل.
         </p>
         <div className="mt-6">

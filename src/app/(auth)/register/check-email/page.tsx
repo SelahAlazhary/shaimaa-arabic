@@ -11,15 +11,15 @@ export default function CheckEmailPage() {
         <MailCheck className="size-6" aria-hidden />
       </span>
       <h1 className="text-2xl font-semibold text-ink">راجع بريدك الإلكتروني</h1>
-      <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+      <p className="mt-2 text-base leading-relaxed text-ink-muted">
         أرسلنا لك رسالة تأكيد. افتحها واضغط الرابط لتفعيل حسابك، ثم سجّل الدخول.
       </p>
-      <p className="mt-4 text-sm text-ink-faint">
+      <p className="mt-4 text-base text-ink-faint">
         لم تصلك الرسالة؟ تأكد من مجلد الرسائل غير المرغوبة (Spam).
       </p>
       <Link
         href="/login"
-        className="mt-6 inline-block text-sm font-medium text-brand-600 underline-offset-4 hover:underline"
+        className="mt-6 inline-block text-base font-medium text-brand-600 underline-offset-4 hover:underline"
       >
         العودة لتسجيل الدخول
       </Link>

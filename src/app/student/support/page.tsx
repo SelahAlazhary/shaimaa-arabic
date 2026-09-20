@@ -64,7 +64,7 @@ export default async function StudentSupportPage() {
                 >
                   <span className="min-w-0">
                     <span className="flex items-center gap-2">
-                      <span className="truncate text-sm font-medium text-ink">
+                      <span className="truncate text-base font-medium text-ink">
                         {TICKET_TYPE_LABELS[t.type]}
                       </span>
                       {t.unread_for_student > 0 && (
@@ -73,7 +73,7 @@ export default async function StudentSupportPage() {
                         </span>
                       )}
                     </span>
-                    <span className="nums-ar mt-0.5 block text-xs text-ink-faint">
+                    <span className="nums-ar mt-0.5 block text-sm text-ink-faint">
                       آخر تحديث {formatDateTime(t.last_message_at)}
                     </span>
                   </span>

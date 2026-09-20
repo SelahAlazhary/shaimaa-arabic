@@ -49,7 +49,7 @@ export default async function AdminGradesPage() {
                 title={stage.name_ar}
                 icon={GraduationCap}
                 action={
-                  <span className="nums-ar text-xs text-ink-faint">
+                  <span className="nums-ar text-sm text-ink-faint">
                     {formatNumber(stageGrades.length)} صف
                   </span>
                 }
@@ -66,14 +66,14 @@ export default async function AdminGradesPage() {
                   {stageGrades.map((g) => (
                     <li key={g.id} className="flex items-center justify-between gap-3 px-5 py-3.5">
                       <span className="min-w-0">
-                        <span className="block text-sm font-medium text-ink">{g.name_ar}</span>
+                        <span className="block text-base font-medium text-ink">{g.name_ar}</span>
                         {g.name_en && (
-                          <span className="block text-xs text-ink-faint" dir="ltr">{g.name_en}</span>
+                          <span className="block text-sm text-ink-faint" dir="ltr">{g.name_en}</span>
                         )}
                       </span>
 
                       <span className="flex shrink-0 items-center gap-3">
-                        <span className="nums-ar text-xs text-ink-faint">
+                        <span className="nums-ar text-sm text-ink-faint">
                           {formatNumber(perGrade.get(g.id) ?? 0)} طالب
                         </span>
                         <Badge tone={g.is_visible ? 'success' : 'neutral'}>

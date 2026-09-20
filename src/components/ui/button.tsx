@@ -22,8 +22,8 @@ const button = cva(
         link: 'text-brand-600 underline-offset-4 hover:underline p-0 h-auto',
       },
       size: {
-        sm: 'h-9 px-3 text-sm',
-        md: 'h-11 px-4 text-sm',
+        sm: 'h-9 px-3 text-base',
+        md: 'h-11 px-4 text-base',
         lg: 'h-12 px-6 text-base',
         icon: 'size-11 p-0',
       },

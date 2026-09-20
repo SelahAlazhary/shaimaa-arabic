@@ -58,19 +58,19 @@ export default async function AdminSettingsPage() {
         <CardHeader title="بيانات المنصة" icon={Settings} />
         <dl className="divide-y divide-border-subtle">
           <div className="flex items-center gap-3 px-5 py-3.5">
-            <dt className="w-32 shrink-0 text-sm text-ink-muted">اسم المنصة</dt>
-            <dd className="text-sm text-ink">{branding.site_name ?? '—'}</dd>
+            <dt className="w-32 shrink-0 text-base text-ink-muted">اسم المنصة</dt>
+            <dd className="text-base text-ink">{branding.site_name ?? '—'}</dd>
           </div>
           <div className="flex items-center gap-3 px-5 py-3.5">
-            <dt className="w-32 shrink-0 text-sm text-ink-muted">بادئة الأكواد</dt>
-            <dd className="font-mono text-sm text-ink" dir="ltr">
+            <dt className="w-32 shrink-0 text-base text-ink-muted">بادئة الأكواد</dt>
+            <dd className="font-mono text-base text-ink" dir="ltr">
               {branding.code_prefix ?? 'SHIMA'}
             </dd>
           </div>
           {brandingRes.data?.updated_at && (
             <div className="flex items-center gap-3 px-5 py-3.5">
-              <dt className="w-32 shrink-0 text-sm text-ink-muted">آخر تحديث</dt>
-              <dd className="nums-ar text-sm text-ink-faint">
+              <dt className="w-32 shrink-0 text-base text-ink-muted">آخر تحديث</dt>
+              <dd className="nums-ar text-base text-ink-faint">
                 {formatDateTime(brandingRes.data.updated_at)}
               </dd>
             </div>
@@ -83,22 +83,22 @@ export default async function AdminSettingsPage() {
           title="المشرفون والصلاحيات"
           icon={Users}
           action={
-            <span className="nums-ar text-xs text-ink-faint">{formatNumber(staff.length)} حساب</span>
+            <span className="nums-ar text-sm text-ink-faint">{formatNumber(staff.length)} حساب</span>
           }
         />
         <ul className="divide-y divide-border-subtle">
           {staff.map((s) => (
             <li key={s.id} className="flex items-center justify-between gap-3 px-5 py-3.5">
               <span className="min-w-0">
-                <span className="block truncate text-sm font-medium text-ink">
+                <span className="block truncate text-base font-medium text-ink">
                   {s.full_name}
                   {s.id === me.id && <span className="text-ink-faint"> (أنت)</span>}
                 </span>
-                <span className="block truncate text-xs text-ink-faint" dir="ltr">
+                <span className="block truncate text-sm text-ink-faint" dir="ltr">
                   {s.email}
                 </span>
               </span>
-              <span className="shrink-0 text-sm text-ink-muted">
+              <span className="shrink-0 text-base text-ink-muted">
                 {ROLE_LABELS[s.role as keyof typeof ROLE_LABELS]}
               </span>
             </li>
@@ -118,11 +118,11 @@ export default async function AdminSettingsPage() {
           <ul className="divide-y divide-border-subtle">
             {audit.map((a) => (
               <li key={a.id} className="px-5 py-3">
-                <p className="text-sm text-ink">
+                <p className="text-base text-ink">
                   {ACTION_LABELS[a.action] ?? a.action}
                   <span className="text-ink-faint"> · {a.entity_type}</span>
                 </p>
-                <p className="nums-ar mt-0.5 text-xs text-ink-faint">
+                <p className="nums-ar mt-0.5 text-sm text-ink-faint">
                   {[a.profiles?.full_name, formatDateTime(a.created_at)].filter(Boolean).join(' · ')}
                 </p>
               </li>
@@ -132,11 +132,11 @@ export default async function AdminSettingsPage() {
       </Card>
 
       <Card className="p-5">
-        <h2 className="flex items-center gap-2 text-sm font-semibold text-ink">
+        <h2 className="flex items-center gap-2 text-base font-semibold text-ink">
           <ShieldCheck className="size-4 text-ink-muted" aria-hidden />
           الأمان والنسخ الاحتياطي
         </h2>
-        <p className="mt-2 flex items-start gap-2 text-sm leading-relaxed text-ink-muted">
+        <p className="mt-2 flex items-start gap-2 text-base leading-relaxed text-ink-muted">
           <Database className="mt-0.5 size-4 shrink-0 text-ink-faint" aria-hidden />
           النسخ الاحتياطي اليومي يديره Supabase تلقائيًا. سجل التدقيق للقراءة فقط ولا
           يمكن تعديله أو حذفه من المنصة.

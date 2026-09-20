@@ -58,9 +58,9 @@ export default async function StudentLivePage() {
               <li key={s.id} className="px-5 py-4">
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-ink">{s.title}</p>
+                    <p className="text-base font-medium text-ink">{s.title}</p>
                     {s.courses?.title && (
-                      <p className="mt-0.5 text-xs text-ink-muted">{s.courses.title}</p>
+                      <p className="mt-0.5 text-sm text-ink-muted">{s.courses.title}</p>
                     )}
                   </div>
                   <Badge tone={s.status === 'live' ? 'danger' : 'info'}>
@@ -68,14 +68,14 @@ export default async function StudentLivePage() {
                   </Badge>
                 </div>
 
-                <p className="nums-ar mt-1.5 text-xs text-ink-faint">{formatDateTime(s.starts_at)}</p>
+                <p className="nums-ar mt-1.5 text-sm text-ink-faint">{formatDateTime(s.starts_at)}</p>
 
                 {s.status === 'live' && s.stream_url && (
                   <a
                     href={s.stream_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-3 inline-flex h-10 items-center gap-2 rounded-[var(--radius-field)] bg-brand-700 px-4 text-sm font-medium text-ink-invert transition-colors hover:bg-brand-800"
+                    className="mt-3 inline-flex h-10 items-center gap-2 rounded-[var(--radius-field)] bg-brand-700 px-4 text-base font-medium text-ink-invert transition-colors hover:bg-brand-800"
                   >
                     <Radio className="size-4" aria-hidden />
                     ادخل الحصة
@@ -102,8 +102,8 @@ export default async function StudentLivePage() {
             {recordings.map((s) => (
               <li key={s.id} className="flex items-center justify-between gap-3 px-5 py-4">
                 <span className="min-w-0">
-                  <span className="block truncate text-sm font-medium text-ink">{s.title}</span>
-                  <span className="nums-ar mt-0.5 block text-xs text-ink-faint">
+                  <span className="block truncate text-base font-medium text-ink">{s.title}</span>
+                  <span className="nums-ar mt-0.5 block text-sm text-ink-faint">
                     {formatDateTime(s.starts_at)}
                   </span>
                 </span>
@@ -111,7 +111,7 @@ export default async function StudentLivePage() {
                   href={s.recording_url ?? '#'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex shrink-0 items-center gap-1.5 text-sm text-brand-600 underline-offset-4 hover:underline"
+                  className="flex shrink-0 items-center gap-1.5 text-base text-brand-600 underline-offset-4 hover:underline"
                 >
                   <PlayCircle className="size-4" aria-hidden />
                   مشاهدة

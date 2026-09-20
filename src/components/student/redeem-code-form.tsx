@@ -48,7 +48,7 @@ export function RedeemCodeForm() {
             aria-invalid={state.status === 'error' || undefined}
             aria-describedby={state.status === 'error' ? 'redeem-error' : undefined}
             className={[
-              'h-11 w-full rounded-[var(--radius-field)] border bg-surface px-3.5 text-start text-sm',
+              'h-11 w-full rounded-[var(--radius-field)] border bg-surface px-3.5 text-start text-base',
               'uppercase tracking-wider placeholder:tracking-normal placeholder:text-ink-faint',
               state.status === 'error' ? 'border-danger' : 'border-border-strong hover:border-ink-faint',
             ].join(' ')}
@@ -58,7 +58,7 @@ export function RedeemCodeForm() {
       </div>
 
       {state.status === 'error' && (
-        <p id="redeem-error" role="alert" className="flex items-center gap-1.5 text-sm text-danger">
+        <p id="redeem-error" role="alert" className="flex items-center gap-1.5 text-base text-danger">
           <AlertCircle className="size-4 shrink-0" aria-hidden />
           {state.message}
         </p>

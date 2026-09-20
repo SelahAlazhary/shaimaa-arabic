@@ -50,7 +50,7 @@ export default async function AdminStudentsPage({
           <Link
             href={`/admin/students/export?${exportParams.toString()}`}
             prefetch={false}
-            className="inline-flex h-11 items-center gap-2 rounded-[var(--radius-field)] border border-border-strong bg-surface px-4 text-sm font-medium text-ink transition-colors hover:bg-surface-muted"
+            className="inline-flex h-11 items-center gap-2 rounded-[var(--radius-field)] border border-border-strong bg-surface px-4 text-base font-medium text-ink transition-colors hover:bg-surface-muted"
           >
             <Download className="size-4" aria-hidden />
             تصدير CSV
@@ -61,7 +61,7 @@ export default async function AdminStudentsPage({
       <Card>
         <StudentsFilters grades={gradesRes.data ?? []} />
 
-        <p className="nums-ar border-b border-border-subtle px-4 py-2.5 text-xs text-ink-faint">
+        <p className="nums-ar border-b border-border-subtle px-4 py-2.5 text-sm text-ink-faint">
           {formatNumber(total)} نتيجة
         </p>
 
@@ -79,8 +79,8 @@ export default async function AdminStudentsPage({
           <>
             {/* جدول على الشاشات الواسعة، وبطاقات على الموبايل: الجدول لا يُقرأ في 375px (البند 33) */}
             <div className="hidden overflow-x-auto lg:block">
-              <table className="w-full text-start text-sm">
-                <thead className="border-b border-border-subtle text-xs text-ink-faint">
+              <table className="w-full text-start text-base">
+                <thead className="border-b border-border-subtle text-sm text-ink-faint">
                   <tr>
                     <th scope="col" className="px-5 py-3 text-start font-medium">الطالب</th>
                     <th scope="col" className="px-5 py-3 text-start font-medium">الهاتف</th>
@@ -95,7 +95,7 @@ export default async function AdminStudentsPage({
                     <tr key={s.id} className="hover:bg-surface-muted">
                       <td className="px-5 py-3.5">
                         <span className="block font-medium text-ink">{s.fullName}</span>
-                        <span className="block text-xs text-ink-faint" dir="ltr">{s.email}</span>
+                        <span className="block text-sm text-ink-faint" dir="ltr">{s.email}</span>
                       </td>
                       <td className="nums-ar px-5 py-3.5 text-ink-muted" dir="ltr">
                         <span className="block text-start">{s.phone ?? '—'}</span>
@@ -103,7 +103,7 @@ export default async function AdminStudentsPage({
                       <td className="px-5 py-3.5 text-ink-muted">
                         {s.gradeName ?? '—'}
                         {s.section && (
-                          <span className="block text-xs text-ink-faint">
+                          <span className="block text-sm text-ink-faint">
                             {SECTION_LABELS[s.section]}
                           </span>
                         )}
@@ -126,14 +126,14 @@ export default async function AdminStudentsPage({
                 <li key={s.id} className="px-4 py-3.5">
                   <div className="flex items-start justify-between gap-3">
                     <span className="min-w-0">
-                      <span className="block truncate text-sm font-medium text-ink">{s.fullName}</span>
-                      <span className="block truncate text-xs text-ink-faint" dir="ltr">{s.email}</span>
+                      <span className="block truncate text-base font-medium text-ink">{s.fullName}</span>
+                      <span className="block truncate text-sm text-ink-faint" dir="ltr">{s.email}</span>
                     </span>
                     <Badge tone={s.status === 'active' ? 'success' : 'warning'}>
                       {s.status === 'active' ? 'نشط' : 'موقوف'}
                     </Badge>
                   </div>
-                  <p className="nums-ar mt-1.5 text-xs text-ink-muted">
+                  <p className="nums-ar mt-1.5 text-sm text-ink-muted">
                     {[s.gradeName, s.governorateName, s.phone].filter(Boolean).join(' · ') || '—'}
                   </p>
                 </li>
@@ -150,7 +150,7 @@ export default async function AdminStudentsPage({
             {page > 1 ? (
               <Link
                 href={pageHref(page - 1)}
-                className="inline-flex h-9 items-center gap-1 rounded-[var(--radius-field)] border border-border-strong px-3 text-sm hover:bg-surface-muted"
+                className="inline-flex h-9 items-center gap-1 rounded-[var(--radius-field)] border border-border-strong px-3 text-base hover:bg-surface-muted"
               >
                 <ChevronRight className="size-4" aria-hidden />
                 السابق
@@ -159,14 +159,14 @@ export default async function AdminStudentsPage({
               <span />
             )}
 
-            <span className="nums-ar text-xs text-ink-faint">
+            <span className="nums-ar text-sm text-ink-faint">
               صفحة {formatNumber(page)} من {formatNumber(totalPages)}
             </span>
 
             {page < totalPages ? (
               <Link
                 href={pageHref(page + 1)}
-                className="inline-flex h-9 items-center gap-1 rounded-[var(--radius-field)] border border-border-strong px-3 text-sm hover:bg-surface-muted"
+                className="inline-flex h-9 items-center gap-1 rounded-[var(--radius-field)] border border-border-strong px-3 text-base hover:bg-surface-muted"
               >
                 التالي
                 <ChevronLeft className="size-4" aria-hidden />

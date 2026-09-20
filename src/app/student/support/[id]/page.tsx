@@ -51,7 +51,7 @@ export default async function TicketPage({ params }: { params: Promise<{ id: str
     <div>
       <Link
         href="/student/support"
-        className="mb-4 inline-flex items-center gap-1.5 text-sm text-ink-muted underline-offset-4 hover:text-ink hover:underline"
+        className="mb-4 inline-flex items-center gap-1.5 text-base text-ink-muted underline-offset-4 hover:text-ink hover:underline"
       >
         <ArrowRight className="size-4" aria-hidden />
         كل المحادثات
@@ -59,7 +59,7 @@ export default async function TicketPage({ params }: { params: Promise<{ id: str
 
       <Card>
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border-subtle px-5 py-4">
-          <h1 className="text-sm font-semibold text-ink">
+          <h1 className="text-base font-semibold text-ink">
             {TICKET_TYPE_LABELS[ticket.type as TicketType]}
           </h1>
           <Badge

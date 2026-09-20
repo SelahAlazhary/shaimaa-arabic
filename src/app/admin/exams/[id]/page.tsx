@@ -70,7 +70,7 @@ export default async function EditExamPage({ params }: { params: Promise<{ id: s
     <div className="space-y-6">
       <Link
         href="/admin/exams"
-        className="inline-flex items-center gap-1.5 text-sm text-ink-muted underline-offset-4 hover:text-ink hover:underline"
+        className="inline-flex items-center gap-1.5 text-base text-ink-muted underline-offset-4 hover:text-ink hover:underline"
       >
         <ArrowRight className="size-4" aria-hidden />
         كل الاختبارات
@@ -83,7 +83,7 @@ export default async function EditExamPage({ params }: { params: Promise<{ id: s
       />
 
       {!exam.is_published && questions.length === 0 && (
-        <p className="rounded-[var(--radius-card)] bg-warning-bg px-4 py-3 text-sm text-warning">
+        <p className="rounded-[var(--radius-card)] bg-warning-bg px-4 py-3 text-base text-warning">
           أضف سؤالًا واحدًا على الأقل قبل النشر — الاختبار الفارغ يستهلك محاولة الطالب بلا فائدة.
         </p>
       )}
@@ -105,7 +105,7 @@ export default async function EditExamPage({ params }: { params: Promise<{ id: s
       </Card>
 
       {locked ? (
-        <p className="flex items-start gap-2 rounded-[var(--radius-card)] bg-warning-bg px-4 py-3 text-sm leading-relaxed text-warning">
+        <p className="flex items-start gap-2 rounded-[var(--radius-card)] bg-warning-bg px-4 py-3 text-base leading-relaxed text-warning">
           <Lock className="mt-0.5 size-4 shrink-0" aria-hidden />
           بدأ {formatNumber(attempts)} طالب هذا الاختبار، فإضافة سؤال جديد تغيّر مجموع الدرجات
           وتجعل النتائج المسجَّلة غير قابلة للمقارنة. التصحيح متاح لصياغة الأسئلة الحالية.
@@ -122,7 +122,7 @@ export default async function EditExamPage({ params }: { params: Promise<{ id: s
           title="أسئلة الاختبار"
           icon={ListChecks}
           action={
-            <span className="nums-ar text-xs text-ink-faint">
+            <span className="nums-ar text-sm text-ink-faint">
               {formatNumber(questions.length)} سؤال
             </span>
           }
