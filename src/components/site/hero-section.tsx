@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, BookOpen } from 'lucide-react'
-import { HERO } from '@/lib/site/content'
 
 function Arabesque({ className = '', opacity = 0.05 }: { className?: string; opacity?: number }) {
   return (
@@ -19,25 +18,27 @@ function Arabesque({ className = '', opacity = 0.05 }: { className?: string; opa
   )
 }
 
-function PrimaryButton() {
+type Texts = (key: string) => string
+
+function PrimaryButton({ t }: { t: Texts }) {
   return (
     <Link
       href="/register"
       className="inline-flex h-14 items-center gap-2.5 rounded-[var(--radius-field)] bg-accent px-8 text-[0.9375rem] font-semibold text-brand-900 transition-colors hover:bg-accent-soft"
     >
-      {HERO.primaryCta}
+      {t('hero.primaryCta')}
       <ArrowLeft className="size-4" aria-hidden />
     </Link>
   )
 }
 
-function SecondaryButton() {
+function SecondaryButton({ t }: { t: Texts }) {
   return (
     <a
       href="#courses"
       className="inline-flex h-14 items-center gap-2.5 rounded-[var(--radius-field)] border border-brand-400 px-8 text-[0.9375rem] font-medium text-ink-invert transition-colors hover:bg-brand-700"
     >
-      {HERO.secondaryCta}
+      {t('hero.secondaryCta')}
       <BookOpen className="size-4" aria-hidden />
     </a>
   )
@@ -48,7 +49,7 @@ function SecondaryButton() {
  * لوحة خضراء داكنة تمتدّ من الشريط العلوي ككتلة واحدة: الصورة المقصوصة
  * على أرضية داكنة تظهر بلا صندوق أبيض حولها، وهو ما كان يُفسد التخطيط الفاتح.
  */
-export function HeroSection() {
+export function HeroSection({ t }: { t: Texts }) {
   return (
     <section id="top" className="relative overflow-hidden bg-brand-800">
       <Arabesque className="text-accent" opacity={0.07} />
@@ -59,17 +60,17 @@ export function HeroSection() {
       <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[1fr_26rem] lg:gap-14 lg:py-20">
         <div>
           <h1 className="font-display text-[2.25rem] font-bold leading-[1.45] text-ink-invert sm:text-[2.75rem] lg:text-[3.5rem]">
-            {HERO.titleLine1}
-            <br className="hidden sm:block" /> {HERO.titleLine2}
+            {t('hero.titleLine1')}
+            <br className="hidden sm:block" /> {t('hero.titleLine2')}
           </h1>
 
           <p className="mt-6 max-w-[36rem] text-[1.125rem] leading-[1.95] text-brand-100">
-            {HERO.description}
+            {t('hero.description')}
           </p>
 
           <div className="mt-9 flex flex-wrap gap-3">
-            <PrimaryButton />
-            <SecondaryButton />
+            <PrimaryButton t={t} />
+            <SecondaryButton t={t} />
           </div>
         </div>
 
@@ -84,7 +85,7 @@ export function HeroSection() {
           />
           <Image
             src="/brand/teacher.webp"
-            alt={HERO.imageAlt}
+            alt=""
             fill
             priority
             quality={92}

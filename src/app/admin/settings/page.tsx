@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
-import { Settings, Database, ShieldCheck, ScrollText, Users } from 'lucide-react'
+import { Settings, Database, ShieldCheck, ScrollText, Users, Type } from 'lucide-react'
 import { requireAdmin } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader, EmptyState } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
 import { RoleManager } from '@/components/admin/role-manager'
+import { SiteTextsForm } from '@/components/admin/site-texts-form'
 import { formatDateTime, formatNumber } from '@/lib/utils/format'
 
 export const metadata: Metadata = { title: 'الإعدادات' }
@@ -13,7 +14,7 @@ export default async function AdminSettingsPage() {
   const me = await requireAdmin()
   const supabase = await createClient()
 
-  const [brandingRes, staffRes, auditRes] = await Promise.all([
+  const [brandingRes, staffRes, auditRes, textsRes] = await Promise.all([
     supabase.from('platform_settings').select('key, value, updated_at').eq('key', 'branding').maybeSingle(),
     supabase
       .from('profiles')
@@ -26,7 +27,10 @@ export default async function AdminSettingsPage() {
       .select('id, action, entity_type, created_at, profiles(full_name)')
       .order('created_at', { ascending: false })
       .limit(20),
+    supabase.from('platform_settings').select('value').eq('key', 'site_texts').maybeSingle(),
   ])
+
+  const siteTexts = (textsRes.data?.value ?? {}) as Record<string, string>
 
   const branding = (brandingRes.data?.value ?? {}) as { site_name?: string; code_prefix?: string }
   const people = staffRes.data ?? []
@@ -73,6 +77,11 @@ export default async function AdminSettingsPage() {
             </div>
           )}
         </dl>
+      </Card>
+
+      <Card>
+        <CardHeader title="نصوص الصفحة الرئيسية" icon={Type} />
+        <SiteTextsForm current={siteTexts} />
       </Card>
 
       <Card>

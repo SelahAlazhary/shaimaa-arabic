@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { SITE } from '@/lib/site/content'
+
 
 /**
  * علامة المنصة: كتاب مفتوح تعلوه ورقة، مرسوم SVG لا صورة،
@@ -33,7 +33,7 @@ export function LogoMark({ className = 'size-9' }: { className?: string }) {
 }
 
 /** الهوية كاملة: العلامة ثم الاسم وتحته العبارة. */
-export function Logo() {
+export function Logo({ name, tagline }: { name: string; tagline: string }) {
   return (
     <Link
       href="/"
@@ -42,10 +42,10 @@ export function Logo() {
       <LogoMark className="size-9 shrink-0 text-accent-soft sm:size-10" />
       <span className="min-w-0">
         <span className="block truncate text-base font-semibold leading-tight text-ink-invert sm:text-[1.0625rem]">
-          {SITE.name}
+          {name}
         </span>
         <span className="block truncate text-xs leading-tight text-accent-soft sm:text-[0.8125rem]">
-          {SITE.tagline}
+          {tagline}
         </span>
       </span>
     </Link>
