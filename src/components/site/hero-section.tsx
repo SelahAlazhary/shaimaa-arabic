@@ -10,8 +10,8 @@ function GeometricOrnament() {
   return (
     <svg
       aria-hidden
-      className="pointer-events-none absolute inset-y-0 end-0 hidden w-[55%] text-ornament lg:block"
-      style={{ maskImage: 'linear-gradient(to left, black 55%, transparent 100%)' }}
+      className="pointer-events-none absolute inset-y-0 end-0 hidden w-[55%] text-ornament opacity-60 lg:block"
+      style={{ maskImage: 'linear-gradient(to left, black 40%, transparent 92%)' }}
     >
       <defs>
         <pattern id="hero-arabesque" width="64" height="64" patternUnits="userSpaceOnUse">
@@ -57,7 +57,7 @@ export function HeroSection() {
        */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 end-0 hidden w-[46%] xl:w-[44%] lg:block"
+        className="pointer-events-none absolute inset-y-0 end-0 hidden w-[38%] xl:w-[35%] lg:block"
       >
         <div className="absolute inset-0 overflow-hidden [border-radius:0_100%_0_0/0_100%_0_0] bg-surface">
           <Image
@@ -66,8 +66,8 @@ export function HeroSection() {
             fill
             priority
             quality={92}
-            sizes="(min-width: 1024px) 46vw, 0px"
-            className="object-contain object-[60%_bottom]"
+            sizes="(min-width: 1024px) 38vw, 0px"
+            className="object-contain object-[68%_bottom]"
           />
         </div>
 
@@ -75,7 +75,7 @@ export function HeroSection() {
         <span className="absolute -bottom-px -end-8 -top-8 start-0 border-e border-t border-accent [border-radius:0_100%_0_0/0_100%_0_0]" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:min-h-[32rem] lg:py-24">
+      <div className="relative mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:min-h-[34rem] lg:py-28">
         {/* الترتيب على الموبايل: النص أولًا ثم الصورة (طلب صريح) */}
         <div className="lg:w-[54%]">
           <p className="flex items-center gap-3 text-sm font-medium tracking-wide text-accent-ink">
