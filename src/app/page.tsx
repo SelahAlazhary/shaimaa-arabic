@@ -143,7 +143,6 @@ export default async function LandingPage() {
         >
           <SectionHeading
             id="features-title"
-            eyebrow="ما تقدّمه المنصة"
             title="ما تجده في حسابك"
             lead="أربعة عناصر يقوم عليها كل مقرر: الشرح، والمادة المكتوبة، والقياس، والمتابعة المباشرة."
           />
@@ -160,7 +159,6 @@ export default async function LandingPage() {
             <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-14">
               <SectionHeading
                 id="stages-title"
-                eyebrow="المقررات"
                 title="المقررات والصفوف"
                 lead={
                   <>
@@ -211,7 +209,6 @@ export default async function LandingPage() {
           <div className="mx-auto max-w-7xl scroll-mt-16 px-5 py-16 sm:px-8 sm:py-20 lg:scroll-mt-20">
             <SectionHeading
               id="exams-title"
-              eyebrow="الاختبارات"
               title="نتيجتك فور التسليم"
               lead="الاختبار يُصحَّح لحظة تسليمه: درجتك في كل سؤال، والإجابة الصحيحة مع شرحها. والمؤقّت يُحسب على ساعة الخادم، فلا يتأثر بإغلاق الصفحة أو انقطاع الإنترنت."
             />
@@ -226,7 +223,6 @@ export default async function LandingPage() {
         >
           <SectionHeading
             id="files-title"
-            eyebrow="الملفات"
             title="ملازم تحمّلها وتذاكر منها"
             lead="لكل مقرر ملفاته: ملازم ومذكرات وأوراق تطبيقات بصيغة PDF، تفتحها من حسابك وتحمّلها على جهازك لتذاكر منها بلا إنترنت."
           />
@@ -241,7 +237,6 @@ export default async function LandingPage() {
           <div className="mx-auto max-w-7xl scroll-mt-16 px-5 py-16 sm:px-8 sm:py-20 lg:scroll-mt-20">
             <SectionHeading
               id="support-title"
-              eyebrow="الدعم"
               title="سؤالك لا يضيع"
               lead="داخل حسابك محادثة دعم مباشرة: اكتب سؤالك وتابع الرد عليه في المكان نفسه، واعرف حالة طلبك في كل خطوة."
             />
@@ -257,7 +252,6 @@ export default async function LandingPage() {
         >
           <SectionHeading
             id="steps-title"
-            eyebrow="البداية"
             title="كيف تبدأ"
             lead="ثلاث خطوات بينك وبين أول درس."
           />
@@ -265,12 +259,7 @@ export default async function LandingPage() {
 
           <div className="mt-14 overflow-hidden rounded-[var(--radius-card)] border border-accent/40 bg-brand-800">
             <div className="relative px-6 py-12 text-center sm:px-10">
-              <p className="flex items-center justify-center gap-3 text-[0.9375rem] font-semibold tracking-wide text-accent-soft">
-                <span className="h-px w-14 bg-accent/70" aria-hidden />
-                ابدأ اليوم
-                <span className="h-px w-14 bg-accent/70" aria-hidden />
-              </p>
-              <h2 className="mt-4 text-2xl font-bold text-ink-invert sm:text-3xl">
+              <h2 className="text-2xl font-bold text-ink-invert sm:text-3xl">
                 حسابك جاهز في دقيقة
               </h2>
               <p className="mx-auto mt-4 max-w-lg text-[1.0625rem] leading-[1.95] text-brand-100">

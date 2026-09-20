@@ -19,16 +19,6 @@ function Arabesque({ className = '', opacity = 0.05 }: { className?: string; opa
   )
 }
 
-function GoldRule({ className = '' }: { className?: string }) {
-  return (
-    <span className={`flex items-center gap-1.5 ${className}`} aria-hidden>
-      <span className="h-px w-14 bg-accent/70" />
-      <span className="size-1.5 rotate-45 bg-accent" />
-      <span className="h-px w-5 bg-accent/70" />
-    </span>
-  )
-}
-
 function PrimaryButton() {
   return (
     <Link
@@ -68,12 +58,7 @@ export function HeroSection() {
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[1fr_26rem] lg:gap-14 lg:py-20">
         <div>
-          <p className="flex items-center gap-3 text-[0.9375rem] font-semibold tracking-wide text-accent-soft">
-            {HERO.eyebrow}
-            <GoldRule />
-          </p>
-
-          <h1 className="mt-6 font-display text-[2.25rem] font-bold leading-[1.45] text-ink-invert sm:text-[2.75rem] lg:text-[3.5rem]">
+          <h1 className="font-display text-[2.25rem] font-bold leading-[1.45] text-ink-invert sm:text-[2.75rem] lg:text-[3.5rem]">
             {HERO.titleLine1}
             <br className="hidden sm:block" /> {HERO.titleLine2}
           </h1>

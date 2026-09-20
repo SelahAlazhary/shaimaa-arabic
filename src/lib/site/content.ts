@@ -30,7 +30,6 @@ export const AUTH = {
 } as const
 
 export const HERO = {
-  eyebrow: 'منصتك التعليمية',
   /** يُكسر إلى سطرين على الشاشات المتوسطة فأكبر */
   titleLine1: 'اللغة العربية، مشروحة بترتيب',
   titleLine2: 'يوصلك للدرجة النهائية.',

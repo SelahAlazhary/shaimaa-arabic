@@ -1,29 +1,18 @@
 import { formatNumber } from '@/lib/utils/format'
 
-/** عنوان قسم: شارة ذهبية صغيرة، ثم العنوان، ثم سطر تمهيدي اختياري. */
+/** عنوان قسم: العنوان، ثم سطر تمهيدي اختياري. */
 export function SectionHeading({
-  eyebrow,
   title,
   lead,
   id,
 }: {
-  eyebrow: string
   title: string
   lead?: React.ReactNode
   id: string
 }) {
   return (
     <div className="max-w-2xl">
-      <p className="flex items-center gap-3 text-[0.9375rem] font-semibold tracking-wide text-accent-ink">
-        {eyebrow}
-        <span className="flex items-center gap-1.5" aria-hidden>
-          <span className="h-px w-14 bg-accent/70" />
-          <span className="size-1.5 rotate-45 bg-accent" />
-          <span className="h-px w-5 bg-accent/70" />
-        </span>
-      </p>
-
-      <h2 id={id} className="mt-4 font-display text-[2rem] font-bold leading-[1.5] text-brand-800 sm:text-[2.375rem]">
+      <h2 id={id} className="font-display text-[2rem] font-bold leading-[1.5] text-brand-800 sm:text-[2.375rem]">
         {title}
       </h2>
 
