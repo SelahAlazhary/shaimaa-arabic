@@ -4,16 +4,10 @@ import { requireAdmin } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader, EmptyState } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
+import { RoleManager } from '@/components/admin/role-manager'
 import { formatDateTime, formatNumber } from '@/lib/utils/format'
 
 export const metadata: Metadata = { title: 'الإعدادات' }
-
-const ROLE_LABELS = {
-  student: 'طالب',
-  support: 'دعم',
-  admin: 'مدير',
-  super_admin: 'مدير عام',
-} as const
 
 export default async function AdminSettingsPage() {
   const me = await requireAdmin()
@@ -24,8 +18,9 @@ export default async function AdminSettingsPage() {
     supabase
       .from('profiles')
       .select('id, full_name, email, role')
-      .in('role', ['support', 'admin', 'super_admin'])
-      .order('role'),
+      .order('role')
+      .order('created_at', { ascending: false })
+      .limit(200),
     supabase
       .from('audit_logs')
       .select('id, action, entity_type, created_at, profiles(full_name)')
@@ -34,7 +29,9 @@ export default async function AdminSettingsPage() {
   ])
 
   const branding = (brandingRes.data?.value ?? {}) as { site_name?: string; code_prefix?: string }
-  const staff = staffRes.data ?? []
+  const people = staffRes.data ?? []
+  // عدّاد البطاقة يخصّ أصحاب الصلاحيات لا كل الحسابات
+  const staff = people.filter((p) => p.role !== 'student')
 
   const audit = (auditRes.data ?? []) as unknown as {
     id: string
@@ -86,24 +83,14 @@ export default async function AdminSettingsPage() {
             <span className="nums-ar text-sm text-ink-faint">{formatNumber(staff.length)} حساب</span>
           }
         />
-        <ul className="divide-y divide-border-subtle">
-          {staff.map((s) => (
-            <li key={s.id} className="flex items-center justify-between gap-3 px-5 py-3.5">
-              <span className="min-w-0">
-                <span className="block truncate text-base font-medium text-ink">
-                  {s.full_name}
-                  {s.id === me.id && <span className="text-ink-faint"> (أنت)</span>}
-                </span>
-                <span className="block truncate text-sm text-ink-faint" dir="ltr">
-                  {s.email}
-                </span>
-              </span>
-              <span className="shrink-0 text-base text-ink-muted">
-                {ROLE_LABELS[s.role as keyof typeof ROLE_LABELS]}
-              </span>
-            </li>
-          ))}
-        </ul>
+        <RoleManager
+          people={people.map((p) => ({
+            id: p.id,
+            fullName: p.full_name,
+            email: p.email,
+            role: p.role,
+          }))}
+        />
       </Card>
 
       <Card>

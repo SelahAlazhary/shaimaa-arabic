@@ -23,8 +23,15 @@ export default async function LessonPage({
 }: {
   params: Promise<{ slug: string; lessonId: string }>
 }) {
-  await requireStudent()
+  const student = await requireStudent()
   const { slug, lessonId } = await params
+
+  /*
+   * العلامة المائية: الاسم مع آخر أربعة أرقام من مُعرّف الحساب.
+   * الاسم وحده قد يتكرّر بين طالبين، والمُعرّف كاملًا تسريبٌ لا داعي له —
+   * أربعة أحرف تكفي لتمييز المصدر عند الرجوع إلى قاعدة البيانات.
+   */
+  const watermarkLabel = `${student.fullName} · ${student.id.slice(-4)}`
   const lesson = await getLesson(slug, lessonId)
 
   if (!lesson) notFound()
@@ -55,6 +62,7 @@ export default async function LessonPage({
 
       <LessonPlayer
         lessonId={lesson.id}
+        watermark={watermarkLabel}
         videoUrl={lesson.videoUrl}
         provider={lesson.provider}
         watchedSeconds={lesson.watchedSeconds}

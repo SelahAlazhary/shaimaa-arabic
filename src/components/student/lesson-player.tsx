@@ -5,9 +5,12 @@ import { CheckCircle2, Lock, VideoOff } from 'lucide-react'
 import { toast } from 'sonner'
 import { saveLessonProgress, markLessonComplete } from '@/lib/mutations/progress'
 import { Button } from '@/components/ui/button'
+import { VideoWatermark } from '@/components/student/video-watermark'
 
 type Props = {
   lessonId: string
+  /** اسم الطالب — يظهر علامةً مائية فوق الفيديو لردع التسريب */
+  watermark: string
   videoUrl: string | null
   provider: string | null
   watchedSeconds: number
@@ -44,6 +47,7 @@ const DIRECT_VIDEO = /\.(mp4|webm|ogg|m3u8)(\?|$)/i
 
 export function LessonPlayer({
   lessonId,
+  watermark,
   videoUrl,
   provider,
   watchedSeconds,
@@ -131,7 +135,9 @@ export function LessonPlayer({
 
   return (
     <div className="space-y-3">
-      <div className="overflow-hidden rounded-[var(--radius-card)] border border-border-subtle bg-brand-900">
+      <div className="relative overflow-hidden rounded-[var(--radius-card)] border border-border-subtle bg-brand-900">
+        <VideoWatermark label={watermark} />
+
         {isDirect ? (
           <video
             ref={videoRef}

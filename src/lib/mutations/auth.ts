@@ -209,3 +209,39 @@ export async function logout() {
   revalidatePath('/', 'layout')
   redirect('/login')
 }
+
+/**
+ * تعيين دور لحساب.
+ *
+ * الصلاحية تُفرَض في القاعدة لا هنا: مُشغّل `guard_profile_privileged_columns`
+ * يسمح للمدير بتعيين «دعم» أو «طالب»، ويشترط `super_admin` لصنع مدير جديد.
+ * هذه الدالة واجهة لتلك القاعدة، ورسالةٌ مفهومة حين ترفض.
+ */
+export async function setUserRole(userId: string, role: 'student' | 'support' | 'admin') {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { ok: false, message: messageFor('UNAUTHORIZED') }
+
+  if (user.id === userId) {
+    return { ok: false, message: 'لا يمكنك تغيير دور حسابك أنت.' }
+  }
+
+  const { error } = await supabase.from('profiles').update({ role }).eq('id', userId)
+
+  if (error) {
+    // 42501 = رفض المُشغّل. رسالته العربية أدقّ من أي رسالة عامة
+    if (error.code === '42501') {
+      return {
+        ok: false,
+        message: error.message.replace(/^FORBIDDEN:\s*/, '') || messageFor('FORBIDDEN'),
+      }
+    }
+    return { ok: false, message: messageFor(toErrorCode(error)) }
+  }
+
+  revalidatePath('/admin/settings')
+  revalidatePath('/admin/students')
+
+  const label = role === 'admin' ? 'مدير' : role === 'support' ? 'فريق الدعم' : 'طالب'
+  return { ok: true, message: `تم تعيين الحساب: ${label}.` }
+}
