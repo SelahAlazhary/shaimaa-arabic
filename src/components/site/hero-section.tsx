@@ -57,7 +57,7 @@ export function HeroSection() {
        */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 end-0 hidden w-[38%] xl:w-[35%] lg:block"
+        className="pointer-events-none absolute inset-y-0 end-0 hidden w-[38%] max-w-[37rem] lg:block"
       >
         <div className="absolute inset-0 overflow-hidden [border-radius:0_100%_0_0/0_100%_0_0] bg-surface">
           <Image
@@ -66,7 +66,7 @@ export function HeroSection() {
             fill
             priority
             quality={92}
-            sizes="(min-width: 1024px) 38vw, 0px"
+            sizes="(min-width: 1560px) 37rem, (min-width: 1024px) 38vw, 0px"
             className="object-contain object-[68%_bottom]"
           />
         </div>
