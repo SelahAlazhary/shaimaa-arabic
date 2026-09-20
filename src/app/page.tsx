@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
 import {
   PlayCircle,
   FileText,
@@ -9,9 +8,6 @@ import {
   Ticket,
   UserPlus,
   GraduationCap,
-  ArrowLeft,
-  BookOpen,
-  LogIn,
   Timer,
   ListChecks,
   Repeat2,
@@ -21,6 +17,8 @@ import {
   MessageCircle,
   LifeBuoy,
 } from 'lucide-react'
+import { Navbar } from '@/components/site/navbar'
+import { HeroSection } from '@/components/site/hero-section'
 import { createClient } from '@/lib/supabase/server'
 import { formatNumber } from '@/lib/utils/format'
 
@@ -44,43 +42,6 @@ export const revalidate = 3600
  * علامة المنصة: كتاب مفتوح تعلوه ورقة.
  * مرسومة لا صورة، فتبقى حادّة في كل مقاس وتتلوّن مع السياق.
  */
-function BrandMark() {
-  return (
-    <svg viewBox="0 0 32 32" className="size-9 shrink-0 text-accent-soft" fill="none" aria-hidden>
-      {/* كتاب مفتوح تعلوه ورقة — مرسوم لا صورة، فيبقى حادًّا في كل مقاس */}
-      <path
-        d="M4 9.5c3.5-1.3 7-1.3 10.5 0v15c-3.5-1.3-7-1.3-10.5 0v-15Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M28 9.5c-3.5-1.3-7-1.3-10.5 0v15c3.5-1.3 7-1.3 10.5 0v-15Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M16 8.2c1.1-2.4 3-3.8 5.6-4.2-.2 2.8-1.5 4.7-3.9 5.7"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M16 9.2v16" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-/** روابط الرأس تشير إلى أقسام هذه الصفحة نفسها — لا رابط يقود إلى لا شيء. */
-const SECTIONS = [
-  { href: '#top', label: 'الرئيسية' },
-  { href: '#courses', label: 'المقررات' },
-  { href: '#exams', label: 'الاختبارات' },
-  { href: '#files', label: 'الملفات' },
-  { href: '#support', label: 'الدعم' },
-] as const
-
 const FEATURES = [
   {
     icon: PlayCircle,
@@ -202,179 +163,16 @@ export default async function LandingPage() {
 
   return (
     <div className="min-h-dvh bg-canvas">
-      <header className="sticky top-0 z-40 bg-brand-800 text-ink-invert">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
-          <Link href="/" className="flex min-w-0 items-center gap-2.5">
-            <BrandMark />
-            <span className="min-w-0">
-              <span className="block truncate text-sm font-semibold leading-tight">
-                الأستاذة الشيماء أحمد
-              </span>
-              <span className="block truncate text-[0.7rem] leading-tight text-accent-soft">
-                اللغة العربية · رحلتك نحو مستقبل أفضل
-              </span>
-            </span>
-          </Link>
+      <Navbar />
 
-          {/* روابط إلى أقسام موجودة فعلًا في هذه الصفحة لا إلى صفحات مغلقة */}
-          <nav aria-label="أقسام الصفحة" className="hidden items-center gap-1 lg:flex">
-            {SECTIONS.map((item, i) => (
-              <a
-                key={item.href}
-                href={item.href}
-                aria-current={i === 0 ? 'page' : undefined}
-                className={
-                  i === 0
-                    ? 'relative px-3.5 py-2 text-sm font-medium text-ink-invert after:absolute after:inset-x-3.5 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-accent-soft'
-                    : 'px-3.5 py-2 text-sm text-brand-100 transition-colors hover:text-ink-invert'
-                }
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
-
-          <nav aria-label="الحساب" className="flex shrink-0 items-center gap-2">
-            <Link
-              href="/login"
-              aria-label="تسجيل الدخول"
-              className="inline-flex size-10 items-center justify-center gap-2 rounded-[var(--radius-field)] border border-brand-500 text-sm font-medium text-ink-invert transition-colors hover:bg-brand-700 sm:w-auto sm:px-3.5"
-            >
-              <span className="hidden sm:inline">تسجيل الدخول</span>
-              <LogIn className="size-4 shrink-0" aria-hidden />
-            </Link>
-            <Link
-              href="/register"
-              aria-label="إنشاء حساب"
-              className="inline-flex size-10 items-center justify-center gap-2 rounded-[var(--radius-field)] bg-accent text-sm font-semibold text-brand-900 transition-colors hover:bg-accent-soft sm:w-auto sm:px-4"
-            >
-              <span className="hidden sm:inline">إنشاء حساب</span>
-              <UserPlus className="size-4 shrink-0" aria-hidden />
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      <main id="top">
-        {/* الواجهة: وعد واحد واضح وإجراء واحد أساسي */}
-        <section className="relative overflow-hidden bg-parchment">
-          {/* زخرفة هندسية: دوائر متشابكة، أساس النقش العربي */}
-          <svg
-            aria-hidden
-            className="pointer-events-none absolute inset-0 size-full text-brand-700 opacity-[0.055]"
-          >
-            <defs>
-              <pattern id="arabesque" width="56" height="56" patternUnits="userSpaceOnUse">
-                <circle cx="0" cy="28" r="19.8" fill="none" stroke="currentColor" strokeWidth="1" />
-                <circle cx="56" cy="28" r="19.8" fill="none" stroke="currentColor" strokeWidth="1" />
-                <circle cx="28" cy="0" r="19.8" fill="none" stroke="currentColor" strokeWidth="1" />
-                <circle cx="28" cy="56" r="19.8" fill="none" stroke="currentColor" strokeWidth="1" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#arabesque)" />
-          </svg>
-
-          {/* حروف عربية ضخمة عند الحافة — الموضوع نفسه يصير زخرفة */}
-          <p
-            aria-hidden
-            className="pointer-events-none absolute -start-4 top-1/2 hidden -translate-y-1/2 select-none flex-col text-[8rem] font-bold leading-[0.8] text-brand-700 opacity-[0.07] lg:flex"
-          >
-            <span>ض</span>
-            <span>ق</span>
-            <span>ع</span>
-            <span>ب</span>
-          </p>
-
-          {/*
-           * لوحة الصورة تملأ الحافة اليسرى. حدّها الأيمن قوسٌ واحد:
-           * نصف قطر الزاوية العليا اليمنى ١٠٠٪ أفقيًا ورأسيًا يرسم ربع دائرة
-           * تبدأ من أعلى اللوحة وتنتهي عند أسفل حافّتها — ضيّقة أعلى، واسعة أسفل.
-           */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-y-0 end-0 hidden w-[48%] lg:block"
-          >
-            <div className="absolute inset-0 overflow-hidden [border-radius:0_100%_0_0/0_100%_0_0]">
-              {/* خلفية ناعمة تحت الصورة المقصوصة بدل بياض مسطّح */}
-              <span className="absolute inset-0 bg-[radial-gradient(120%_90%_at_20%_15%,var(--color-surface)_0%,var(--color-surface)_45%,var(--color-brand-50)_100%)]" />
-              <Image
-                src="/brand/teacher.webp"
-                alt=""
-                fill
-                priority
-                quality={90}
-                sizes="(min-width: 1024px) 48vw, 0px"
-                className="object-contain object-[62%_bottom]"
-              />
-            </div>
-
-            {/* خطّ ذهبي رفيع يتتبّع القوس نفسه، مُزاحًا للخارج قليلًا */}
-            <span className="absolute -bottom-px -end-7 -top-7 start-0 border-e-2 border-t-2 border-accent-soft [border-radius:0_100%_0_0/0_100%_0_0]" />
-          </div>
-
-          <div className="relative mx-auto max-w-6xl px-5 py-12 sm:px-8 lg:py-20">
-            {/* الصورة على الشاشات الصغيرة: بديل مستقلّ عن لوحة القوس */}
-            <div
-              className="rise-in relative mx-auto mb-8 aspect-square w-56 overflow-hidden rounded-[var(--radius-panel)] border border-accent-soft bg-surface sm:w-64 lg:hidden"
-              aria-hidden
-            >
-              <Image
-                src="/brand/teacher.webp"
-                alt=""
-                fill
-                priority
-                quality={90}
-                sizes="(min-width: 640px) 16rem, 14rem"
-                className="object-contain object-bottom"
-              />
-            </div>
-
-            <div className="rise-in lg:w-[52%]">
-              <p className="flex items-center gap-3 text-sm font-medium tracking-wide text-accent">
-                <span className="h-px flex-1 bg-accent-soft/70 lg:hidden" aria-hidden />
-                منصتك التعليمية
-                <span className="flex items-center gap-1.5" aria-hidden>
-                  <span className="h-px w-14 bg-accent-soft" />
-                  <span className="size-1.5 rotate-45 bg-accent-soft" />
-                  <span className="h-px w-5 bg-accent-soft" />
-                </span>
-              </p>
-
-              <h1 className="mt-5 text-[1.75rem] font-bold leading-[1.25] text-brand-700 sm:text-4xl lg:text-[2.75rem]">
-                اللغة العربية، مشروحة بترتيب
-                <br className="hidden sm:block" /> يوصلك للدرجة النهائية.
-              </h1>
-
-              <p className="mt-5 text-base leading-relaxed text-ink-muted">
-                نحو وبلاغة وأدب ونصوص — كل قاعدة بشرحها وأمثلتها وتطبيقاتها، ومعها
-                ملازم تذاكر منها واختبارات تقيس فهمك أولًا بأول.
-              </p>
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link
-                  href="/register"
-                  className="inline-flex h-12 items-center gap-2.5 rounded-[var(--radius-field)] bg-brand-700 px-6 text-sm font-semibold text-ink-invert transition-colors hover:bg-brand-800"
-                >
-                  ابدأ الآن
-                  <ArrowLeft className="size-4" aria-hidden />
-                </Link>
-                <a
-                  href="#courses"
-                  className="inline-flex h-12 items-center gap-2.5 rounded-[var(--radius-field)] border border-brand-600 bg-surface/70 px-6 text-sm font-medium text-brand-700 transition-colors hover:bg-brand-50"
-                >
-                  <BookOpen className="size-4" aria-hidden />
-                  اكتشف المقررات
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
+      <main>
+        <HeroSection />
 
         {/* ما تحصل عليه */}
         <section
           id="features"
           aria-labelledby="features-title"
-          className="mx-auto max-w-6xl scroll-mt-16 px-5 py-12 sm:px-8 sm:py-16"
+          className="mx-auto max-w-7xl scroll-mt-16 lg:scroll-mt-20 px-5 py-12 sm:px-8 sm:py-16"
         >
           <h2 id="features-title" className="text-xl font-semibold text-ink sm:text-2xl">
             ما تجده في حسابك
@@ -401,9 +199,9 @@ export default async function LandingPage() {
           <section
             id="courses"
             aria-labelledby="stages-title"
-            className="scroll-mt-16 border-y border-border-subtle bg-surface"
+            className="scroll-mt-16 lg:scroll-mt-20 border-y border-border-subtle bg-surface"
           >
-            <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-14">
+            <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-14">
               <h2 id="stages-title" className="text-xl font-semibold text-ink sm:text-2xl">
                 المقررات والصفوف
               </h2>
@@ -445,7 +243,7 @@ export default async function LandingPage() {
         <section
           id="exams"
           aria-labelledby="exams-title"
-          className="mx-auto max-w-6xl scroll-mt-16 px-5 py-12 sm:px-8 sm:py-16"
+          className="mx-auto max-w-7xl scroll-mt-16 lg:scroll-mt-20 px-5 py-12 sm:px-8 sm:py-16"
         >
           <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
             <div>
@@ -481,9 +279,9 @@ export default async function LandingPage() {
         <section
           id="files"
           aria-labelledby="files-title"
-          className="scroll-mt-16 border-y border-border-subtle bg-surface"
+          className="scroll-mt-16 lg:scroll-mt-20 border-y border-border-subtle bg-surface"
         >
-          <div className="mx-auto grid max-w-6xl gap-8 px-5 py-12 sm:px-8 sm:py-16 lg:grid-cols-2 lg:items-start">
+          <div className="mx-auto grid max-w-7xl gap-8 px-5 py-12 sm:px-8 sm:py-16 lg:grid-cols-2 lg:items-start">
             <div>
               <p className="flex items-center gap-3 text-sm font-medium text-accent">
                 الملفات
@@ -516,7 +314,7 @@ export default async function LandingPage() {
         <section
           id="support"
           aria-labelledby="support-title"
-          className="mx-auto max-w-6xl scroll-mt-16 px-5 py-12 sm:px-8 sm:py-16"
+          className="mx-auto max-w-7xl scroll-mt-16 lg:scroll-mt-20 px-5 py-12 sm:px-8 sm:py-16"
         >
           <p className="flex items-center gap-3 text-sm font-medium text-accent">
             الدعم
@@ -548,7 +346,7 @@ export default async function LandingPage() {
         <section
           id="steps"
           aria-labelledby="steps-title"
-          className="mx-auto max-w-6xl scroll-mt-16 px-5 py-12 sm:px-8 sm:py-16"
+          className="mx-auto max-w-7xl scroll-mt-16 lg:scroll-mt-20 px-5 py-12 sm:px-8 sm:py-16"
         >
           <h2 id="steps-title" className="text-xl font-semibold text-ink sm:text-2xl">
             كيف تبدأ
@@ -590,7 +388,7 @@ export default async function LandingPage() {
       </main>
 
       <footer className="border-t border-border-subtle bg-surface">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-6 sm:px-8">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-5 py-6 sm:px-8">
           <p className="nums-ar text-xs text-ink-faint">
             © {formatNumber(new Date().getFullYear())} منصة الأستاذة الشيماء أحمد
           </p>

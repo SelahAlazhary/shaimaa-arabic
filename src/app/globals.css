@@ -5,48 +5,58 @@
  * القاعدة: لا لون خارج هذه القائمة، ولا radius موحّد لكل العناصر.
  */
 @theme {
-  /* الأساسي: أخضر داكن رصين. لا تدرّجات ولا توهّج. */
-  --color-brand-50:  #EEF3F0;
-  --color-brand-100: #D6E2DA;
-  --color-brand-200: #AFC6B8;
-  --color-brand-300: #85A694;
-  --color-brand-400: #5C8471;
-  --color-brand-500: #3E6653;
-  --color-brand-600: #2E4F40;
-  --color-brand-700: #23382D;  /* الأزرار والعنصر النشط */
-  --color-brand-800: #1A2A22;
-  --color-brand-900: #121D18;
+  /*
+   * الهوية البصرية المعتمدة.
+   * الأخضر مبنيّ حول #0B4038 (الشريط العلوي) و#124C43 (الأزرار)،
+   * والذهبي #C7A04A للتمييز النادر وحده.
+   * القاعدة: لا لون خارج هذه القائمة.
+   */
+  --color-brand-50:  #EFF5F3;
+  --color-brand-100: #DCE9E6;
+  --color-brand-200: #B6D1CB;
+  --color-brand-300: #86B3A9;
+  --color-brand-400: #4F9184;
+  --color-brand-500: #2A7568;
+  --color-brand-600: #1A5F54;
+  --color-brand-700: #124C43;  /* الأزرار والعنصر النشط */
+  --color-brand-800: #0B4038;  /* الشريط العلوي */
+  --color-brand-900: #072A25;
 
   /* الأسطح */
   --color-surface:        #FFFFFF;
-  --color-surface-muted:  #FAFAF8;
-  --color-canvas:         #F5F5F2;  /* خلفية الصفحة الدافئة */
-  --color-border-subtle:  #ECECE6;
-  --color-border-strong:  #DCDCD4;
+  --color-surface-muted:  #F5F5F0;
+  --color-canvas:         #FAFAF7;
+  --color-border-subtle:  #EAEAE4;
+  --color-border-strong:  #D9D9D1;
 
   /* النص */
-  --color-ink:        #14181A;
-  --color-ink-muted:  #6B736F;
-  --color-ink-faint:  #9AA29E;
+  --color-ink:        #123D37;
+  --color-ink-muted:  #53615E;
+  --color-ink-faint:  #8A9793;
   --color-ink-invert: #FFFFFF;
 
   /* الحالات */
-  --color-success:    #2B7A4B;
-  --color-success-bg: #DCF0E1;
-  --color-warning:    #A9741B;
-  --color-warning-bg: #FBF0DA;
-  --color-danger:     #C0392B;
-  --color-danger-bg:  #FBE4E1;
-  --color-info:       #2B5F8F;
-  --color-info-bg:    #E4EFF9;
+  --color-success:    #1F6B45;
+  --color-success-bg: #DDEFE3;
+  --color-warning:    #96660F;
+  --color-warning-bg: #F8EFDB;
+  --color-danger:     #B3382A;
+  --color-danger-bg:  #F9E3E0;
+  --color-info:       #24567F;
+  --color-info-bg:    #E4EEF8;
 
-  /* الذهبي: للتمييز النادر فقط — سطر الهوية تحت الاسم */
-  --color-accent:     #B8862B;
-  --color-accent-bg:  #F8F1E2;
-  --color-accent-soft: #D8B871;  /* الخطوط الرفيعة والأقواس على الأخضر الداكن */
+  /*
+   * الذهبي.
+   * `accent` للخطوط والتعبئة والزخرفة — تباينه على الأبيض ٢٫٨:١ فلا يصلح نصًّا.
+   * `accent-ink` نسخته الغامقة للنص الذهبي على خلفية فاتحة (٤٫٩:١ ✓ AA).
+   */
+  --color-accent:      #C7A04A;
+  --color-accent-ink:  #8A6A1C;
+  --color-accent-soft: #E3C878;
+  --color-accent-bg:   #F7F0E0;
 
-  /* ورقية دافئة: خلفية الواجهة الأولى وحدها، تفصلها عمّا تحتها */
-  --color-parchment:  #F3F0E6;
+  /* رمادي فاتح جدًا للزخارف وحدها — لا تُكتب به نصوص */
+  --color-ornament: #E8E8E2;
 
   /* أنصاف أقطار متدرّجة حسب نوع العنصر لا قيمة واحدة للكل */
   --radius-field:  0.625rem;  /* المدخلات والأزرار */
@@ -55,9 +65,9 @@
   --radius-pill:   9999px;    /* الشارات */
 
   /* ظلال خفيفة جدًا؛ الفصل بالحدود أساسًا لا بالظل */
-  --shadow-card:  0 1px 2px rgb(20 24 26 / 0.04), 0 1px 3px rgb(20 24 26 / 0.03);
-  --shadow-raise: 0 4px 12px rgb(20 24 26 / 0.06), 0 2px 4px rgb(20 24 26 / 0.04);
-  --shadow-pop:   0 12px 32px rgb(20 24 26 / 0.12);
+  --shadow-card:  0 1px 2px rgb(18 61 55 / 0.04), 0 1px 3px rgb(18 61 55 / 0.03);
+  --shadow-raise: 0 4px 12px rgb(18 61 55 / 0.06), 0 2px 4px rgb(18 61 55 / 0.04);
+  --shadow-pop:   0 12px 32px rgb(18 61 55 / 0.12);
 
   --font-sans: var(--font-plex-arabic), system-ui, sans-serif;
 }
