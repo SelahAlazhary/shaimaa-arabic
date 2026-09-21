@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowRight, BookOpen, Layers, ExternalLink, Image as ImageIcon } from 'lucide-react'
 import { requireAdminPage } from '@/lib/permissions'
+import { isBunnyEnabled } from '@/lib/bunny'
 import { createClient } from '@/lib/supabase/server'
 import { CollapsibleCard } from '@/components/ui/collapsible-card'
 import { PageHeader } from '@/components/ui/page-header'
@@ -66,7 +67,9 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
     ? await Promise.all([
         supabase
           .from('lesson_videos')
-          .select('lesson_id, video_url, storage_path, required_percent, allow_download')
+          .select(
+            'lesson_id, video_url, storage_path, bunny_video_id, required_percent, allow_download',
+          )
           .in('lesson_id', lessonIds),
         supabase
           .from('lesson_attachments')
@@ -87,6 +90,7 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
       v.lesson_id,
       {
         storagePath: v.storage_path,
+        bunnyVideoId: v.bunny_video_id,
         url: v.video_url ?? '',
         requiredPercent: v.required_percent ?? 90,
         allowDownload: v.allow_download ?? false,
@@ -217,6 +221,7 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
           courseId={course.id}
           modules={grouped}
           moduleOptions={modules}
+          bunnyEnabled={isBunnyEnabled()}
         />
       </CollapsibleCard>
     </div>

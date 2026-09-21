@@ -76,6 +76,37 @@ export function LessonPlayer({
   const [pending, startTransition] = useTransition()
   const lastSaved = useRef(0)
 
+  /*
+   * Bunny يقدّم HLS، وهو ما لا يفهمه إلا Safari أصلًا.
+   * hls.js يُحمَّل عند الحاجة فقط (import ديناميكي)، فلا يُثقل صفحة درس
+   * فيديوه ملفّ mp4 عادي.
+   */
+  useEffect(() => {
+    const el = videoRef.current
+    if (!el || !videoUrl || provider !== 'bunny') return
+
+    if (el.canPlayType('application/vnd.apple.mpegurl')) {
+      el.src = videoUrl
+      return
+    }
+
+    let hls: { destroy: () => void } | null = null
+    let cancelled = false
+
+    void import('hls.js').then(({ default: Hls }) => {
+      if (cancelled || !Hls.isSupported()) return
+      const instance = new Hls({ enableWorker: true })
+      instance.loadSource(videoUrl)
+      instance.attachMedia(el)
+      hls = instance
+    })
+
+    return () => {
+      cancelled = true
+      hls?.destroy()
+    }
+  }, [videoUrl, provider])
+
   // الحفظ كل ١٥ ثانية لا مع كل حدث timeupdate (يُطلق ٤ مرات في الثانية)
   useEffect(() => {
     const el = videoRef.current
@@ -166,7 +197,8 @@ export function LessonPlayer({
         {isDirect ? (
           <video
             ref={videoRef}
-            src={videoUrl}
+            // مصدر HLS يُركّبه hls.js أعلاه؛ السمة تكسره في المتصفّحات التي لا تفهمه
+            src={provider === 'bunny' ? undefined : videoUrl}
             controls
             controlsList={allowDownload ? undefined : 'nodownload noplaybackrate'}
             onContextMenu={allowDownload ? undefined : (e) => e.preventDefault()}

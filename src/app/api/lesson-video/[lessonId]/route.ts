@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { bunnyConfig, bunnyPlaybackUrl } from '@/lib/bunny'
 
 /**
  * بثّ فيديو مستضاف داخل المنصة.
@@ -28,11 +29,28 @@ export async function GET(
 
   const { data: video } = await supabase
     .from('lesson_videos')
-    .select('storage_path')
+    .select('storage_path, bunny_video_id')
     .eq('lesson_id', lessonId)
     .maybeSingle()
 
-  if (!video?.storage_path) {
+  if (!video) {
+    return NextResponse.json({ error: 'لا يوجد فيديو متاح لهذا الدرس.' }, { status: 404 })
+  }
+
+  // Bunny Stream: نوقّع رابط قائمة HLS ونحوّل إليه بعد أن أثبتت RLS الاستحقاق
+  if (video.bunny_video_id) {
+    const cfg = bunnyConfig()
+    if (!cfg) {
+      return NextResponse.json({ error: 'تعذّر تشغيل الفيديو الآن.' }, { status: 503 })
+    }
+
+    return NextResponse.redirect(bunnyPlaybackUrl(cfg, video.bunny_video_id), {
+      status: 302,
+      headers: { 'Cache-Control': 'private, no-store' },
+    })
+  }
+
+  if (!video.storage_path) {
     return NextResponse.json({ error: 'لا يوجد فيديو متاح لهذا الدرس.' }, { status: 404 })
   }
 

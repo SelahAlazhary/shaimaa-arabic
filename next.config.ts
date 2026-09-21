@@ -17,6 +17,18 @@ const nextConfig: NextConfig = {
     const wsSupabase = 'wss://bjhegvkxxtmajyzfampa.supabase.co'
 
     /*
+     * Bunny Stream: الرفع يذهب من المتصفّح إلى video.bunnycdn.com، وقوائم
+     * HLS تُجلب من نطاق المكتبة. النطاق من البيئة كي لا يُثبَّت في الكود.
+     */
+    const bunnyCdn = process.env.BUNNY_STREAM_CDN_HOSTNAME?.trim()
+    const bunny = [
+      'https://video.bunnycdn.com',
+      bunnyCdn ? `https://${bunnyCdn.replace(/^https?:\/\//, '').replace(/\/+$/, '')}` : '',
+    ]
+      .filter(Boolean)
+      .join(' ')
+
+    /*
      * سياسة أمان المحتوى.
      * 'unsafe-inline' في script-src ضرورة لا خيار: Next يحقن سكربت الترطيب
      * مضمَّنًا. و'unsafe-eval' في التطوير وحده (Turbopack يحتاجه).
@@ -29,8 +41,10 @@ const nextConfig: NextConfig = {
       "font-src 'self' https://fonts.gstatic.com data:",
       `img-src 'self' data: blob: ${supabase}`,
       "media-src 'self' blob: https:",
+      // hls.js يفكّ الشفرة في عامل من blob
+      "worker-src 'self' blob:",
       'frame-src https://www.youtube-nocookie.com https://player.vimeo.com',
-      `connect-src 'self' ${supabase} ${wsSupabase}${isDev ? ' ws://localhost:*' : ''}`,
+      `connect-src 'self' ${supabase} ${wsSupabase} ${bunny}${isDev ? ' ws://localhost:*' : ''}`,
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",

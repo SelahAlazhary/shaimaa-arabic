@@ -221,7 +221,7 @@ export async function getLesson(slug: string, lessonId: string): Promise<LessonV
     await Promise.all([
     supabase
       .from('lesson_videos')
-      .select('video_url, provider, storage_path, required_percent, allow_download')
+      .select('video_url, provider, storage_path, bunny_video_id, required_percent, allow_download')
       .eq('lesson_id', l.id)
       .maybeSingle(),
     supabase
@@ -313,7 +313,7 @@ export async function getLesson(slug: string, lessonId: string): Promise<LessonV
      * وجود صفّ فيديو أصلًا هو دليل الاستحقاق، لأن RLS تحجبه عن غيره.
      */
     videoUrl: videoRes.data
-      ? videoRes.data.storage_path
+      ? videoRes.data.storage_path || videoRes.data.bunny_video_id
         ? `/api/lesson-video/${l.id}`
         : (videoRes.data.video_url ?? null)
       : null,

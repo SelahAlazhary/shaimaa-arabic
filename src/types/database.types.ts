@@ -783,6 +783,7 @@ export type Database = {
       lesson_videos: {
         Row: {
           allow_download: boolean
+          bunny_video_id: string | null
           required_percent: number
           storage_path: string | null
           created_at: string
@@ -793,6 +794,7 @@ export type Database = {
         }
         Insert: {
           allow_download?: boolean
+          bunny_video_id?: string | null
           required_percent?: number
           storage_path?: string | null
           created_at?: string
@@ -803,6 +805,7 @@ export type Database = {
         }
         Update: {
           allow_download?: boolean
+          bunny_video_id?: string | null
           required_percent?: number
           storage_path?: string | null
           created_at?: string

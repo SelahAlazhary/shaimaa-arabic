@@ -60,10 +60,12 @@ export function CourseCurriculum({
   courseId,
   modules,
   moduleOptions,
+  bunnyEnabled,
 }: {
   courseId: string
   modules: CurriculumModule[]
   moduleOptions: { id: string; title: string }[]
+  bunnyEnabled: boolean
 }) {
   const [open, setOpen] = useState<Set<string>>(
     () => new Set(modules.map((m) => m.id ?? 'none')),
@@ -388,6 +390,7 @@ export function CourseCurriculum({
           lesson={managed}
           courseId={courseId}
           modules={moduleOptions}
+          bunnyEnabled={bunnyEnabled}
           onClose={() => setManaged(null)}
         />
       )}

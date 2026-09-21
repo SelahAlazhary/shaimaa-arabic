@@ -33,6 +33,7 @@ import {
   deleteHomework,
   setHomeworkPublished,
 } from '@/lib/mutations/homework'
+import { createBunnyUploadTicket, saveBunnyVideo, discardBunnyVideo } from '@/lib/mutations/bunny'
 import { Field, Input, Select } from '@/components/ui/field'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/card'
@@ -52,6 +53,7 @@ export type ManagedLesson = {
   publishAt: string
   video: {
     storagePath: string | null
+    bunnyVideoId: string | null
     url: string
     requiredPercent: number
     allowDownload: boolean
@@ -92,11 +94,14 @@ export function LessonManagerDialog({
   lesson,
   courseId,
   modules,
+  bunnyEnabled,
   onClose,
 }: {
   lesson: ManagedLesson
   courseId: string
   modules: { id: string; title: string }[]
+  /** Bunny Stream مضبوط على الخادم — وإلا اختفى خياره بدل أن يفشل */
+  bunnyEnabled: boolean
   onClose: () => void
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null)
@@ -152,10 +157,82 @@ export function LessonManagerDialog({
   // ===== الفيديو =====
   const [videoUrl, setVideoUrl] = useState(lesson.video?.url ?? '')
   const [storagePath, setStoragePath] = useState(lesson.video?.storagePath ?? null)
+  const [bunnyId, setBunnyId] = useState(lesson.video?.bunnyVideoId ?? null)
   const [percent, setPercent] = useState(lesson.video?.requiredPercent ?? 90)
   const [allowDownload, setAllowDownload] = useState(lesson.video?.allowDownload ?? false)
   const [progress, setProgress] = useState<number | null>(null)
   const videoInput = useRef<HTMLInputElement>(null)
+  const bunnyInput = useRef<HTMLInputElement>(null)
+
+  /*
+   * الرفع إلى Bunny يمضي من المتصفّح مباشرةً عبر TUS:
+   * الخادم يُصدر تذكرة موقّعة قصيرة العمر، ومفتاح المكتبة لا يغادره،
+   * والملف لا يمرّ به — فلا يقيّده حدّ حجم Server Action.
+   */
+  const uploadToBunny = (file: File | undefined) => {
+    if (!file) return
+
+    start(async () => {
+      setProgress(0)
+      const ticket = await createBunnyUploadTicket(lesson.id, lesson.title)
+
+      if (!ticket.ok) {
+        setProgress(null)
+        if (bunnyInput.current) bunnyInput.current.value = ''
+        toast.error(ticket.message)
+        return
+      }
+
+      const { Upload } = await import('tus-js-client')
+
+      await new Promise<void>((resolve) => {
+        const upload = new Upload(file, {
+          endpoint: 'https://video.bunnycdn.com/tusupload',
+          retryDelays: [0, 3000, 6000, 12000],
+          headers: {
+            AuthorizationSignature: ticket.signature,
+            AuthorizationExpire: String(ticket.expire),
+            VideoId: ticket.videoId,
+            LibraryId: ticket.libraryId,
+          },
+          metadata: { filetype: file.type, title: lesson.title },
+          onProgress: (sent, total) => setProgress(Math.round((sent / total) * 100)),
+          onError: async () => {
+            setProgress(null)
+            if (bunnyInput.current) bunnyInput.current.value = ''
+            // الفيديو أُنشئ في المكتبة ولم يكتمل رفعه — يُلغى كي لا يبقى معلّقًا
+            await discardBunnyVideo(ticket.videoId)
+            toast.error('تعذّر الرفع إلى Bunny. أعد المحاولة.')
+            resolve()
+          },
+          onSuccess: async () => {
+            const res = await saveBunnyVideo({
+              lessonId: lesson.id,
+              courseId,
+              videoId: ticket.videoId,
+              requiredPercent: percent,
+              allowDownload,
+            })
+
+            setProgress(null)
+            if (bunnyInput.current) bunnyInput.current.value = ''
+
+            if (res.ok) {
+              setBunnyId(ticket.videoId)
+              setStoragePath(null)
+              setVideoUrl('')
+              toast.success(res.message)
+            } else {
+              toast.error(res.message)
+            }
+            resolve()
+          },
+        })
+
+        upload.start()
+      })
+    })
+  }
 
   /*
    * الرفع يمضي من المتصفّح إلى التخزين مباشرة، لا عبر الخادم:
@@ -183,6 +260,7 @@ export function LessonManagerDialog({
       }
 
       setStoragePath(path)
+      setBunnyId(null)
       setVideoUrl('')
 
       /*
@@ -230,6 +308,7 @@ export function LessonManagerDialog({
       const res = await removeLessonVideo(lesson.id, courseId)
       if (res.ok) {
         setStoragePath(null)
+        setBunnyId(null)
         setVideoUrl('')
         toast.success(res.message)
       } else {
@@ -478,7 +557,13 @@ export function LessonManagerDialog({
 
         {tab === 'video' && (
           <div className="space-y-4">
-            {storagePath ? (
+            {bunnyId ? (
+              <p className="flex items-center gap-2 rounded-[var(--radius-field)] bg-success-bg px-3.5 py-3 text-base text-success">
+                <Video className="size-4 shrink-0" aria-hidden />
+                الفيديو على Bunny Stream — جودات متعدّدة تتكيّف مع شبكة الطالب،
+                ورابطه موقّع لا يُشارَك.
+              </p>
+            ) : storagePath ? (
               <p className="flex items-center gap-2 rounded-[var(--radius-field)] bg-success-bg px-3.5 py-3 text-base text-success">
                 <Video className="size-4 shrink-0" aria-hidden />
                 الفيديو مستضاف داخل المنصة — لا يظهر مصدره للطالب.
@@ -488,6 +573,27 @@ export function LessonManagerDialog({
                 ارفع الملف ليُستضاف داخل المنصة (الأفضل: لا يظهر مصدره ولا يُشارَك
                 رابطه)، أو ضع رابطًا خارجيًّا إن كان الفيديو على منصّة أخرى.
               </p>
+            )}
+
+            {progress !== null && (
+              <div className="space-y-1.5">
+                <div
+                  role="progressbar"
+                  aria-valuenow={progress}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-label="تقدّم رفع الفيديو"
+                  className="h-2 w-full overflow-hidden rounded-[var(--radius-pill)] bg-border-subtle"
+                >
+                  <div
+                    className="h-full rounded-[var(--radius-pill)] bg-brand-700 transition-[width]"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+                <p className="nums-ar text-sm text-ink-muted">
+                  جارٍ الرفع… {formatNumber(progress)}٪ — لا تغلق النافذة.
+                </p>
+              </div>
             )}
 
             <input
@@ -509,7 +615,26 @@ export function LessonManagerDialog({
                 {storagePath ? 'استبدل الملف' : 'ارفع ملف الفيديو'}
               </Button>
 
-              {(storagePath || lesson.video) && (
+              {bunnyEnabled && (
+                <>
+                  <input
+                    ref={bunnyInput}
+                    type="file"
+                    accept="video/mp4,video/webm,video/quicktime,video/x-matroska"
+                    className="sr-only"
+                    onChange={(e) => uploadToBunny(e.target.files?.[0])}
+                  />
+                  <Button
+                    disabled={pending}
+                    onClick={() => bunnyInput.current?.click()}
+                  >
+                    <Upload aria-hidden />
+                    {bunnyId ? 'استبدل فيديو Bunny' : 'ارفع إلى Bunny Stream'}
+                  </Button>
+                </>
+              )}
+
+              {(storagePath || bunnyId || lesson.video) && (
                 <Button variant="ghost" disabled={pending} onClick={dropVideo}>
                   <Trash2 aria-hidden />
                   احذف الفيديو
@@ -517,7 +642,15 @@ export function LessonManagerDialog({
               )}
             </div>
 
-            {!storagePath && (
+            {bunnyEnabled && !bunnyId && !storagePath && (
+              <p className="text-base leading-[1.9] text-ink-faint">
+                Bunny Stream أنسب للمحاضرات الطويلة: يحوّل الفيديو إلى عدّة جودات
+                فيعمل على الشبكات الضعيفة، والرفع يمضي من متصفّحك إلى Bunny مباشرةً
+                بلا حدّ حجم.
+              </p>
+            )}
+
+            {!storagePath && !bunnyId && (
               <Field label="أو رابط خارجي" hint="يوتيوب أو فيميو أو رابط mp4 مباشر">
                 {({ id }) => (
                   <Input

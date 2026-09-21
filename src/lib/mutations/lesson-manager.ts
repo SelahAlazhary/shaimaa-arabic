@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { messageFor, toErrorCode } from '@/lib/errors'
 import { formatNumber } from '@/lib/utils/format'
+import { bunnyConfig, deleteBunnyVideo } from '@/lib/bunny'
 
 async function adminClient() {
   const supabase = await createClient()
@@ -129,6 +130,8 @@ export async function saveLessonVideo(input: {
     {
       lesson_id: input.lessonId,
       storage_path: input.storagePath,
+      // المصدر واحد: حفظ ملف أو رابط يُلغي ارتباط Bunny إن وُجد
+      bunny_video_id: null,
       video_url: input.storagePath ? '' : url,
       provider: input.storagePath ? 'self' : 'external',
       required_percent: percent,
@@ -149,7 +152,7 @@ export async function removeLessonVideo(lessonId: string, courseId: string) {
 
   const { data: row } = await ctx.supabase
     .from('lesson_videos')
-    .select('storage_path')
+    .select('storage_path, bunny_video_id')
     .eq('lesson_id', lessonId)
     .maybeSingle()
 
@@ -158,6 +161,12 @@ export async function removeLessonVideo(lessonId: string, courseId: string) {
 
   if (row?.storage_path) {
     await ctx.supabase.storage.from('lesson-videos').remove([row.storage_path])
+  }
+
+  // الملف في Bunny يُحذف كذلك: إبقاؤه يُحاسَب عليه بلا درس يستعمله
+  if (row?.bunny_video_id) {
+    const cfg = bunnyConfig()
+    if (cfg) await deleteBunnyVideo(cfg, row.bunny_video_id)
   }
 
   refresh(courseId)
@@ -203,7 +212,7 @@ export async function duplicateLesson(lessonId: string, courseId: string) {
   // الفيديو المستضاف يُشار إليه لا يُنسخ: ملف واحد يخدم الدرسين
   const { data: video } = await ctx.supabase
     .from('lesson_videos')
-    .select('video_url, provider, storage_path, required_percent, allow_download')
+    .select('video_url, provider, storage_path, bunny_video_id, required_percent, allow_download')
     .eq('lesson_id', lessonId)
     .maybeSingle()
 
@@ -249,12 +258,23 @@ export async function deleteLesson(lessonId: string, courseId: string) {
 
   const { data: video } = await ctx.supabase
     .from('lesson_videos')
-    .select('storage_path')
+    .select('storage_path, bunny_video_id')
     .eq('lesson_id', lessonId)
     .maybeSingle()
 
   const { error } = await ctx.supabase.from('lessons').delete().eq('id', lessonId)
   if (error) return { ok: false, message: messageFor(toErrorCode(error)) }
+
+  if (video?.bunny_video_id) {
+    // النسخ تتشارك الفيديو نفسه، فلا يُحذف إلا إن لم يعد مشارًا إليه
+    const { count: stillUsed } = await ctx.supabase
+      .from('lesson_videos')
+      .select('lesson_id', { count: 'exact', head: true })
+      .eq('bunny_video_id', video.bunny_video_id)
+
+    const cfg = bunnyConfig()
+    if (!stillUsed && cfg) await deleteBunnyVideo(cfg, video.bunny_video_id)
+  }
 
   if (video?.storage_path) {
     // الملف قد يخدم نسخة أخرى، فلا يُحذف إلا إن لم يعد مشارًا إليه

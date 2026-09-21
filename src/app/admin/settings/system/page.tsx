@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
-import { Database, Mail, Video, HardDrive, ShieldCheck } from 'lucide-react'
+import { Database, Mail, Video, HardDrive, ShieldCheck, Zap } from 'lucide-react'
 import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader, StatCard } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
 import { SettingsBack } from '@/components/admin/settings-back'
 import { StorageCleanup } from '@/components/admin/storage-cleanup'
+import { bunnyConfig } from '@/lib/bunny'
 import { formatNumber, formatFileSize } from '@/lib/utils/format'
 
 export const metadata: Metadata = { title: 'النظام والنسخ الاحتياطي' }
@@ -15,14 +16,17 @@ export default async function SystemSettingsPage() {
   const supabase = await createClient()
 
   const [videosRes, lessonsRes, attachRes] = await Promise.all([
-    supabase.from('lesson_videos').select('provider, storage_path'),
+    supabase.from('lesson_videos').select('provider, storage_path, bunny_video_id'),
     supabase.from('lessons').select('id', { count: 'exact', head: true }),
     supabase.from('attachments').select('file_size'),
   ])
 
   const videos = videosRes.data ?? []
   const selfHosted = videos.filter((v) => v.storage_path).length
-  const external = videos.length - selfHosted
+  const onBunny = videos.filter((v) => v.bunny_video_id).length
+  const external = videos.length - selfHosted - onBunny
+
+  const bunny = bunnyConfig()
 
   const attachmentBytes = (attachRes.data ?? []).reduce((sum, a) => sum + (a.file_size ?? 0), 0)
 
@@ -35,12 +39,18 @@ export default async function SystemSettingsPage() {
         description="حالة البريد ومساحة الفيديو وما تحتاج معرفته عن النسخ الاحتياطي."
       />
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           icon={Video}
           label="فيديو مستضاف داخل المنصة"
           value={formatNumber(selfHosted)}
           tone="info"
+        />
+        <StatCard
+          icon={Zap}
+          label="فيديو على Bunny Stream"
+          value={formatNumber(onBunny)}
+          tone={onBunny > 0 ? 'success' : 'neutral'}
         />
         <StatCard
           icon={Video}
@@ -53,6 +63,54 @@ export default async function SystemSettingsPage() {
           value={formatFileSize(attachmentBytes)}
         />
       </div>
+
+      <Card>
+        <CardHeader title="Bunny Stream" icon={Zap} />
+        <div className="space-y-3 p-5 text-base leading-[1.9] text-ink-muted">
+          {bunny ? (
+            <>
+              <p className="text-success">
+                مضبوط ويعمل. المكتبة <span dir="ltr">{bunny.libraryId}</span>، والتسليم من{' '}
+                <span dir="ltr">{bunny.cdnHostname}</span>.
+              </p>
+              <p>
+                {bunny.tokenKey
+                  ? 'توثيق الروابط مفعّل: كل رابط تشغيل موقّع وينتهي بعد ساعتين.'
+                  : 'توثيق الروابط غير مفعّل. فعّله من Library ← Security ← Token Authentication وضع مفتاحه في BUNNY_STREAM_TOKEN_KEY ليصير كل رابط موقّعًا.'}
+              </p>
+            </>
+          ) : (
+            <>
+              <p>
+                غير مضبوط، وخيار الرفع إليه مخفيّ من نافذة إدارة الدرس. الفيديو
+                يعمل الآن من تخزين المنصة ومن الروابط الخارجية.
+              </p>
+              <p>
+                لتفعيله ضع هذه المتغيّرات في بيئة الخادم:{' '}
+                <span dir="ltr" className="font-mono text-sm">
+                  BUNNY_STREAM_LIBRARY_ID
+                </span>
+                ،{' '}
+                <span dir="ltr" className="font-mono text-sm">
+                  BUNNY_STREAM_API_KEY
+                </span>
+                ،{' '}
+                <span dir="ltr" className="font-mono text-sm">
+                  BUNNY_STREAM_CDN_HOSTNAME
+                </span>
+                ، واختياريًّا{' '}
+                <span dir="ltr" className="font-mono text-sm">
+                  BUNNY_STREAM_TOKEN_KEY
+                </span>
+                .
+              </p>
+              <p className="text-ink-faint">
+                المفاتيح أسرار خادم: تُضبط في Vercel لا من هذه الشاشة.
+              </p>
+            </>
+          )}
+        </div>
+      </Card>
 
       <Card>
         <CardHeader title="صيانة مساحة الفيديو" icon={HardDrive} />
