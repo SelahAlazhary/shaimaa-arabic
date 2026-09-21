@@ -48,7 +48,6 @@ export function LoginForm({ next }: { next?: string | undefined }) {
             autoComplete="email"
             dir="ltr"
             className="text-start"
-            placeholder="البريد الذي تستقبل عليه رسائل المنصة"
             aria-describedby={describedBy}
             invalid={invalid}
             required
@@ -64,7 +63,6 @@ export function LoginForm({ next }: { next?: string | undefined }) {
             autoComplete="current-password"
             dir="ltr"
             className="text-start"
-            placeholder="••••••••"
             aria-describedby={describedBy}
             invalid={invalid}
             required
