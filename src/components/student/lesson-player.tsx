@@ -24,13 +24,25 @@ function toEmbedUrl(url: string): string | null {
     const u = new URL(url)
     const host = u.hostname.replace(/^www\./, '')
 
+    /*
+     * معاملات تُقلّل ما يدلّ على المصدر:
+     * rel=0 يحصر المقترحات في القناة نفسها، وiv_load_policy=3 يمنع
+     * التعليقات التوضيحية، وmodestbranding يُصغّر الشعار.
+     * ما لا تزيله هذه المعاملات — شريط العنوان و«مشاهدة على YouTube» —
+     * يحجبه غطاء شفّاف فوق الشريط العلوي في العارض.
+     */
+    const YT_PARAMS =
+      'rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&cc_load_policy=0&color=white'
+
     if (host === 'youtu.be') {
-      return `https://www.youtube-nocookie.com/embed${u.pathname}`
+      return `https://www.youtube-nocookie.com/embed${u.pathname}?${YT_PARAMS}`
     }
     if (host.endsWith('youtube.com')) {
       const id = u.searchParams.get('v')
-      if (id) return `https://www.youtube-nocookie.com/embed/${id}`
-      if (u.pathname.startsWith('/embed/')) return url
+      if (id) return `https://www.youtube-nocookie.com/embed/${id}?${YT_PARAMS}`
+      if (u.pathname.startsWith('/embed/')) {
+        return `${u.origin}${u.pathname}?${YT_PARAMS}`
+      }
     }
     if (host.endsWith('vimeo.com')) {
       const id = u.pathname.split('/').filter(Boolean)[0]
@@ -152,13 +164,28 @@ export function LessonPlayer({
           </video>
         ) : embed ? (
           // مشغّلات الطرف الثالث لا تُتيح قراءة زمن المشاهدة، فالإكمال يدوي
-          <iframe
-            src={embed}
-            title="مشغّل الدرس"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
-            allowFullScreen
-            className="aspect-video w-full border-0"
-          />
+          <span className="relative block">
+            <iframe
+              src={embed}
+              title="مشغّل الدرس"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
+              allowFullScreen
+              referrerPolicy="no-referrer"
+              className="aspect-video w-full border-0"
+            />
+
+            {/*
+             * الشريط العلوي في مشغّل يوتيوب يحمل العنوان وزرّ «مشاهدة على
+             * YouTube» وزرّ المشاركة — كلها تكشف المصدر وتقود إليه.
+             * غطاء شفّاف فوقه يمنع النقر، وأزرار التحكّم أسفل الإطار تبقى
+             * عاملة لأن الغطاء لا يتجاوز ١٥٪ من الارتفاع.
+             */}
+            <span
+              aria-hidden
+              className="absolute inset-x-0 top-0 h-[15%] cursor-default"
+              onClick={(e) => e.preventDefault()}
+            />
+          </span>
         ) : (
           <a
             href={videoUrl}

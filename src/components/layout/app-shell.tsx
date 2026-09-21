@@ -43,8 +43,8 @@ export function AppShell({
         تخطٍّ إلى المحتوى
       </a>
 
-      {/* الشريط الجانبي: يمين الشاشة لأن الاتجاه RTL */}
-      <aside className="fixed inset-y-3 end-3 hidden w-64 flex-col overflow-hidden rounded-[var(--radius-panel)] border border-border-subtle bg-surface shadow-[var(--shadow-card)] lg:flex">
+      {/* الشريط الجانبي على يمين الشاشة: `start` هي اليمين في RTL لا `end` */}
+      <aside className="fixed inset-y-3 start-3 hidden w-64 flex-col overflow-hidden rounded-[var(--radius-panel)] border border-border-subtle bg-surface shadow-[var(--shadow-card)] lg:flex">
         <div className="px-6 py-6">
           <Link href={AREA_HOME[area]} className="block">
             <span className="block text-base font-semibold leading-tight text-ink">
@@ -78,7 +78,7 @@ export function AppShell({
       </aside>
 
       {/* الشريط العلوي */}
-      <header className="sticky top-0 z-30 border-b border-border-subtle bg-surface lg:me-[17.5rem]">
+      <header className="sticky top-0 z-30 border-b border-border-subtle bg-surface lg:ms-[17.5rem]">
         <div className="flex h-16 items-center justify-between gap-4 px-5 sm:px-8">
           <div className="min-w-0">
             <p className="text-sm text-ink-faint">{areaLabel}</p>
@@ -94,7 +94,7 @@ export function AppShell({
         </div>
       </header>
 
-      <main id="main" className="px-5 pb-24 pt-6 sm:px-8 lg:me-[17.5rem] lg:pb-12">
+      <main id="main" className="px-5 pb-24 pt-6 sm:px-8 lg:ms-[17.5rem] lg:pb-12">
         <div className="mx-auto w-full max-w-4xl">{children}</div>
       </main>
 
