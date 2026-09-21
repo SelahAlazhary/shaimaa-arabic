@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, BookOpen } from 'lucide-react'
+import { Reveal } from '@/components/site/reveal'
 
 function Arabesque({ className = '', opacity = 0.05 }: { className?: string; opacity?: number }) {
   return (
@@ -57,8 +58,13 @@ export function HeroSection({ t }: { t: Texts }) {
       {/* خطّ ذهبي رفيع يفصل الواجهة عمّا تحتها */}
       <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-accent/40" />
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[1fr_26rem] lg:gap-14 lg:py-20">
-        <div>
+      {/*
+       * ترتيب الهاتف: عنوان، فوصف، فصورة، فأزرار — الإجراء بعد أن يرى
+       * الزائر الأستاذة. وعلى الشاشات الكبيرة يعود العمودان بوضع صريح
+       * للصفوف والأعمدة، بلا تكرار عنصر في DOM.
+       */}
+      <div className="relative mx-auto grid max-w-7xl gap-8 px-5 py-16 sm:px-8 lg:grid-cols-[1fr_26rem] lg:gap-x-14 lg:gap-y-9 lg:py-20">
+        <div className="lg:col-start-1 lg:row-start-1 lg:self-end">
           <h1 className="font-display text-[2.25rem] font-bold leading-[1.45] text-ink-invert sm:text-[2.75rem] lg:text-[3.5rem]">
             {t('hero.titleLine1')}
             <br className="hidden sm:block" /> {t('hero.titleLine2')}
@@ -67,21 +73,16 @@ export function HeroSection({ t }: { t: Texts }) {
           <p className="mt-6 max-w-[36rem] text-[1.125rem] leading-[1.95] text-brand-100">
             {t('hero.description')}
           </p>
-
-          <div className="mt-9 flex flex-wrap gap-3">
-            <PrimaryButton t={t} />
-            <SecondaryButton t={t} />
-          </div>
         </div>
 
         {/*
          * الصورة المقصوصة على أرضية داكنة: لا صندوق أبيض حولها،
          * وحوافّها تذوب في الخلفية بدل أن تُقطع.
          */}
-        <div className="relative mx-auto aspect-[4/5] w-64 sm:w-72 lg:w-full">
+        <Reveal className="relative mx-auto aspect-[4/5] w-64 sm:w-72 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:w-full lg:self-center">
           <span
             aria-hidden
-            className="absolute -inset-x-6 bottom-0 top-8 rounded-t-[50%] border border-accent/50 bg-brand-900/40"
+            className="reveal-arch absolute -inset-x-6 bottom-0 top-8 rounded-t-[50%] border border-accent/50 bg-brand-900/40"
           />
           <Image
             src="/brand/teacher.webp"
@@ -90,12 +91,17 @@ export function HeroSection({ t }: { t: Texts }) {
             priority
             quality={92}
             sizes="(min-width: 1024px) 26rem, 18rem"
-            className="object-contain object-bottom"
+            className="reveal-photo object-contain object-bottom"
             style={{
               maskImage: 'linear-gradient(to top, transparent 0%, black 10%)',
               WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 10%)',
             }}
           />
+        </Reveal>
+
+        <div className="flex flex-wrap gap-3 lg:col-start-1 lg:row-start-2 lg:self-start">
+          <PrimaryButton t={t} />
+          <SecondaryButton t={t} />
         </div>
       </div>
     </section>
