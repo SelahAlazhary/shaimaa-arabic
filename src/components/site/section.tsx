@@ -22,9 +22,12 @@ export function SectionHeading({
 }
 
 /**
- * شبكة مرقّمة بخطوط فاصلة رفيعة بدل كروت عائمة.
- * الكرت المستقلّ بظلّ وأيقونة في مربّع يقرأ كقالب جاهز؛ الشبكة المحاطة
- * بإطار واحد وفواصل شعرية تقرأ كجدول مؤسّسي — وهو المطلوب هنا.
+ * جدول مسطور: بنود مرقّمة يفصلها خطّ علوي رفيع، بلا صندوق ولا خلفية.
+ *
+ * الكرت المستقلّ — بإطاره وخلفيته — يقرأ كقالب جاهز مهما نُظّف. والسطر
+ * الأفقي وحده هو ما تفعله المطبوعات الرسمية: فهرس كتاب، أو بنود لائحة.
+ * الرقم في عمود ثابت العرض، فيتحاذى العنوان والشرح معه تحاذيًا تامًّا
+ * عبر البنود كلها — وهذا التحاذي هو ما يُقرأ «رسميًّا» لا الزخرفة.
  */
 export function LedgerGrid({
   items,
@@ -34,19 +37,24 @@ export function LedgerGrid({
   columns?: 2 | 3
 }) {
   const cols = columns === 3 ? 'md:grid-cols-3' : 'sm:grid-cols-2'
-  const divide = columns === 3 ? 'md:divide-x md:divide-y-0' : 'sm:divide-x sm:divide-y-0'
 
   return (
-    <ul
-      className={`mt-10 grid divide-y divide-border-subtle overflow-hidden rounded-[var(--radius-card)] border border-border-subtle bg-surface ${cols} ${divide} rtl:divide-x-reverse`}
-    >
+    <ul className={`mt-12 grid gap-x-14 ${cols}`}>
       {items.map((item, i) => (
-        <li key={item.title} className="p-7 sm:p-8">
-          <p className="nums-ar text-base font-bold tabular-nums text-accent-ink">
+        <li
+          key={item.title}
+          className="grid grid-cols-[2.5rem_1fr] gap-x-3 border-t border-border-strong py-7"
+        >
+          <span className="nums-ar font-display text-[1.375rem] font-bold leading-none tabular-nums text-accent-ink">
             {formatNumber(i + 1).padStart(2, '٠')}
-          </p>
-          <h3 className="mt-3 text-lg font-semibold text-brand-800">{item.title}</h3>
-          <p className="mt-2.5 text-base leading-[1.9] text-ink-muted">{item.body}</p>
+          </span>
+
+          <div>
+            <h3 className="font-display text-[1.375rem] font-bold leading-none text-brand-800">
+              {item.title}
+            </h3>
+            <p className="mt-3.5 text-base leading-[1.95] text-ink-muted">{item.body}</p>
+          </div>
         </li>
       ))}
     </ul>
