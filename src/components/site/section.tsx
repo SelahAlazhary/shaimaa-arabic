@@ -22,12 +22,14 @@ export function SectionHeading({
 }
 
 /**
- * جدول مسطور: بنود مرقّمة يفصلها خطّ علوي رفيع، بلا صندوق ولا خلفية.
+ * جدول مسطور ببنود متبادلة التظليل.
  *
- * الكرت المستقلّ — بإطاره وخلفيته — يقرأ كقالب جاهز مهما نُظّف. والسطر
- * الأفقي وحده هو ما تفعله المطبوعات الرسمية: فهرس كتاب، أو بنود لائحة.
- * الرقم في عمود ثابت العرض، فيتحاذى العنوان والشرح معه تحاذيًا تامًّا
- * عبر البنود كلها — وهذا التحاذي هو ما يُقرأ «رسميًّا» لا الزخرفة.
+ * التظليل شطرنجي على الشبكة: يُحسب من موضع البند (صفّه وعموده) لا من
+ * ترتيبه، فتتقاطر اللوحات المظلَّلة كرقعة. وفي العمود الواحد على الموبايل
+ * يصير التبادل صفّيًّا — الشطرنجة بلا أعمدة تُقرأ فوضى لا نمطًا.
+ *
+ * الخلفية من الأخضر الفاتح في الهوية لا رماديًّا محايدًا، وحلقة أفتح
+ * تحدّ اللوحة بلا إطار ثقيل ولا ظلّ.
  */
 export function LedgerGrid({
   items,
@@ -40,23 +42,46 @@ export function LedgerGrid({
 
   return (
     <ul className={`mt-12 grid gap-x-14 ${cols}`}>
-      {items.map((item, i) => (
-        <li key={item.title} className="border-t border-border-strong py-4">
-          {/* لوحة مظلَّلة داخل السطر: تفصل البند بصريًّا والخطّ يبقى محدِّدًا للصفّ */}
-          <div className="grid grid-cols-[2.5rem_1fr] gap-x-3 rounded-[var(--radius-card)] bg-brand-50/70 p-6">
-            <span className="nums-ar font-display text-[1.375rem] font-bold leading-none tabular-nums text-accent-ink">
-              {formatNumber(i + 1).padStart(2, '٠')}
-            </span>
+      {items.map((item, i) => {
+        // عمود واحد: تبادل صفّي. أعمدة: رقعة شطرنج
+        const zebra = i % 2 === 0
+        const checker = (Math.floor(i / columns) + (i % columns)) % 2 === 0
 
-            <div>
-              <h3 className="font-display text-[1.375rem] font-bold leading-none text-brand-800">
-                {item.title}
-              </h3>
-              <p className="mt-3.5 text-base leading-[1.95] text-ink-muted">{item.body}</p>
+        const tinted = 'bg-brand-50/80 ring-1 ring-inset ring-brand-100'
+        const plain = 'bg-transparent ring-0'
+
+        const base = zebra ? tinted : plain
+        // القاعدة تُنقَض عند نقطة الأعمدة وحدها، وفقط إن اختلف النمطان
+        const atCols =
+          checker === zebra
+            ? ''
+            : columns === 3
+              ? checker
+                ? 'md:bg-brand-50/80 md:ring-1 md:ring-inset md:ring-brand-100'
+                : 'md:bg-transparent md:ring-0'
+              : checker
+                ? 'sm:bg-brand-50/80 sm:ring-1 sm:ring-inset sm:ring-brand-100'
+                : 'sm:bg-transparent sm:ring-0'
+
+        return (
+          <li key={item.title} className="border-t border-border-strong py-4">
+            <div
+              className={`grid grid-cols-[2.5rem_1fr] gap-x-3 rounded-[var(--radius-card)] p-6 ${base} ${atCols}`}
+            >
+              <span className="nums-ar font-display text-[1.375rem] font-bold leading-none tabular-nums text-accent-ink">
+                {formatNumber(i + 1).padStart(2, '٠')}
+              </span>
+
+              <div>
+                <h3 className="font-display text-[1.375rem] font-bold leading-none text-brand-800">
+                  {item.title}
+                </h3>
+                <p className="mt-3.5 text-base leading-[1.95] text-ink-muted">{item.body}</p>
+              </div>
             </div>
-          </div>
-        </li>
-      ))}
+          </li>
+        )
+      })}
     </ul>
   )
 }
