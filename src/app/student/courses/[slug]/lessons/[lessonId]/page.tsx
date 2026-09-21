@@ -10,12 +10,14 @@ import {
   FileText,
   ExternalLink,
   Link as LinkIcon,
+  ClipboardList,
+  CheckCircle2,
 } from 'lucide-react'
 import { requireStudent } from '@/lib/permissions'
 import { getLesson } from '@/lib/queries/course'
-import { Card } from '@/components/ui/card'
+import { Card, Badge } from '@/components/ui/card'
 import { LessonPlayer } from '@/components/student/lesson-player'
-import { formatDuration, formatFileSize } from '@/lib/utils/format'
+import { formatDuration, formatFileSize, formatNumber } from '@/lib/utils/format'
 
 export async function generateMetadata({
   params,
@@ -83,6 +85,70 @@ export default async function LessonPage({
           <p className="whitespace-pre-wrap text-base leading-relaxed text-ink-muted">
             {lesson.description}
           </p>
+        </Card>
+      )}
+
+      {lesson.homework.length > 0 && (
+        <Card className="p-5">
+          <h2 className="mb-3 flex items-center gap-2 text-base font-semibold text-ink">
+            <ClipboardList className="size-4 text-ink-muted" aria-hidden />
+            واجب هذا الدرس
+          </h2>
+
+          <ul className="divide-y divide-border-subtle">
+            {lesson.homework.map((hw) => {
+              const outOfTries =
+                hw.maxAttempts !== null && hw.attemptsUsed >= hw.maxAttempts && !hw.passed
+
+              return (
+                <li
+                  key={hw.id}
+                  className="flex flex-wrap items-center justify-between gap-3 py-3 first:pt-0 last:pb-0"
+                >
+                  <span className="min-w-0">
+                    <span className="flex flex-wrap items-center gap-2">
+                      <span className="text-base font-medium text-ink">{hw.title}</span>
+                      {hw.passed && (
+                        <Badge tone="success">
+                          <CheckCircle2 className="size-3" aria-hidden /> اجتزته
+                        </Badge>
+                      )}
+                    </span>
+
+                    <span className="nums-ar mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-faint">
+                      <span>النجاح {formatNumber(hw.passingPercentage)}٪</span>
+                      {hw.durationMinutes !== null && (
+                        <span>{formatDuration(hw.durationMinutes * 60)}</span>
+                      )}
+                      {hw.bestPercent !== null && (
+                        <span>أفضل نتيجة {formatNumber(Math.round(hw.bestPercent))}٪</span>
+                      )}
+                      {hw.maxAttempts !== null && (
+                        <span>
+                          {formatNumber(hw.attemptsUsed)} من{' '}
+                          {formatNumber(hw.maxAttempts)} محاولة
+                        </span>
+                      )}
+                    </span>
+                  </span>
+
+                  {outOfTries ? (
+                    <span className="shrink-0 text-base text-ink-faint">
+                      انتهت محاولاتك في هذا الواجب
+                    </span>
+                  ) : (
+                    <Link
+                      href={`/student/exams/${hw.id}`}
+                      className="inline-flex h-11 shrink-0 items-center gap-2 rounded-[var(--radius-field)] bg-brand-700 px-4 text-base font-medium text-ink-invert transition-colors hover:bg-brand-800"
+                    >
+                      <ClipboardList className="size-4" aria-hidden />
+                      {hw.attemptsUsed > 0 ? 'أعد المحاولة' : 'ابدأ الواجب'}
+                    </Link>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
         </Card>
       )}
 

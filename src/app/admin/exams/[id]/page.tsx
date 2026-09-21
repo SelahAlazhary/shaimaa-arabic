@@ -30,7 +30,9 @@ export default async function EditExamPage({ params }: { params: Promise<{ id: s
   const [examRes, coursesRes, questionsRes, optionsRes, attemptsRes] = await Promise.all([
     supabase
       .from('exams')
-      .select('id, course_id, title, description, duration_minutes, passing_percentage, max_attempts, is_published')
+      .select(
+        'id, course_id, lesson_id, title, description, duration_minutes, passing_percentage, max_attempts, is_published, lessons(id, title, course_id)',
+      )
       .eq('id', id)
       .maybeSingle(),
     supabase.from('courses').select('id, title').order('title'),
@@ -45,6 +47,9 @@ export default async function EditExamPage({ params }: { params: Promise<{ id: s
 
   const exam = examRes.data
   if (!exam) notFound()
+
+  // الواجب اختبار مربوط بدرس: الرجوع يكون إلى درسه لا إلى قائمة الاختبارات
+  const lesson = exam.lessons as { id: string; title: string; course_id: string } | null
 
   const options = optionsRes.data ?? []
   const attempts = attemptsRes.count ?? 0
@@ -69,12 +74,19 @@ export default async function EditExamPage({ params }: { params: Promise<{ id: s
   return (
     <div className="space-y-6">
       <Link
-        href="/admin/exams"
+        href={lesson ? `/admin/courses/${lesson.course_id}` : '/admin/exams'}
         className="inline-flex items-center gap-1.5 text-base text-ink-muted underline-offset-4 hover:text-ink hover:underline"
       >
         <ArrowRight className="size-4" aria-hidden />
-        كل الاختبارات
+        {lesson ? `الرجوع إلى المقرر` : 'كل الاختبارات'}
       </Link>
+
+      {lesson && (
+        <p className="flex items-center gap-2 rounded-[var(--radius-card)] bg-info-bg px-4 py-3 text-base text-info">
+          <ClipboardList className="size-4 shrink-0" aria-hidden />
+          هذا واجب على درس «{lesson.title}» — يظهر للطالب أسفل الدرس بعد نشره.
+        </p>
+      )}
 
       <PageHeader
         title={exam.title}

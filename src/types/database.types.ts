@@ -598,6 +598,7 @@ export type Database = {
           ends_at: string | null
           id: string
           is_published: boolean
+          lesson_id: string | null
           max_attempts: number | null
           passing_percentage: number
           starts_at: string | null
@@ -613,6 +614,7 @@ export type Database = {
           ends_at?: string | null
           id?: string
           is_published?: boolean
+          lesson_id?: string | null
           max_attempts?: number | null
           passing_percentage?: number
           starts_at?: string | null
@@ -628,6 +630,7 @@ export type Database = {
           ends_at?: string | null
           id?: string
           is_published?: boolean
+          lesson_id?: string | null
           max_attempts?: number | null
           passing_percentage?: number
           starts_at?: string | null
@@ -647,6 +650,13 @@ export type Database = {
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exams_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
             referencedColumns: ["id"]
           },
         ]

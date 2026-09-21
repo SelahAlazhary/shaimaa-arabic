@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { ArrowRight, BookOpen, Layers, ExternalLink, Image as ImageIcon } from 'lucide-react'
 import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
-import { Card, CardHeader } from '@/components/ui/card'
+import { CollapsibleCard } from '@/components/ui/collapsible-card'
 import { PageHeader } from '@/components/ui/page-header'
 import { CourseForm } from '@/components/admin/course-form'
 import { ModuleForm } from '@/components/admin/module-form'
@@ -14,6 +14,12 @@ import {
   type CurriculumLesson,
   type CurriculumModule,
 } from '@/components/admin/course-curriculum'
+
+const STATUS_LABEL: Record<string, string> = {
+  draft: 'مسودّة',
+  published: 'منشور',
+  archived: 'مؤرشف',
+}
 
 export async function generateMetadata({
   params,
@@ -55,8 +61,8 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
   const lessons = lessonsRes.data ?? []
   const lessonIds = lessons.map((l) => l.id)
 
-  // الفيديوهات والمرفقات تُجلب لدروس هذا المقرر وحده، لا للجدول كلّه
-  const [videosRes, filesRes] = lessonIds.length
+  // الفيديوهات والمرفقات والواجبات تُجلب لدروس هذا المقرر وحده، لا للجدول كلّه
+  const [videosRes, filesRes, homeworkRes] = lessonIds.length
     ? await Promise.all([
         supabase
           .from('lesson_videos')
@@ -66,8 +72,15 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
           .from('lesson_attachments')
           .select('lesson_id, attachments(id, title, file_size, external_url)')
           .in('lesson_id', lessonIds),
+        supabase
+          .from('exams')
+          .select(
+            'id, lesson_id, title, is_published, passing_percentage, exam_questions(count), exam_attempts(count)',
+          )
+          .in('lesson_id', lessonIds)
+          .order('created_at'),
       ])
-    : [{ data: [] }, { data: [] }]
+    : [{ data: [] }, { data: [] }, { data: [] }]
 
   const videoOf = new Map(
     (videosRes.data ?? []).map((v) => [
@@ -95,6 +108,22 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
     filesOf.set(row.lesson_id, list)
   }
 
+  const homeworkOf = new Map<string, CurriculumLesson['homework']>()
+  for (const hw of homeworkRes.data ?? []) {
+    if (!hw.lesson_id) continue
+    const list = homeworkOf.get(hw.lesson_id) ?? []
+    list.push({
+      id: hw.id,
+      title: hw.title,
+      isPublished: hw.is_published,
+      // عدّ العلاقة يعود مصفوفةً فيها كائن واحد فيه count
+      questions: hw.exam_questions?.[0]?.count ?? 0,
+      attempts: hw.exam_attempts?.[0]?.count ?? 0,
+      passingPercentage: Number(hw.passing_percentage),
+    })
+    homeworkOf.set(hw.lesson_id, list)
+  }
+
   const toManaged = (l: (typeof lessons)[number]): CurriculumLesson => ({
     id: l.id,
     title: l.title,
@@ -107,6 +136,7 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
     publishAt: l.publish_at ?? '',
     video: videoOf.get(l.id) ?? null,
     attachments: filesOf.get(l.id) ?? [],
+    homework: homeworkOf.get(l.id) ?? [],
     durationSeconds: l.duration_seconds,
     hasVideo: videoOf.has(l.id),
   })
@@ -149,8 +179,11 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
         }
       />
 
-      <Card>
-        <CardHeader title="بيانات المقرر" icon={BookOpen} />
+      <CollapsibleCard
+        title="بيانات المقرر"
+        icon={BookOpen}
+        summary={`${course.title} · ${STATUS_LABEL[course.status]}`}
+      >
         <CourseForm
           grades={gradesRes.data ?? []}
           defaults={{
@@ -163,26 +196,29 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
             slug: course.slug,
           }}
         />
-      </Card>
+      </CollapsibleCard>
 
-      <Card>
-        <CardHeader title="صورة المقرر" icon={ImageIcon} />
+      <CollapsibleCard
+        title="صورة المقرر"
+        icon={ImageIcon}
+        summary={course.thumbnail_url ? 'صورة مرفوعة' : 'بلا صورة'}
+      >
         <CourseImageForm
           courseId={course.id}
           current={course.thumbnail_url}
           courseTitle={course.title}
         />
-      </Card>
+      </CollapsibleCard>
 
-      <Card>
-        <CardHeader title="محتوى المقرر" icon={Layers} />
+      {/* المحتوى مفتوح افتراضيًّا: هو ما يُفتح المقرر من أجله */}
+      <CollapsibleCard title="محتوى المقرر" icon={Layers} defaultOpen>
         <ModuleForm courseId={course.id} />
         <CourseCurriculum
           courseId={course.id}
           modules={grouped}
           moduleOptions={modules}
         />
-      </Card>
+      </CollapsibleCard>
     </div>
   )
 }

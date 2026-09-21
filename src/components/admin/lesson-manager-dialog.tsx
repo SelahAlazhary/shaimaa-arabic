@@ -11,7 +11,14 @@ import {
   Link2,
   Trash2,
   ShieldCheck,
+  ClipboardList,
+  Plus,
+  Eye,
+  EyeOff,
+  Unlink,
+  PencilLine,
 } from 'lucide-react'
+import NextLink from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import {
   saveLessonContent,
@@ -20,9 +27,17 @@ import {
   addLinkAttachment,
 } from '@/lib/mutations/lesson-manager'
 import { unlinkAttachmentFromLesson } from '@/lib/mutations/attachments'
+import {
+  createHomework,
+  detachHomework,
+  deleteHomework,
+  setHomeworkPublished,
+} from '@/lib/mutations/homework'
 import { Field, Input, Select } from '@/components/ui/field'
 import { Button } from '@/components/ui/button'
-import { formatFileSize, formatNumber } from '@/lib/utils/format'
+import { Badge } from '@/components/ui/card'
+import { ConfirmButton } from '@/components/ui/confirm-button'
+import { formatFileSize, formatNumber, pluralAr } from '@/lib/utils/format'
 import { cn } from '@/lib/utils/cn'
 
 export type ManagedLesson = {
@@ -42,11 +57,20 @@ export type ManagedLesson = {
     allowDownload: boolean
   } | null
   attachments: { id: string; title: string; size: number | null; isLink: boolean }[]
+  homework: {
+    id: string
+    title: string
+    isPublished: boolean
+    questions: number
+    attempts: number
+    passingPercentage: number
+  }[]
 }
 
 const TABS = [
   { id: 'content', label: 'المحتوى', icon: FileText },
   { id: 'video', label: 'الفيديو', icon: Video },
+  { id: 'homework', label: 'الواجبات', icon: ClipboardList },
   { id: 'files', label: 'المرفقات', icon: Paperclip },
 ] as const
 
@@ -213,6 +237,39 @@ export function LessonManagerDialog({
       }
     })
 
+  // ===== الواجبات =====
+  const [newHw, setNewHw] = useState(false)
+  const [hwTitle, setHwTitle] = useState('')
+  const [hwPassing, setHwPassing] = useState('60')
+  const [hwDuration, setHwDuration] = useState('')
+  const [hwAttempts, setHwAttempts] = useState('')
+
+  const addHomework = () =>
+    start(async () => {
+      const res = await createHomework({
+        lessonId: lesson.id,
+        courseId,
+        title: hwTitle,
+        passingPercentage: hwPassing,
+        durationMinutes: hwDuration,
+        maxAttempts: hwAttempts,
+      })
+      if (res.ok) {
+        toast.success(res.message)
+        setHwTitle('')
+        setNewHw(false)
+      } else {
+        toast.error(res.message)
+      }
+    })
+
+  const toggleHomework = (examId: string, published: boolean) =>
+    start(async () => {
+      const res = await setHomeworkPublished(examId, courseId, published)
+      if (res.ok) toast.success(res.message)
+      else toast.error(res.message)
+    })
+
   // ===== المرفقات =====
   const [linkTitle, setLinkTitle] = useState('')
   const [linkUrl, setLinkUrl] = useState('')
@@ -291,6 +348,7 @@ export function LessonManagerDialog({
             <Icon className="size-4" aria-hidden />
             {label}
             {id === 'files' && ` (${formatNumber(lesson.attachments.length)})`}
+            {id === 'homework' && ` (${formatNumber(lesson.homework.length)})`}
           </button>
         ))}
       </div>
@@ -513,6 +571,189 @@ export function LessonManagerDialog({
             <Button loading={pending && progress === null} loadingText="جارٍ الحفظ…" onClick={saveVideo}>
               حفظ الفيديو
             </Button>
+          </div>
+        )}
+
+        {tab === 'homework' && (
+          <div className="space-y-5">
+            <p className="text-base leading-[1.9] text-ink-muted">
+              الواجب اختبار تفاعلي مربوط بهذا الدرس: أسئلة اختيار وصواب وخطأ
+              وإجابة قصيرة، يُصحَّح تلقائيًّا وتظهر نتيجته للطالب فور تسليمه.
+              يظهر أسفل الدرس، ولا يصل الطالب إليه ما دام الدرس مخفيًّا.
+            </p>
+
+            {newHw ? (
+              <form
+                className="space-y-4 rounded-[var(--radius-card)] border border-border-subtle bg-surface-muted p-4"
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  if (hwTitle.trim()) addHomework()
+                }}
+              >
+                <h3 className="text-base font-semibold text-ink">واجب جديد</h3>
+
+                <Field label="عنوان الواجب" required>
+                  {({ id }) => (
+                    <Input
+                      id={id}
+                      value={hwTitle}
+                      onChange={(e) => setHwTitle(e.target.value)}
+                      autoFocus
+                      required
+                    />
+                  )}
+                </Field>
+
+                <div className="grid gap-4 sm:grid-cols-3">
+                  <Field label="نسبة النجاح ٪" required>
+                    {({ id }) => (
+                      <Input
+                        id={id}
+                        type="number"
+                        min={1}
+                        max={100}
+                        value={hwPassing}
+                        onChange={(e) => setHwPassing(e.target.value)}
+                        required
+                      />
+                    )}
+                  </Field>
+
+                  <Field label="المدة بالدقائق" hint="فارغة = بلا مؤقّت">
+                    {({ id }) => (
+                      <Input
+                        id={id}
+                        type="number"
+                        min={1}
+                        max={600}
+                        value={hwDuration}
+                        onChange={(e) => setHwDuration(e.target.value)}
+                      />
+                    )}
+                  </Field>
+
+                  <Field label="عدد المحاولات" hint="فارغ = بلا حدّ">
+                    {({ id }) => (
+                      <Input
+                        id={id}
+                        type="number"
+                        min={1}
+                        max={20}
+                        value={hwAttempts}
+                        onChange={(e) => setHwAttempts(e.target.value)}
+                      />
+                    )}
+                  </Field>
+                </div>
+
+                <div className="flex flex-wrap gap-2.5">
+                  <Button
+                    type="submit"
+                    loading={pending}
+                    loadingText="جارٍ الإنشاء…"
+                    disabled={!hwTitle.trim()}
+                  >
+                    <Plus aria-hidden />
+                    أنشئ الواجب
+                  </Button>
+                  <Button type="button" variant="ghost" onClick={() => setNewHw(false)}>
+                    إلغاء
+                  </Button>
+                </div>
+              </form>
+            ) : (
+              <Button variant="secondary" onClick={() => setNewHw(true)}>
+                <Plus aria-hidden />
+                واجب جديد
+              </Button>
+            )}
+
+            {lesson.homework.length === 0 ? (
+              <p className="rounded-[var(--radius-card)] border border-dashed border-border-strong p-6 text-center text-base text-ink-muted">
+                لا واجب لهذا الدرس بعد.
+              </p>
+            ) : (
+              <ul className="divide-y divide-border-subtle rounded-[var(--radius-card)] border border-border-subtle">
+                {lesson.homework.map((hw) => (
+                  <li key={hw.id} className="space-y-3 p-4">
+                    <div className="min-w-0">
+                      <span className="block text-base font-medium text-ink">{hw.title}</span>
+                      <span className="nums-ar mt-1.5 flex flex-wrap items-center gap-2 text-sm">
+                        <Badge tone={hw.isPublished ? 'success' : 'neutral'}>
+                          {hw.isPublished ? 'منشور' : 'مخفي'}
+                        </Badge>
+                        <span className="text-ink-faint">
+                          {pluralAr(hw.questions, {
+                            one: 'سؤال واحد',
+                            two: 'سؤالان',
+                            few: 'أسئلة',
+                            many: 'سؤالًا',
+                          })}
+                        </span>
+                        <span className="text-ink-faint">
+                          النجاح {formatNumber(hw.passingPercentage)}٪
+                        </span>
+                        {hw.attempts > 0 && (
+                          <span className="text-ink-faint">
+                            {pluralAr(hw.attempts, {
+                              one: 'محاولة واحدة',
+                              two: 'محاولتان',
+                              few: 'محاولات',
+                              many: 'محاولة',
+                            })}
+                          </span>
+                        )}
+                      </span>
+                    </div>
+
+                    {hw.questions === 0 && (
+                      <p className="text-base text-warning">
+                        لا أسئلة بعد. اضغط «حرّر الأسئلة» لكتابتها.
+                      </p>
+                    )}
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      <NextLink
+                        href={`/admin/exams/${hw.id}`}
+                        className="inline-flex h-10 items-center gap-2 rounded-[var(--radius-field)] bg-brand-700 px-3.5 text-base font-medium text-ink-invert transition-colors hover:bg-brand-800"
+                      >
+                        <PencilLine className="size-4" aria-hidden />
+                        حرّر الأسئلة
+                      </NextLink>
+
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        disabled={pending}
+                        onClick={() => toggleHomework(hw.id, !hw.isPublished)}
+                      >
+                        {hw.isPublished ? <EyeOff aria-hidden /> : <Eye aria-hidden />}
+                        {hw.isPublished ? 'أخفِه' : 'انشره'}
+                      </Button>
+
+                      <ConfirmButton
+                        label="افصله عن الدرس"
+                        icon={<Unlink aria-hidden />}
+                        title="فصل الواجب عن الدرس؟"
+                        body={`لن يظهر «${hw.title}» مع الدرس، ويبقى اختبارًا في المقرر بنتائجه.`}
+                        confirmLabel="افصله"
+                        action={() => detachHomework(hw.id, courseId)}
+                      />
+
+                      <ConfirmButton
+                        label=""
+                        srLabel={`حذف ${hw.title}`}
+                        icon={<Trash2 aria-hidden />}
+                        title="حذف الواجب؟"
+                        body={`سيُحذف «${hw.title}» بأسئلته. الحذف ممنوع إن حلّه طالب.`}
+                        confirmLabel="احذف الواجب"
+                        action={() => deleteHomework(hw.id, courseId)}
+                      />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         )}
 

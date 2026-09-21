@@ -25,14 +25,17 @@ export function formatYear(value: number): string {
 }
 
 /**
- * تمييز العدد في العربية أربع صور لا صورة واحدة:
+ * تمييز العدد في العربية صور لا صورة واحدة:
  * «كود واحد» · «كودان» · «٥ أكواد» · «١٥ كودًا».
  * كتابة «5 كود» تُفسد النصّ مهما صحّ العدد.
+ *
+ * والصفر صورة خامسة: «٠ كودًا» ركيك، والعربية تقول «لا أكواد».
  */
 export function pluralAr(
   count: number,
-  forms: { one: string; two: string; few: string; many: string },
+  forms: { one: string; two: string; few: string; many: string; zero?: string },
 ): string {
+  if (count === 0) return forms.zero ?? `لا ${forms.few}`
   if (count === 1) return forms.one
   if (count === 2) return forms.two
 

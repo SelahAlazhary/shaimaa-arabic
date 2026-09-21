@@ -18,6 +18,7 @@ import {
   Clock,
   Layers,
   CalendarClock,
+  ClipboardList,
   Check,
   X,
 } from 'lucide-react'
@@ -230,6 +231,22 @@ export function CourseCurriculum({
                                   two: 'مرفقان',
                                   few: 'مرفقات',
                                   many: 'مرفقًا',
+                                })}
+                              </Badge>
+                            )}
+
+                            {lesson.homework.length > 0 && (
+                              <Badge
+                                tone={
+                                  lesson.homework.some((h) => h.isPublished) ? 'info' : 'warning'
+                                }
+                              >
+                                <ClipboardList className="size-3" aria-hidden />{' '}
+                                {pluralAr(lesson.homework.length, {
+                                  one: 'واجب واحد',
+                                  two: 'واجبان',
+                                  few: 'واجبات',
+                                  many: 'واجبًا',
                                 })}
                               </Badge>
                             )}
