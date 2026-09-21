@@ -111,7 +111,7 @@ export function LessonForm({
             name="title"
             value={values.title}
             onChange={(e) => set('title', e.target.value)}
-            placeholder="مثال: المبتدأ والخبر"
+            placeholder="عنوان الدرس"
             aria-describedby={describedBy}
             invalid={invalid}
             required

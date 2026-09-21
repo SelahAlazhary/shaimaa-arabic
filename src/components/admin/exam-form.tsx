@@ -79,7 +79,7 @@ export function ExamForm({
             name="title"
             value={values.title}
             onChange={(e) => set('title', e.target.value)}
-            placeholder="مثال: اختبار الأسبوع الأول — المرفوعات"
+            placeholder="عنوان الاختبار"
             aria-describedby={describedBy}
             invalid={invalid}
             required

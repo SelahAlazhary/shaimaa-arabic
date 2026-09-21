@@ -50,7 +50,7 @@ export function ModuleForm({ courseId }: { courseId: string }) {
             name="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="مثال: الوحدة الأولى — المرفوعات"
+            placeholder="اسم الوحدة"
             aria-invalid={Boolean(error) || undefined}
             className={[
               'h-11 w-full rounded-[var(--radius-field)] border bg-surface px-3.5 text-base text-ink',

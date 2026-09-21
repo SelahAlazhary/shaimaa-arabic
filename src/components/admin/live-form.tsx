@@ -72,7 +72,7 @@ export function LiveForm({ courses }: { courses: { id: string; title: string }[]
             name="title"
             value={values.title}
             onChange={(e) => set('title', e.target.value)}
-            placeholder="مثال: مراجعة ليلة الامتحان — النحو"
+            placeholder="عنوان الحصة"
             aria-describedby={describedBy}
             invalid={invalid}
             required

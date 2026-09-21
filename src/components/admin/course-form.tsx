@@ -81,7 +81,7 @@ export function CourseForm({
             name="title"
             value={values.title}
             onChange={(e) => set('title', e.target.value)}
-            placeholder="مثال: النحو — الفصل الدراسي الأول"
+            placeholder="اسم المقرر كما يظهر للطالب"
             aria-describedby={describedBy}
             invalid={invalid}
             required
@@ -179,7 +179,7 @@ export function CourseForm({
               onChange={(e) => set('slug', e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
               dir="ltr"
               className="text-start font-mono"
-              placeholder="nahw-term-1"
+              placeholder="حروف إنجليزية وأرقام وشرطات"
               aria-describedby={describedBy}
               invalid={invalid}
             />

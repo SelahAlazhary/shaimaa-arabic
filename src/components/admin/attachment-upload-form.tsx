@@ -55,7 +55,7 @@ export function AttachmentUploadForm({ courses }: { courses: { id: string; title
             name="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="مثال: مذكرة النحو — الوحدة الأولى"
+            placeholder="اسم الملف كما يظهر للطالب"
             invalid={invalid}
             required
           />

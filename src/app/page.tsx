@@ -6,7 +6,7 @@ import { SectionHeading, LedgerGrid } from '@/components/site/section'
 import { getSiteTexts } from '@/lib/queries/site-texts'
 import { HeroSection } from '@/components/site/hero-section'
 import { createClient } from '@/lib/supabase/server'
-import { formatNumber } from '@/lib/utils/format'
+import { formatNumber, formatYear } from '@/lib/utils/format'
 
 export const metadata: Metadata = {
   title: 'منصة الأستاذة الشيماء أحمد — اللغة العربية',
@@ -200,10 +200,16 @@ export default async function LandingPage() {
       </main>
 
       <footer className="border-t border-border-subtle bg-surface">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-5 py-6 sm:px-8">
-          <p className="nums-ar text-sm text-ink-muted">
-            {t('footer.about')} © {formatNumber(new Date().getFullYear())}
-          </p>
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-5 py-6 sm:px-8">
+          <div className="min-w-0">
+            <p className="nums-ar text-sm text-ink-muted">
+              {t('footer.about')} © {formatYear(new Date().getFullYear())}
+            </p>
+            {/* سطر جهة التطوير: منفصل وأخفت، فلا يزاحم هوية المنصة */}
+            <p className="mt-1 text-sm text-ink-faint">
+              {t('footer.credit')}
+            </p>
+          </div>
           <nav aria-label="روابط الحساب" className="flex gap-5 text-sm text-ink-muted">
             <Link href="/login" className="underline-offset-4 hover:underline">
               تسجيل الدخول

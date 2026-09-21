@@ -112,7 +112,7 @@ export function RegisterForm({ reference }: { reference: RegistrationReference }
             value={values.fullName}
             onChange={(e) => set('fullName', e.target.value)}
             autoComplete="name"
-            placeholder="مثال: فاطمة محمد عبد الله"
+            placeholder="الاسم كما في شهادة الميلاد"
             aria-describedby={describedBy}
             invalid={invalid}
             required
@@ -132,7 +132,7 @@ export function RegisterForm({ reference }: { reference: RegistrationReference }
             autoComplete="email"
             dir="ltr"
             className="text-start"
-            placeholder="name@example.com"
+            placeholder="البريد الذي تستقبل عليه رسائل المنصة"
             aria-describedby={describedBy}
             invalid={invalid}
             required
@@ -167,7 +167,7 @@ export function RegisterForm({ reference }: { reference: RegistrationReference }
             maxLength={PHONE_LENGTH}
             dir="ltr"
             className="text-start tracking-wider"
-            placeholder="01012345678"
+            placeholder="١١ رقمًا يبدأ بـ ٠١"
             aria-describedby={describedBy}
             invalid={invalid}
             required
@@ -290,7 +290,7 @@ export function RegisterForm({ reference }: { reference: RegistrationReference }
             value={values.schoolName}
             onChange={(e) => set('schoolName', e.target.value)}
             autoComplete="organization"
-            placeholder="مثال: مدرسة الشهيد أحمد منسي الثانوية"
+            placeholder="اسم مدرستك كما هو رسميًّا"
             aria-describedby={describedBy}
             invalid={invalid}
             required

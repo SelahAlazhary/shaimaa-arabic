@@ -172,6 +172,7 @@ export const TEXT_GROUPS: TextGroup[] = [
         value: 'منصة الأستاذة الشيماء أحمد لتعليم اللغة العربية — للمرحلتين الإعدادية والثانوية.',
         long: true,
       },
+      { key: 'footer.credit', label: 'سطر جهة التطوير', value: 'من تطوير شركة Spot Light' },
     ],
   },
 ]

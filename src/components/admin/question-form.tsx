@@ -204,7 +204,7 @@ export function QuestionForm({
             onChange={(e) => setQuestionText(e.target.value)}
             aria-describedby={describedBy}
             aria-invalid={invalid || undefined}
-            placeholder="مثال: ما إعراب كلمة «العلمُ» في قولنا: العلمُ نورٌ؟"
+            placeholder="نصّ السؤال كما يقرؤه الطالب"
             className="block w-full rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 py-2.5 text-base leading-relaxed text-ink placeholder:text-ink-faint hover:border-ink-faint"
             required
           />
@@ -295,7 +295,7 @@ export function QuestionForm({
               name="correctText"
               value={correctText}
               onChange={(e) => setCorrectText(e.target.value)}
-              placeholder="مثال: مبتدأ مرفوع"
+              placeholder="الإجابة النموذجية"
               aria-describedby={describedBy}
               invalid={invalid}
               readOnly={locked}
@@ -320,7 +320,7 @@ export function QuestionForm({
             onChange={(e) => setExplanation(e.target.value)}
             aria-describedby={describedBy}
             aria-invalid={invalid || undefined}
-            placeholder="مثال: «العلمُ» مبتدأ مرفوع وعلامة رفعه الضمة الظاهرة."
+            placeholder="شرح يظهر للطالب بعد التسليم"
             className="block w-full rounded-[var(--radius-field)] border border-border-strong bg-surface px-3.5 py-2.5 text-base leading-relaxed text-ink placeholder:text-ink-faint hover:border-ink-faint"
           />
         )}

@@ -28,8 +28,8 @@ export function SectionHeading({
  * ترتيبه، فتتقاطر اللوحات المظلَّلة كرقعة. وفي العمود الواحد على الموبايل
  * يصير التبادل صفّيًّا — الشطرنجة بلا أعمدة تُقرأ فوضى لا نمطًا.
  *
- * الخلفية من الأخضر الفاتح في الهوية لا رماديًّا محايدًا، وحلقة أفتح
- * تحدّ اللوحة بلا إطار ثقيل ولا ظلّ.
+ * اللونان من الهوية نفسها: الأخضر الفاتح والذهبي الفاتح يتبادلان،
+ * وحلقة داخلية من درجة كلٍّ منهما تحدّ اللوحة بلا إطار ثقيل ولا ظلّ.
  */
 export function LedgerGrid({
   items,
@@ -47,21 +47,22 @@ export function LedgerGrid({
         const zebra = i % 2 === 0
         const checker = (Math.floor(i / columns) + (i % columns)) % 2 === 0
 
-        const tinted = 'bg-brand-50/80 ring-1 ring-inset ring-brand-100'
-        const plain = 'bg-transparent ring-0'
+        // لونان من الهوية يتبادلان: الأخضر الفاتح والذهبي الفاتح
+        const green = 'bg-brand-50/80 ring-1 ring-inset ring-brand-100'
+        const gold = 'bg-accent-bg/70 ring-1 ring-inset ring-accent/20'
 
-        const base = zebra ? tinted : plain
+        const base = zebra ? green : gold
         // القاعدة تُنقَض عند نقطة الأعمدة وحدها، وفقط إن اختلف النمطان
         const atCols =
           checker === zebra
             ? ''
             : columns === 3
               ? checker
-                ? 'md:bg-brand-50/80 md:ring-1 md:ring-inset md:ring-brand-100'
-                : 'md:bg-transparent md:ring-0'
+                ? 'md:bg-brand-50/80 md:ring-brand-100'
+                : 'md:bg-accent-bg/70 md:ring-accent/20'
               : checker
-                ? 'sm:bg-brand-50/80 sm:ring-1 sm:ring-inset sm:ring-brand-100'
-                : 'sm:bg-transparent sm:ring-0'
+                ? 'sm:bg-brand-50/80 sm:ring-brand-100'
+                : 'sm:bg-accent-bg/70 sm:ring-accent/20'
 
         return (
           <li key={item.title} className="border-t border-border-strong py-4">
@@ -69,7 +70,7 @@ export function LedgerGrid({
               className={`grid grid-cols-[2.5rem_1fr] gap-x-3 rounded-[var(--radius-card)] p-6 ${base} ${atCols}`}
             >
               <span className="nums-ar font-display text-[1.375rem] font-bold leading-none tabular-nums text-accent-ink">
-                {formatNumber(i + 1).padStart(2, '٠')}
+                {`–${formatNumber(i + 1)}`}
               </span>
 
               <div>

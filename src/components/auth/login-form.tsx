@@ -48,7 +48,7 @@ export function LoginForm({ next }: { next?: string | undefined }) {
             autoComplete="email"
             dir="ltr"
             className="text-start"
-            placeholder="name@example.com"
+            placeholder="البريد الذي تستقبل عليه رسائل المنصة"
             aria-describedby={describedBy}
             invalid={invalid}
             required

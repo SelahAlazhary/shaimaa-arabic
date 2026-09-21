@@ -16,6 +16,14 @@ export function formatNumber(value: number): string {
   return new Intl.NumberFormat(AR).format(value)
 }
 
+/**
+ * سنة بأرقام عربية بلا فاصل آلاف.
+ * `formatNumber(2026)` يعطي «٢٬٠٢٦» — صحيح كعدد، خطأ كسنة.
+ */
+export function formatYear(value: number): string {
+  return new Intl.NumberFormat(AR, { useGrouping: false }).format(value)
+}
+
 export function formatPercent(value: number): string {
   return new Intl.NumberFormat(AR, { style: 'percent', maximumFractionDigits: 0 })
     .format(value / 100)

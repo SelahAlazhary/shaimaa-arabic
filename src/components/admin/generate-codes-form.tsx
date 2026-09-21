@@ -102,7 +102,7 @@ export function GenerateCodesForm({ courses }: { courses: { id: string; title: s
                 <Input
                   id={id}
                   name="batch"
-                  placeholder="مثال: دفعة سبتمبر"
+                  placeholder="اسم يميّز هذه الدفعة"
                   aria-describedby={describedBy}
                   invalid={invalid}
                 />
