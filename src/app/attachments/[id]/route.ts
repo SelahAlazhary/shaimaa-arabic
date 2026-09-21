@@ -25,12 +25,26 @@ export async function GET(
   // RLS على attachments تشترط تسجيلًا نشطًا في مقرر مرتبط بالمرفق
   const { data: attachment } = await supabase
     .from('attachments')
-    .select('storage_path, file_name')
+    .select('storage_path, file_name, external_url')
     .eq('id', id)
     .maybeSingle()
 
   if (!attachment) {
     return new NextResponse('هذا الملف غير متاح لك.', {
+      status: 404,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    })
+  }
+
+  // مرفق برابط خارجي: لا ملف نوقّعه، فنحوّل إلى الرابط نفسه
+  if (attachment.external_url) {
+    return NextResponse.redirect(attachment.external_url, {
+      headers: { 'Cache-Control': 'no-store' },
+    })
+  }
+
+  if (!attachment.storage_path) {
+    return new NextResponse('هذا الملف غير متاح.', {
       status: 404,
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     })

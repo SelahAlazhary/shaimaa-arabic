@@ -13,6 +13,9 @@ type Props = {
   watermark: string
   videoUrl: string | null
   provider: string | null
+  /** نسبة المشاهدة التي تُعدّ إكمالًا تلقائيًّا */
+  requiredPercent: number
+  allowDownload: boolean
   watchedSeconds: number
   completed: boolean
   entitled: boolean
@@ -62,6 +65,8 @@ export function LessonPlayer({
   watermark,
   videoUrl,
   provider,
+  requiredPercent,
+  allowDownload,
   watchedSeconds,
   completed,
   entitled,
@@ -86,10 +91,16 @@ export function LessonPlayer({
       if (now - lastSaved.current < 15) return
       lastSaved.current = now
 
+      const percent = (el.currentTime / el.duration) * 100
+
       void saveLessonProgress({
         lessonId,
         watchedSeconds: now,
-        progressPercent: (el.currentTime / el.duration) * 100,
+        progressPercent: percent,
+      }).then(() => {
+        // الدرس يكتمل ببلوغ النسبة المطلوبة، لا بانتهاء الشريط:
+        // كثير من الدروس تُختم بثوانٍ لا تُشاهَد
+        if (percent >= requiredPercent) setIsComplete(true)
       })
     }
 
@@ -107,7 +118,7 @@ export function LessonPlayer({
       el.removeEventListener('timeupdate', onTime)
       el.removeEventListener('ended', onEnded)
     }
-  }, [lessonId, watchedSeconds])
+  }, [lessonId, watchedSeconds, requiredPercent])
 
   const complete = () =>
     startTransition(async () => {
@@ -143,7 +154,9 @@ export function LessonPlayer({
   }
 
   const embed = toEmbedUrl(videoUrl)
-  const isDirect = DIRECT_VIDEO.test(videoUrl) || provider === 'bunny'
+  // المستضاف داخل المنصة يصل عبر مسار موقّع لا امتداد له، فيُعرف بمقدّمه
+  const isDirect =
+    provider === 'self' || provider === 'bunny' || DIRECT_VIDEO.test(videoUrl)
 
   return (
     <div className="space-y-3">
@@ -155,7 +168,9 @@ export function LessonPlayer({
             ref={videoRef}
             src={videoUrl}
             controls
-            controlsList="nodownload"
+            controlsList={allowDownload ? undefined : 'nodownload noplaybackrate'}
+            onContextMenu={allowDownload ? undefined : (e) => e.preventDefault()}
+            disablePictureInPicture={!allowDownload}
             playsInline
             preload="metadata"
             className="aspect-video w-full"

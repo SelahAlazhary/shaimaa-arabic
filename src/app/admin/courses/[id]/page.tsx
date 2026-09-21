@@ -1,18 +1,19 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowRight, BookOpen, Plus, Layers, Eye, EyeOff, Clock, ExternalLink, Image as ImageIcon } from 'lucide-react'
-import { requireAdmin } from '@/lib/permissions'
+import { ArrowRight, BookOpen, Layers, ExternalLink, Image as ImageIcon } from 'lucide-react'
+import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
-import { Card, CardHeader, EmptyState, Badge } from '@/components/ui/card'
+import { Card, CardHeader } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
 import { CourseForm } from '@/components/admin/course-form'
-import { LessonForm } from '@/components/admin/lesson-form'
 import { ModuleForm } from '@/components/admin/module-form'
-import { LessonList, type LessonRow } from '@/components/admin/lesson-list'
-import { ModuleList } from '@/components/admin/module-list'
 import { CourseImageForm } from '@/components/admin/course-image-form'
-import { formatNumber, formatDuration } from '@/lib/utils/format'
+import {
+  CourseCurriculum,
+  type CurriculumLesson,
+  type CurriculumModule,
+} from '@/components/admin/course-curriculum'
 
 export async function generateMetadata({
   params,
@@ -26,11 +27,11 @@ export async function generateMetadata({
 }
 
 export default async function EditCoursePage({ params }: { params: Promise<{ id: string }> }) {
-  await requireAdmin()
+  await requireAdminPage('courses')
   const { id } = await params
   const supabase = await createClient()
 
-  const [courseRes, gradesRes, modulesRes, lessonsRes, videosRes] = await Promise.all([
+  const [courseRes, gradesRes, modulesRes, lessonsRes] = await Promise.all([
     supabase
       .from('courses')
       .select('id, title, description, grade_id, price, status, slug, thumbnail_url')
@@ -40,10 +41,11 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
     supabase.from('course_modules').select('id, title').eq('course_id', id).order('sort_order'),
     supabase
       .from('lessons')
-      .select('id, title, description, duration_seconds, is_free, is_published, module_id, sort_order')
+      .select(
+        'id, title, description, duration_seconds, is_free, is_published, module_id, sort_order, section, publish_at',
+      )
       .eq('course_id', id)
       .order('sort_order'),
-    supabase.from('lesson_videos').select('lesson_id, video_url'),
   ])
 
   const course = courseRes.data
@@ -51,24 +53,75 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
 
   const modules = modulesRes.data ?? []
   const lessons = lessonsRes.data ?? []
-  const withVideo = new Set((videosRes.data ?? []).map((v) => v.lesson_id))
-  // الرابط نفسه لازم لنموذج التعديل: حفظُه فارغًا يحذف الفيديو من الدرس
-  const videoUrlOf = new Map((videosRes.data ?? []).map((v) => [v.lesson_id, v.video_url]))
-  const moduleName = new Map(modules.map((m) => [m.id, m.title] as const))
+  const lessonIds = lessons.map((l) => l.id)
 
-  const lessonRows: LessonRow[] = lessons.map((l) => ({
+  // الفيديوهات والمرفقات تُجلب لدروس هذا المقرر وحده، لا للجدول كلّه
+  const [videosRes, filesRes] = lessonIds.length
+    ? await Promise.all([
+        supabase
+          .from('lesson_videos')
+          .select('lesson_id, video_url, storage_path, required_percent, allow_download')
+          .in('lesson_id', lessonIds),
+        supabase
+          .from('lesson_attachments')
+          .select('lesson_id, attachments(id, title, file_size, external_url)')
+          .in('lesson_id', lessonIds),
+      ])
+    : [{ data: [] }, { data: [] }]
+
+  const videoOf = new Map(
+    (videosRes.data ?? []).map((v) => [
+      v.lesson_id,
+      {
+        storagePath: v.storage_path,
+        url: v.video_url ?? '',
+        requiredPercent: v.required_percent ?? 90,
+        allowDownload: v.allow_download ?? false,
+      },
+    ]),
+  )
+
+  const filesOf = new Map<string, CurriculumLesson['attachments']>()
+  for (const row of filesRes.data ?? []) {
+    const file = row.attachments
+    if (!file) continue
+    const list = filesOf.get(row.lesson_id) ?? []
+    list.push({
+      id: file.id,
+      title: file.title,
+      size: file.file_size,
+      isLink: Boolean(file.external_url),
+    })
+    filesOf.set(row.lesson_id, list)
+  }
+
+  const toManaged = (l: (typeof lessons)[number]): CurriculumLesson => ({
     id: l.id,
     title: l.title,
     description: l.description ?? '',
-    videoUrl: videoUrlOf.get(l.id) ?? '',
+    moduleId: l.module_id,
     durationMinutes: l.duration_seconds ? String(Math.round(l.duration_seconds / 60)) : '',
-    moduleId: l.module_id ?? '',
     isFree: l.is_free,
     isPublished: l.is_published,
+    section: (l.section ?? '') as CurriculumLesson['section'],
+    publishAt: l.publish_at ?? '',
+    video: videoOf.get(l.id) ?? null,
+    attachments: filesOf.get(l.id) ?? [],
     durationSeconds: l.duration_seconds,
-    moduleTitle: l.module_id ? (moduleName.get(l.module_id) ?? null) : null,
-    hasVideo: withVideo.has(l.id),
+    hasVideo: videoOf.has(l.id),
+  })
+
+  const grouped: CurriculumModule[] = modules.map((m) => ({
+    id: m.id,
+    title: m.title,
+    lessons: lessons.filter((l) => l.module_id === m.id).map(toManaged),
   }))
+
+  // دروس بلا وحدة تظهر في مجموعة أخيرة كي لا تختفي عن المشرف
+  const loose = lessons.filter((l) => !l.module_id).map(toManaged)
+  if (loose.length > 0 || modules.length === 0) {
+    grouped.push({ id: null, title: 'دروس خارج الوحدات', lessons: loose })
+  }
 
   return (
     <div className="space-y-6">
@@ -122,43 +175,13 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
       </Card>
 
       <Card>
-        <CardHeader
-          title="الوحدات"
-          icon={Layers}
-          action={
-            <span className="nums-ar text-sm text-ink-faint">
-              {formatNumber(modules.length)} وحدة
-            </span>
-          }
-        />
+        <CardHeader title="محتوى المقرر" icon={Layers} />
         <ModuleForm courseId={course.id} />
-        <ModuleList
+        <CourseCurriculum
           courseId={course.id}
-          modules={modules.map((m) => ({
-            id: m.id,
-            title: m.title,
-            lessonCount: lessons.filter((l) => l.module_id === m.id).length,
-          }))}
+          modules={grouped}
+          moduleOptions={modules}
         />
-      </Card>
-
-      <Card>
-        <CardHeader title="إضافة درس" icon={Plus} />
-        <LessonForm courseId={course.id} modules={modules} />
-      </Card>
-
-      <Card>
-        <CardHeader
-          title="دروس المقرر"
-          icon={BookOpen}
-          action={
-            <span className="nums-ar text-sm text-ink-faint">
-              {formatNumber(lessons.length)} درس
-            </span>
-          }
-        />
-
-        <LessonList courseId={course.id} modules={modules} lessons={lessonRows} />
       </Card>
     </div>
   )

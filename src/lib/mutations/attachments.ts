@@ -153,13 +153,16 @@ export async function deleteAttachment(attachmentId: string) {
 
   if (!row) return { ok: false, message: 'لم نعثر على هذا الملف.' }
 
-  const { data: removed, error: storageError } = await supabase.storage
-    .from('attachments')
-    .remove([row.storage_path])
+  // المرفق برابط خارجي لا ملف له في التخزين، فيُحذف سجلّه مباشرة
+  if (row.storage_path) {
+    const { data: removed, error: storageError } = await supabase.storage
+      .from('attachments')
+      .remove([row.storage_path])
 
-  // لا نمسّ السجل إن بقي الملف: وجودهما معًا أسلم من سجلٍّ بلا ملف
-  if (storageError || !removed || removed.length === 0) {
-    return { ok: false, message: 'تعذّر حذف الملف من التخزين. أعد المحاولة.' }
+    // لا نمسّ السجل إن بقي الملف: وجودهما معًا أسلم من سجلٍّ بلا ملف
+    if (storageError || !removed || removed.length === 0) {
+      return { ok: false, message: 'تعذّر حذف الملف من التخزين. أعد المحاولة.' }
+    }
   }
 
   const { error } = await supabase.from('attachments').delete().eq('id', attachmentId)

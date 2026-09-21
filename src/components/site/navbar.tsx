@@ -7,7 +7,15 @@ import { NavigationLinks } from '@/components/site/navigation-links'
 import { AuthButtons } from '@/components/site/cta-buttons'
 import { MENU } from '@/lib/site/content'
 
-export function Navbar({ name, tagline }: { name: string; tagline: string }) {
+export function Navbar({
+  name,
+  tagline,
+  logoUrl,
+}: {
+  name: string
+  tagline: string
+  logoUrl?: string | null
+}) {
   const [open, setOpen] = useState(false)
   const panelRef = useRef<HTMLDivElement>(null)
   const toggleRef = useRef<HTMLButtonElement>(null)
@@ -40,7 +48,7 @@ export function Navbar({ name, tagline }: { name: string; tagline: string }) {
   return (
     <header className="sticky top-0 z-50 bg-brand-800">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8 lg:h-20">
-        <Logo name={name} tagline={tagline} />
+        <Logo name={name} tagline={tagline} logoUrl={logoUrl} />
 
         <nav aria-label="أقسام الصفحة" className="hidden lg:block">
           <NavigationLinks />

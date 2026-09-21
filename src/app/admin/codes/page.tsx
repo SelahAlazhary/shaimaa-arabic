@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Ticket, Download } from 'lucide-react'
-import { requireAdmin } from '@/lib/permissions'
+import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader, EmptyState, StatCard, Badge } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
@@ -18,7 +18,7 @@ const STATUS = {
 }
 
 export default async function AdminCodesPage() {
-  await requireAdmin()
+  await requireAdminPage('codes')
   const supabase = await createClient()
 
   const [coursesRes, codesRes, availableRes, usedRes, totalRes] = await Promise.all([

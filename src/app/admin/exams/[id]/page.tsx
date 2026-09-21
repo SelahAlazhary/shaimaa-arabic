@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowRight, ClipboardList, ListChecks, Plus, Lock } from 'lucide-react'
-import { requireAdmin } from '@/lib/permissions'
+import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
@@ -23,7 +23,7 @@ export async function generateMetadata({
 }
 
 export default async function EditExamPage({ params }: { params: Promise<{ id: string }> }) {
-  await requireAdmin()
+  await requireAdminPage('exams')
   const { id } = await params
   const supabase = await createClient()
 

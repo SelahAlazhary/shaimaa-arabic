@@ -162,12 +162,23 @@ export type LessonView = {
   courseSlug: string
   videoUrl: string | null
   provider: string | null
+  /** مشترك في المقرر أو الدرس مجاني — يميّز «غير مشترك» عن «بلا فيديو» */
+  entitled: boolean
+  /** نسبة المشاهدة التي تُعدّ إكمالًا للدرس */
+  requiredPercent: number
+  allowDownload: boolean
   watchedSeconds: number
   completed: boolean
   prevId: string | null
   nextId: string | null
   /** مرفقات هذا الدرس وحده — تعود فارغة لمن لا يحقّ له الدرس */
-  attachments: { id: string; title: string; fileName: string; fileSize: number }[]
+  attachments: {
+    id: string
+    title: string
+    fileName: string
+    fileSize: number | null
+    isLink: boolean
+  }[]
 }
 
 export async function getLesson(slug: string, lessonId: string): Promise<LessonView | null> {
@@ -175,7 +186,7 @@ export async function getLesson(slug: string, lessonId: string): Promise<LessonV
 
   const { data: lesson } = await supabase
     .from('lessons')
-    .select('id, title, description, duration_seconds, course_id, courses!inner(title, slug)')
+    .select('id, title, description, duration_seconds, course_id, is_free, courses!inner(title, slug)')
     .eq('id', lessonId)
     .eq('is_published', true)
     .maybeSingle()
@@ -188,14 +199,19 @@ export async function getLesson(slug: string, lessonId: string): Promise<LessonV
     description: string | null
     duration_seconds: number
     course_id: string
+    is_free: boolean
     courses: { title: string; slug: string }
   }
 
   if (l.courses.slug !== slug) return null
 
   // الرابط يعود فقط إذا سمحت سياسة lesson_videos — أي للمسجَّل أو للدرس المجاني
-  const [videoRes, progressRes, siblingsRes, attachRes] = await Promise.all([
-    supabase.from('lesson_videos').select('video_url, provider').eq('lesson_id', l.id).maybeSingle(),
+  const [videoRes, progressRes, siblingsRes, attachRes, enrollRes] = await Promise.all([
+    supabase
+      .from('lesson_videos')
+      .select('video_url, provider, storage_path, required_percent, allow_download')
+      .eq('lesson_id', l.id)
+      .maybeSingle(),
     supabase
       .from('lesson_progress')
       .select('watched_seconds, completed')
@@ -209,19 +225,32 @@ export async function getLesson(slug: string, lessonId: string): Promise<LessonV
       .order('sort_order'),
     supabase
       .from('lesson_attachments')
-      .select('attachments!inner(id, title, file_name, file_size)')
+      .select('attachments!inner(id, title, file_name, file_size, external_url)')
       .eq('lesson_id', l.id),
+    supabase
+      .from('enrollments')
+      .select('id')
+      .eq('course_id', l.course_id)
+      .eq('status', 'active')
+      .maybeSingle(),
   ])
 
   const lessonAttachments = (
     (attachRes.data ?? []) as unknown as {
-      attachments: { id: string; title: string; file_name: string; file_size: number }
+      attachments: {
+        id: string
+        title: string
+        file_name: string
+        file_size: number | null
+        external_url: string | null
+      }
     }[]
   ).map((r) => ({
     id: r.attachments.id,
     title: r.attachments.title,
     fileName: r.attachments.file_name,
     fileSize: r.attachments.file_size,
+    isLink: Boolean(r.attachments.external_url),
   }))
 
   const siblings = siblingsRes.data ?? []
@@ -235,8 +264,20 @@ export async function getLesson(slug: string, lessonId: string): Promise<LessonV
     courseId: l.course_id,
     courseTitle: l.courses.title,
     courseSlug: l.courses.slug,
-    videoUrl: videoRes.data?.video_url ?? null,
+    /*
+     * الفيديو المستضاف لا يُعطى رابطه المباشر: الدلو خاصّ، والمسار أدناه
+     * يوقّع رابطًا قصير العمر بعد التحقّق من الاستحقاق.
+     * وجود صفّ فيديو أصلًا هو دليل الاستحقاق، لأن RLS تحجبه عن غيره.
+     */
+    videoUrl: videoRes.data
+      ? videoRes.data.storage_path
+        ? `/api/lesson-video/${l.id}`
+        : (videoRes.data.video_url ?? null)
+      : null,
     provider: videoRes.data?.provider ?? null,
+    entitled: l.is_free || Boolean(enrollRes.data),
+    requiredPercent: videoRes.data?.required_percent ?? 90,
+    allowDownload: videoRes.data?.allow_download ?? false,
     watchedSeconds: progressRes.data?.watched_seconds ?? 0,
     completed: progressRes.data?.completed ?? false,
     prevId: index > 0 ? (siblings[index - 1]?.id ?? null) : null,

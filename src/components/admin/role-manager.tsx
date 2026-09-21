@@ -6,8 +6,15 @@ import { ShieldCheck, Search } from 'lucide-react'
 import { setUserRole } from '@/lib/mutations/auth'
 import { Button } from '@/components/ui/button'
 import { Badge, EmptyState } from '@/components/ui/card'
+import { AdminPagesEditor } from '@/components/admin/admin-pages-editor'
 
-type Row = { id: string; fullName: string; email: string; role: string }
+type Row = {
+  id: string
+  fullName: string
+  email: string
+  role: string
+  allowedPages: string[] | null
+}
 
 const ROLE_LABEL: Record<string, string> = {
   student: 'طالب',
@@ -19,11 +26,18 @@ const ROLE_LABEL: Record<string, string> = {
 /** ماذا يملك كل دور — يُعرَض للمدير قبل أن يختار، لا بعد. */
 const ROLE_SCOPE: Record<string, string> = {
   support: 'يقرأ الطلاب والمقررات، ويردّ على محادثات الدعم. لا يُنشئ مقررًا ولا يولّد أكوادًا ولا يحذف.',
-  admin: 'صلاحية كاملة على المحتوى والطلاب والأكواد. لا يستطيع ترقية مديرين.',
+  admin: 'يعمل في الصفحات المسموح بها له وحدها. لا يستطيع ترقية مديرين ولا تعديل الصلاحيات.',
   student: 'حساب طالب عادي.',
 }
 
-export function RoleManager({ people }: { people: Row[] }) {
+export function RoleManager({
+  people,
+  canEditPages,
+}: {
+  people: Row[]
+  /** قائمة الصفحات بيد المدير العام وحده — والقاعدة تفرض ذلك أيضًا */
+  canEditPages: boolean
+}) {
   const [q, setQ] = useState('')
   const [busy, setBusy] = useState<string | null>(null)
   const [, start] = useTransition()
@@ -85,10 +99,18 @@ export function RoleManager({ people }: { people: Row[] }) {
                 </span>
               </span>
 
-              <span className="flex shrink-0 items-center gap-2">
+              <span className="flex shrink-0 flex-wrap items-center gap-2">
                 <Badge tone={p.role === 'student' ? 'neutral' : 'info'}>
                   {ROLE_LABEL[p.role] ?? p.role}
                 </Badge>
+
+                {p.role === 'admin' && canEditPages && (
+                  <AdminPagesEditor
+                    userId={p.id}
+                    fullName={p.fullName}
+                    current={p.allowedPages}
+                  />
+                )}
 
                 {p.role !== 'super_admin' && (
                   <>

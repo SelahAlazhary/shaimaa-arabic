@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Users, Download, ChevronRight, ChevronLeft } from 'lucide-react'
-import { requireAdmin } from '@/lib/permissions'
+import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { getStudents, STUDENTS_PAGE_SIZE } from '@/lib/queries/admin'
 import { Card, EmptyState, Badge } from '@/components/ui/card'
@@ -18,7 +18,7 @@ export default async function AdminStudentsPage({
 }: {
   searchParams: Promise<{ q?: string; status?: string; grade?: string; page?: string }>
 }) {
-  await requireAdmin()
+  await requireAdminPage('students')
   const sp = await searchParams
   const page = Math.max(1, Number(sp.page ?? '1') || 1)
 

@@ -12,6 +12,7 @@ import {
   ArrowLeft,
 } from 'lucide-react'
 import { requireAdmin } from '@/lib/permissions'
+import { canOpenPage, type AdminPageKey } from '@/lib/permissions/pages'
 import { getAdminOverview } from '@/lib/queries/admin'
 import { Card, CardHeader, EmptyState, StatCard, Badge } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
@@ -20,10 +21,10 @@ import { formatNumber, formatDate } from '@/lib/utils/format'
 export const metadata: Metadata = { title: 'نظرة عامة' }
 
 export default async function AdminOverviewPage() {
-  const user = await requireAdmin()
+  const me = await requireAdmin()
   const o = await getAdminOverview()
 
-  const firstName = user.fullName.trim().split(/\s+/)[0] ?? user.fullName
+  const firstName = me.fullName.trim().split(/\s+/)[0] ?? me.fullName
 
   return (
     <div className="space-y-6">
@@ -98,11 +99,12 @@ export default async function AdminOverviewPage() {
           <CardHeader title="إجراءات سريعة" />
           <ul className="divide-y divide-border-subtle">
             {[
-              { href: '/admin/students', label: 'إدارة الطلاب', icon: Users, hint: `${formatNumber(o.totalStudents)} طالب` },
-              { href: '/admin/courses', label: 'المقررات', icon: BookOpen, hint: `${formatNumber(o.totalCourses)} مقرر` },
-              { href: '/admin/codes', label: 'أكواد التفعيل', icon: Ticket, hint: `${formatNumber(o.availableCodes)} متاح` },
-              { href: '/admin/support', label: 'الدعم', icon: LifeBuoy, hint: `${formatNumber(o.openTickets)} مفتوحة` },
-            ].map(({ href, label, icon: Icon, hint }) => (
+              { page: 'students', href: '/admin/students', label: 'إدارة الطلاب', icon: Users, hint: `${formatNumber(o.totalStudents)} طالب` },
+              { page: 'courses', href: '/admin/courses', label: 'المقررات', icon: BookOpen, hint: `${formatNumber(o.totalCourses)} مقرر` },
+              { page: 'codes', href: '/admin/codes', label: 'أكواد التفعيل', icon: Ticket, hint: `${formatNumber(o.availableCodes)} متاح` },
+              { page: 'support', href: '/admin/support', label: 'الدعم', icon: LifeBuoy, hint: `${formatNumber(o.openTickets)} مفتوحة` },
+              // الاختصار لا يُعرض لمن لا يفتح صفحته: رابط يردّه لا معنى له
+            ].filter(({ page }) => canOpenPage(me.allowedPages, me.role === 'super_admin', page as AdminPageKey)).map(({ href, label, icon: Icon, hint }) => (
               <li key={href}>
                 <Link
                   href={href}

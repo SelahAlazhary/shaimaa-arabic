@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { requireAdmin } from '@/lib/permissions'
+import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
@@ -11,7 +11,7 @@ import { BookOpen } from 'lucide-react'
 export const metadata: Metadata = { title: 'مقرر جديد' }
 
 export default async function NewCoursePage() {
-  await requireAdmin()
+  await requireAdminPage('courses')
   const supabase = await createClient()
   const { data: grades } = await supabase
     .from('grades')

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 
 /**
@@ -32,14 +33,31 @@ export function LogoMark({ className = 'size-9' }: { className?: string }) {
   )
 }
 
-/** الهوية كاملة: العلامة ثم الاسم وتحته العبارة. */
-export function Logo({ name, tagline }: { name: string; tagline: string }) {
+/**
+ * الهوية كاملة: العلامة ثم الاسم وتحته العبارة.
+ * شعار مرفوع من الإعدادات يحلّ محلّ العلامة المرسومة إن وُجد.
+ */
+export function Logo({
+  name,
+  tagline,
+  logoUrl,
+}: {
+  name: string
+  tagline: string
+  logoUrl?: string | null
+}) {
   return (
     <Link
       href="/"
       className="flex min-w-0 items-center gap-3 rounded-[var(--radius-field)]"
     >
-      <LogoMark className="size-9 shrink-0 text-accent-soft sm:size-10" />
+      {logoUrl ? (
+        <span className="relative size-9 shrink-0 sm:size-10">
+          <Image src={logoUrl} alt="" fill sizes="2.5rem" className="object-contain" />
+        </span>
+      ) : (
+        <LogoMark className="size-9 shrink-0 text-accent-soft sm:size-10" />
+      )}
       <span className="min-w-0">
         <span className="block truncate text-base font-semibold leading-tight text-ink-invert sm:text-[1.0625rem]">
           {name}

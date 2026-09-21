@@ -117,35 +117,38 @@ export type Database = {
       }
       attachments: {
         Row: {
+          external_url: string | null
           created_at: string
           created_by: string | null
           file_name: string
-          file_size: number
+          file_size: number | null
           id: string
-          mime_type: string
-          storage_path: string
+          mime_type: string | null
+          storage_path: string | null
           title: string
           updated_at: string
         }
         Insert: {
+          external_url?: string | null
           created_at?: string
           created_by?: string | null
           file_name: string
-          file_size: number
+          file_size: number | null
           id?: string
-          mime_type: string
-          storage_path: string
+          mime_type: string | null
+          storage_path: string | null
           title: string
           updated_at?: string
         }
         Update: {
+          external_url?: string | null
           created_at?: string
           created_by?: string | null
           file_name?: string
-          file_size?: number
+          file_size?: number | null
           id?: string
-          mime_type?: string
-          storage_path?: string
+          mime_type?: string | null
+          storage_path?: string | null
           title?: string
           updated_at?: string
         }
@@ -769,6 +772,9 @@ export type Database = {
       }
       lesson_videos: {
         Row: {
+          allow_download: boolean
+          required_percent: number
+          storage_path: string | null
           created_at: string
           lesson_id: string
           provider: string
@@ -776,6 +782,9 @@ export type Database = {
           video_url: string
         }
         Insert: {
+          allow_download?: boolean
+          required_percent?: number
+          storage_path?: string | null
           created_at?: string
           lesson_id: string
           provider?: string
@@ -783,6 +792,9 @@ export type Database = {
           video_url: string
         }
         Update: {
+          allow_download?: boolean
+          required_percent?: number
+          storage_path?: string | null
           created_at?: string
           lesson_id?: string
           provider?: string
@@ -801,6 +813,8 @@ export type Database = {
       }
       lessons: {
         Row: {
+          publish_at: string | null
+          section: Database["public"]["Enums"]["student_section"] | null
           course_id: string
           created_at: string
           description: string | null
@@ -815,6 +829,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          publish_at?: string | null
+          section?: Database["public"]["Enums"]["student_section"] | null
           course_id: string
           created_at?: string
           description?: string | null
@@ -829,6 +845,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          publish_at?: string | null
+          section?: Database["public"]["Enums"]["student_section"] | null
           course_id?: string
           created_at?: string
           description?: string | null
@@ -919,6 +937,36 @@ export type Database = {
           },
         ]
       }
+      notification_templates: {
+        Row: {
+          body: string
+          description: string
+          key: string
+          label: string
+          placeholders: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          description?: string
+          key: string
+          label: string
+          placeholders?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          description?: string
+          key?: string
+          label?: string
+          placeholders?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           body: string | null
@@ -993,6 +1041,7 @@ export type Database = {
           section: Database["public"]["Enums"]["student_section"] | null
           stage_id: string | null
           avatar_url: string | null
+          allowed_pages: string[] | null
           created_at: string
           email: string
           full_name: string
@@ -1009,6 +1058,7 @@ export type Database = {
           section?: Database["public"]["Enums"]["student_section"] | null
           stage_id?: string | null
           avatar_url?: string | null
+          allowed_pages?: string[] | null
           created_at?: string
           email: string
           full_name: string
@@ -1025,6 +1075,7 @@ export type Database = {
           section?: Database["public"]["Enums"]["student_section"] | null
           stage_id?: string | null
           avatar_url?: string | null
+          allowed_pages?: string[] | null
           created_at?: string
           email?: string
           full_name?: string
@@ -1283,8 +1334,13 @@ export type Database = {
           p_full_name: string
           p_password: string
           p_role: Database["public"]["Enums"]["user_role"]
+          p_pages?: string[] | null
         }
         Returns: string
+      }
+      set_admin_pages: {
+        Args: { p_pages: string[] | null; p_user: string }
+        Returns: boolean
       }
       set_account_password: {
         Args: { p_password: string; p_user: string }

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { FileText, Upload } from 'lucide-react'
-import { requireAdmin } from '@/lib/permissions'
+import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader, EmptyState } from '@/components/ui/card'
 import { AttachmentRow } from '@/components/admin/attachment-row'
@@ -11,13 +11,13 @@ import { formatFileSize, formatDate, formatNumber } from '@/lib/utils/format'
 export const metadata: Metadata = { title: 'المرفقات' }
 
 export default async function AdminAttachmentsPage() {
-  await requireAdmin()
+  await requireAdminPage('attachments')
   const supabase = await createClient()
 
   const [filesRes, linksRes, lessonLinksRes, allLessonsRes, coursesRes] = await Promise.all([
     supabase
       .from('attachments')
-      .select('id, title, file_name, file_size, mime_type, created_at')
+      .select('id, title, file_name, file_size, mime_type, created_at, external_url')
       .order('created_at', { ascending: false }),
     supabase.from('course_attachments').select('attachment_id, course_id, courses(title)'),
     supabase.from('lesson_attachments').select('attachment_id, lesson_id, lessons(title, courses(title))'),
@@ -98,7 +98,11 @@ export default async function AdminAttachmentsPage() {
                 file={{
                   id: f.id,
                   title: f.title,
-                  meta: `${f.file_name} · ${formatFileSize(f.file_size)} · ${formatDate(f.created_at)}`,
+                  meta: [
+                    f.file_name,
+                    f.file_size === null ? 'رابط خارجي' : formatFileSize(f.file_size),
+                    formatDate(f.created_at),
+                  ].join(' · '),
                 }}
                 courses={links.get(f.id) ?? []}
                 allCourses={coursesRes.data ?? []}

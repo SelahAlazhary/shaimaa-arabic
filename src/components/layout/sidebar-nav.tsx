@@ -25,6 +25,33 @@ export type NavArea = 'student' | 'admin' | 'support'
 type NavItem = { href: string; label: string; icon: LucideIcon }
 
 /**
+ * الصفحة المقابلة لكل رابط إداري في نظام الصلاحيات.
+ * «نظرة عامة» بلا مفتاح: لا تُحجب عن مدير أبدًا.
+ */
+const ADMIN_PAGE_OF: Record<string, string> = {
+  '/admin/students': 'students',
+  '/admin/courses': 'courses',
+  '/admin/codes': 'codes',
+  '/admin/support': 'support',
+  '/admin/grades': 'grades',
+  '/admin/attachments': 'attachments',
+  '/admin/exams': 'exams',
+  '/admin/live': 'live',
+  '/admin/notifications': 'notifications',
+  '/admin/analytics': 'analytics',
+  '/admin/settings': 'settings',
+}
+
+/** يحذف ما لا يفتحه هذا المدير. null = كل الصفحات. */
+function visible(area: NavArea, items: NavItem[], allowed: string[] | null): NavItem[] {
+  if (area !== 'admin' || allowed === null) return items
+  return items.filter((i) => {
+    const key = ADMIN_PAGE_OF[i.href]
+    return !key || allowed.includes(key)
+  })
+}
+
+/**
  * التنقّل مُعرَّف هنا لا في تخطيط الخادم.
  * السبب تقني لا تنظيمي: مكوّنات أيقونات Lucide دوال، وReact لا يستطيع
  * تمرير الدوال من Server Component إلى Client Component — تُسلسَل فتنكسر.
@@ -75,14 +102,21 @@ const ROOTS = ['/student', '/admin', '/support']
  * العنصر النشط يُعلَن بـaria-current لا باللون وحده —
  * الاعتماد على اللون فقط يُسقط من لا يميّزه (البند 22).
  */
-export function SidebarNav({ area }: { area: NavArea }) {
+export function SidebarNav({
+  area,
+  allowedPages = null,
+}: {
+  area: NavArea
+  allowedPages?: string[] | null
+}) {
   const pathname = usePathname()
+  const items = visible(area, NAV[area], allowedPages)
 
   return (
     <nav aria-label="القائمة الرئيسية" className="px-3">
       <p className="px-3 pb-2 text-sm font-medium text-ink-faint">القائمة</p>
       <ul className="space-y-1">
-        {NAV[area].map(({ href, label, icon: Icon }) => {
+        {items.map(({ href, label, icon: Icon }) => {
           const active = isActive(pathname, href, ROOTS)
           return (
             <li key={href}>
@@ -107,8 +141,15 @@ export function SidebarNav({ area }: { area: NavArea }) {
   )
 }
 
-export function MobileNav({ area }: { area: NavArea }) {
+export function MobileNav({
+  area,
+  allowedPages = null,
+}: {
+  area: NavArea
+  allowedPages?: string[] | null
+}) {
   const pathname = usePathname()
+  const items = visible(area, NAV[area], allowedPages)
 
   return (
     <nav
@@ -117,7 +158,7 @@ export function MobileNav({ area }: { area: NavArea }) {
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       <ul className="mx-auto flex max-w-lg">
-        {NAV[area].slice(0, 5).map(({ href, label, icon: Icon }) => {
+        {items.slice(0, 5).map(({ href, label, icon: Icon }) => {
           const active = isActive(pathname, href, ROOTS)
           return (
             <li key={href} className="flex-1">

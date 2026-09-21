@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import type { Database } from '@/types/database.types'
+import { ADMIN_HOME, canOpenPage, type AdminPageKey } from '@/lib/permissions/pages'
 
 export type UserRole = Database['public']['Enums']['user_role']
 export type AccountStatus = Database['public']['Enums']['account_status']
@@ -13,6 +14,8 @@ export type SessionUser = {
   status: AccountStatus
   avatarUrl: string | null
   gradeId: string | null
+  /** صفحات لوحة الإدارة المسموح بها. null = الكل (وهو حال المدير العام دائمًا) */
+  allowedPages: string[] | null
 }
 
 /**
@@ -31,7 +34,7 @@ export async function getSessionUser(): Promise<SessionUser | null> {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, email, full_name, role, status, avatar_url, grade_id')
+    .select('id, email, full_name, role, status, avatar_url, grade_id, allowed_pages')
     .eq('id', user.id)
     .single()
 
@@ -45,6 +48,8 @@ export async function getSessionUser(): Promise<SessionUser | null> {
     status: profile.status,
     avatarUrl: profile.avatar_url,
     gradeId: profile.grade_id,
+    // المدير العام لا يُحجب عنه شيء مهما كان المخزَّن
+    allowedPages: profile.role === 'super_admin' ? null : profile.allowed_pages,
   }
 }
 
@@ -79,6 +84,19 @@ export async function requireAuth(): Promise<SessionUser> {
 export async function requireAdmin(): Promise<SessionUser> {
   const user = await requireAuth()
   if (!isAdmin(user)) redirect(homePathFor(user.role))
+  return user
+}
+
+/**
+ * حارس صفحة إدارية بعينها.
+ * المدير المحجوب يُردّ إلى «نظرة عامة» لا إلى شاشة خطأ: الحجب ترتيب
+ * عمل لا عقوبة، وشاشة الخطأ تُوحي بعطل.
+ */
+export async function requireAdminPage(page: AdminPageKey): Promise<SessionUser> {
+  const user = await requireAdmin()
+  if (!canOpenPage(user.allowedPages, user.role === 'super_admin', page)) {
+    redirect(ADMIN_HOME)
+  }
   return user
 }
 

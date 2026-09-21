@@ -55,7 +55,7 @@ export function AppShell({
         </div>
 
         <div className="flex-1 overflow-y-auto pb-4">
-          <SidebarNav area={area} />
+          <SidebarNav area={area} allowedPages={user.allowedPages} />
         </div>
 
         <div className="border-t border-border-subtle p-4">
@@ -98,7 +98,7 @@ export function AppShell({
         <div className="mx-auto w-full max-w-4xl">{children}</div>
       </main>
 
-      <MobileNav area={area} />
+      <MobileNav area={area} allowedPages={user.allowedPages} />
     </div>
   )
 }

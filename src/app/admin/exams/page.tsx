@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ClipboardList, Plus, Pencil, Trash2 } from 'lucide-react'
 import { deleteExam } from '@/lib/mutations/exams'
 import { ConfirmButton } from '@/components/ui/confirm-button'
-import { requireAdmin } from '@/lib/permissions'
+import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader, EmptyState, Badge } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
@@ -12,7 +12,7 @@ import { formatNumber } from '@/lib/utils/format'
 export const metadata: Metadata = { title: 'الاختبارات' }
 
 export default async function AdminExamsPage() {
-  await requireAdmin()
+  await requireAdminPage('exams')
   const supabase = await createClient()
 
   const [examsRes, questionsRes, attemptsRes] = await Promise.all([

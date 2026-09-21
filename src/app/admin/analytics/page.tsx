@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { BarChart3, Users, Ticket, TrendingUp, BookOpen } from 'lucide-react'
-import { requireAdmin } from '@/lib/permissions'
+import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader, EmptyState, StatCard, ProgressBar } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
@@ -9,7 +9,7 @@ import { formatNumber, formatPrice } from '@/lib/utils/format'
 export const metadata: Metadata = { title: 'التحليلات' }
 
 export default async function AdminAnalyticsPage() {
-  await requireAdmin()
+  await requireAdminPage('analytics')
   const supabase = await createClient()
 
   const since = new Date()

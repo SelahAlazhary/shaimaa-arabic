@@ -234,3 +234,16 @@
     scroll-behavior: auto !important;
   }
 }
+
+/*
+ * توسيط الحوارات الأصلية.
+ * المتصفّح يوسّط <dialog> بـ margin: auto، وTailwind يصفّر الهوامش في
+ * preflight فيسقط التوسيط ويلتصق الحوار بحافة الشاشة. نعيده هنا مرّة
+ * واحدة بدل تكراره في كل حوار.
+ */
+dialog[open] {
+  margin: auto;
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}

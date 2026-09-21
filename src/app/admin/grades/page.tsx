@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { GraduationCap } from 'lucide-react'
-import { requireAdmin } from '@/lib/permissions'
+import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
@@ -9,7 +9,7 @@ import { GradesManager, type StageRow } from '@/components/admin/grades-manager'
 export const metadata: Metadata = { title: 'الصفوف الدراسية' }
 
 export default async function AdminGradesPage() {
-  await requireAdmin()
+  await requireAdminPage('grades')
   const supabase = await createClient()
 
   const [stagesRes, gradesRes, studentsRes] = await Promise.all([

@@ -1,7 +1,16 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowRight, ChevronRight, ChevronLeft, Clock, Download, FileText } from 'lucide-react'
+import {
+  ArrowRight,
+  ChevronRight,
+  ChevronLeft,
+  Clock,
+  Download,
+  FileText,
+  ExternalLink,
+  Link as LinkIcon,
+} from 'lucide-react'
 import { requireStudent } from '@/lib/permissions'
 import { getLesson } from '@/lib/queries/course'
 import { Card } from '@/components/ui/card'
@@ -36,10 +45,6 @@ export default async function LessonPage({
 
   if (!lesson) notFound()
 
-  // غياب الرابط مع وجود الدرس يعني أن RLS حجبته: الطالب غير مستحق.
-  // التمييز مهم: «غير مشترك» رسالة مختلفة عن «لا يوجد فيديو».
-  const entitled = lesson.videoUrl !== null
-
   return (
     <div className="space-y-5">
       <Link
@@ -65,9 +70,11 @@ export default async function LessonPage({
         watermark={watermarkLabel}
         videoUrl={lesson.videoUrl}
         provider={lesson.provider}
+        requiredPercent={lesson.requiredPercent}
+        allowDownload={lesson.allowDownload}
         watchedSeconds={lesson.watchedSeconds}
         completed={lesson.completed}
-        entitled={entitled}
+        entitled={lesson.entitled}
       />
 
       {lesson.description && (
@@ -86,18 +93,30 @@ export default async function LessonPage({
             {lesson.attachments.map((a) => (
               <li key={a.id} className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
                 <span className="flex min-w-0 items-center gap-2.5">
-                  <FileText className="size-4 shrink-0 text-ink-faint" aria-hidden />
+                  {a.isLink ? (
+                    <LinkIcon className="size-4 shrink-0 text-ink-faint" aria-hidden />
+                  ) : (
+                    <FileText className="size-4 shrink-0 text-ink-faint" aria-hidden />
+                  )}
                   <span className="min-w-0">
                     <span className="block truncate text-base font-medium text-ink">{a.title}</span>
-                    <span className="nums-ar text-sm text-ink-faint">{formatFileSize(a.fileSize)}</span>
+                    <span className="nums-ar text-sm text-ink-faint">
+                      {a.isLink ? 'رابط خارجي' : formatFileSize(a.fileSize ?? 0)}
+                    </span>
                   </span>
                 </span>
                 <a
-                  href={`/attachments/${a.id}?download=1`}
+                  href={a.isLink ? `/attachments/${a.id}` : `/attachments/${a.id}?download=1`}
+                  target={a.isLink ? '_blank' : undefined}
+                  rel={a.isLink ? 'noopener noreferrer' : undefined}
                   className="tap-target grid shrink-0 place-items-center rounded-[var(--radius-field)] text-ink-faint hover:bg-surface-muted hover:text-ink"
-                  aria-label={`تحميل ${a.title}`}
+                  aria-label={a.isLink ? `افتح ${a.title}` : `تحميل ${a.title}`}
                 >
-                  <Download className="size-4" aria-hidden />
+                  {a.isLink ? (
+                    <ExternalLink className="size-4" aria-hidden />
+                  ) : (
+                    <Download className="size-4" aria-hidden />
+                  )}
                 </a>
               </li>
             ))}

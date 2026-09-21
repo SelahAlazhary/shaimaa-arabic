@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Bell, Send } from 'lucide-react'
-import { requireAdmin } from '@/lib/permissions'
+import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader, EmptyState } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
@@ -10,7 +10,7 @@ import { formatDateTime, formatNumber } from '@/lib/utils/format'
 export const metadata: Metadata = { title: 'الإشعارات' }
 
 export default async function AdminNotificationsPage() {
-  await requireAdmin()
+  await requireAdminPage('notifications')
   const supabase = await createClient()
 
   const [recentRes, totalRes, studentsRes, gradesRes, coursesRes] = await Promise.all([

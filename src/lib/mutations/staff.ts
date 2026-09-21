@@ -4,6 +4,16 @@ import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { messageFor } from '@/lib/errors'
+import { ADMIN_PAGE_KEYS } from '@/lib/permissions/pages'
+
+/**
+ * NULL في القاعدة = كل الصفحات، والمصفوفة الفارغة = لا صفحة.
+ * اختيار كل الصفحات يُخزَّن NULL كي يرث الحسابُ أيّ صفحة تُضاف لاحقًا.
+ */
+const pagesValue = (pages: string[]): string[] | null => {
+  const clean = ADMIN_PAGE_KEYS.filter((k) => pages.includes(k))
+  return clean.length === ADMIN_PAGE_KEYS.length ? null : [...clean]
+}
 
 export type StaffState =
   | { status: 'idle' }
@@ -28,6 +38,8 @@ const staffSchema = z.object({
   email: z.email({ error: 'بريد إلكتروني غير صحيح' }).trim().toLowerCase(),
   password: passwordField,
   role: z.enum(['support', 'admin'], { error: 'اختر الصلاحية' }),
+  // الصفحات تخصّ المدير وحده
+  pages: z.array(z.string()),
 })
 
 /**
@@ -62,6 +74,7 @@ export async function createStaffAccount(
     email: text(formData, 'email'),
     password: text(formData, 'password'),
     role: text(formData, 'role'),
+    pages: formData.getAll('pages').map(String),
   })
 
   if (!parsed.success) {
@@ -82,15 +95,39 @@ export async function createStaffAccount(
     p_password: v.password,
     p_full_name: v.fullName,
     p_role: v.role,
+    p_pages: v.role === 'admin' ? pagesValue(v.pages) : null,
   })
 
   if (error) return { status: 'error', message: readDbError(error.message) }
 
-  revalidatePath('/admin/settings')
+  revalidatePath('/admin/settings/staff')
   revalidatePath('/admin/students')
 
   const label = v.role === 'admin' ? 'مدير' : 'فريق الدعم'
   return { status: 'success', message: `أُنشئ حساب ${v.fullName} بصلاحية ${label}.` }
+}
+
+/**
+ * صفحات مدير قائم.
+ * قائمة فارغة تعني «كل الصفحات»، والقاعدة تقصر هذا على المدير العام.
+ */
+export async function setAdminPages(userId: string, pages: string[]) {
+  const value = pagesValue(pages)
+
+  const supabase = await createClient()
+  const { error } = await supabase.rpc('set_admin_pages', {
+    p_user: userId,
+    p_pages: value,
+  })
+
+  if (error) return { ok: false, message: readDbError(error.message) }
+
+  revalidatePath('/admin/settings/staff')
+  revalidatePath('/admin', 'layout')
+  return {
+    ok: true,
+    message: value === null ? 'فُتحت كل الصفحات لهذا المدير.' : 'حُفظت صفحات هذا المدير.',
+  }
 }
 
 /** إعادة تعيين كلمة مرور حساب — الطالب يطلبها من الدعم. */

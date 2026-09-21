@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
-import { requireAdmin } from '@/lib/permissions'
+import { requireAdminPage } from '@/lib/permissions'
 import { PageHeader } from '@/components/ui/page-header'
 import { TicketsList } from '@/components/admin/tickets-list'
 
 export const metadata: Metadata = { title: 'الدعم' }
 
 export default async function AdminSupportPage() {
-  await requireAdmin()
+  await requireAdminPage('support')
 
   return (
     <div>

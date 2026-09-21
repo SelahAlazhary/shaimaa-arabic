@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Radio, CalendarPlus } from 'lucide-react'
-import { requireAdmin } from '@/lib/permissions'
+import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader, EmptyState, Badge } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
@@ -17,7 +17,7 @@ const STATUS = {
 }
 
 export default async function AdminLivePage() {
-  await requireAdmin()
+  await requireAdminPage('live')
   const supabase = await createClient()
 
   const [coursesRes, streamsRes] = await Promise.all([

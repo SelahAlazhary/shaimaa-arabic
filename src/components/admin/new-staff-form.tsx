@@ -7,6 +7,7 @@ import { UserPlus, AlertCircle, Copy, Check, RefreshCw } from 'lucide-react'
 import { createStaffAccount, type StaffState } from '@/lib/mutations/staff'
 import { Field, Input, Select } from '@/components/ui/field'
 import { Button } from '@/components/ui/button'
+import { ADMIN_PAGES } from '@/lib/permissions/pages'
 
 const initial: StaffState = { status: 'idle' }
 
@@ -19,7 +20,7 @@ const ROLES = [
   {
     value: 'admin',
     label: 'مدير',
-    scope: 'صلاحية كاملة على المحتوى والطلاب والأكواد. لا يستطيع ترقية مديرين. (يحتاج حساب مدير عام لإنشائه)',
+    scope: 'يفتح الصفحات المحدّدة أدناه ويعمل فيها. لا يستطيع ترقية مديرين ولا تعديل الصلاحيات. (يحتاج حساب مدير عام لإنشائه)',
   },
 ] as const
 
@@ -48,6 +49,8 @@ export function NewStaffForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [role, setRole] = useState<'support' | 'admin'>('support')
+  // الافتراضي كل الصفحات: المدير الجديد يعمل ثم يُضيَّق نطاقه لا العكس
+  const [pages, setPages] = useState<string[]>(() => ADMIN_PAGES.map((p) => p.key))
   const [copied, setCopied] = useState(false)
   const [formKey, setFormKey] = useState(0)
 
@@ -58,6 +61,7 @@ export function NewStaffForm() {
       setEmail('')
       setPassword('')
       setRole('support')
+      setPages(ADMIN_PAGES.map((p) => p.key))
       setOpen(false)
       setFormKey((k) => k + 1)
     }
@@ -199,6 +203,71 @@ export function NewStaffForm() {
           </Select>
         )}
       </Field>
+
+      {role === 'admin' && (
+        <fieldset className="space-y-3 rounded-[var(--radius-field)] border border-border-subtle bg-surface p-4">
+          <legend className="sr-only">صفحات لوحة الإدارة</legend>
+
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-base font-medium text-ink">الصفحات التي يفتحها</p>
+            <span className="flex gap-1">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setPages(ADMIN_PAGES.map((p) => p.key))}
+              >
+                الكل
+              </Button>
+              <Button type="button" variant="ghost" size="sm" onClick={() => setPages([])}>
+                لا شيء
+              </Button>
+            </span>
+          </div>
+
+          <p className="text-sm leading-relaxed text-ink-faint">
+            الصفحة غير المختارة تختفي من قائمته، ولا يفتحها برابط مباشر، ولا
+            تقبل منه قاعدة البيانات تعديلًا فيها. صفحة «نظرة عامة» مفتوحة دائمًا.
+          </p>
+
+          <div className="grid gap-2 sm:grid-cols-2">
+            {ADMIN_PAGES.map((page) => {
+              const on = pages.includes(page.key)
+              return (
+                <label
+                  key={page.key}
+                  className="flex items-start gap-2.5 rounded-[var(--radius-field)] border border-border-subtle p-3"
+                >
+                  <input
+                    type="checkbox"
+                    name="pages"
+                    value={page.key}
+                    checked={on}
+                    onChange={(e) =>
+                      setPages((prev) =>
+                        e.target.checked
+                          ? [...prev, page.key]
+                          : prev.filter((k) => k !== page.key),
+                      )
+                    }
+                    className="mt-0.5 size-4 rounded border-border-strong"
+                  />
+                  <span className="min-w-0">
+                    <span className="block text-base text-ink">{page.label}</span>
+                    <span className="block text-sm text-ink-faint">{page.hint}</span>
+                  </span>
+                </label>
+              )
+            })}
+          </div>
+
+          {pages.length === 0 && (
+            <p className="text-base text-warning">
+              لم تختر صفحة. الحساب سيدخل ولن يجد إلا «نظرة عامة».
+            </p>
+          )}
+        </fieldset>
+      )}
 
       <div className="flex flex-wrap gap-2.5">
         <SubmitButton />

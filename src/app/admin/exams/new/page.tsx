@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, ClipboardList } from 'lucide-react'
-import { requireAdmin } from '@/lib/permissions'
+import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
@@ -10,7 +10,7 @@ import { ExamForm } from '@/components/admin/exam-form'
 export const metadata: Metadata = { title: 'اختبار جديد' }
 
 export default async function NewExamPage() {
-  await requireAdmin()
+  await requireAdminPage('exams')
   const supabase = await createClient()
   const { data: courses } = await supabase.from('courses').select('id, title').order('title')
 

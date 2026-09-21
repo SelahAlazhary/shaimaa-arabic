@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { BookOpen, Plus, Pencil, Trash2 } from 'lucide-react'
 import { deleteCourse as deleteCourseAction } from '@/lib/mutations/content'
 import { ConfirmButton } from '@/components/ui/confirm-button'
-import { requireAdmin } from '@/lib/permissions'
+import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader, EmptyState, Badge } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
@@ -18,7 +18,7 @@ const STATUS = {
 }
 
 export default async function AdminCoursesPage() {
-  await requireAdmin()
+  await requireAdminPage('courses')
   const supabase = await createClient()
 
   const [coursesRes, lessonsRes, enrollRes] = await Promise.all([

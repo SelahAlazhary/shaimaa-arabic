@@ -4,9 +4,11 @@ import Link from 'next/link'
 import { Navbar } from '@/components/site/navbar'
 import { SectionHeading, LedgerGrid } from '@/components/site/section'
 import { getSiteTexts } from '@/lib/queries/site-texts'
+import { getBranding } from '@/lib/queries/branding'
 import { HeroSection } from '@/components/site/hero-section'
+import { SiteFooter } from '@/components/site/site-footer'
 import { createClient } from '@/lib/supabase/server'
-import { formatNumber, formatYear } from '@/lib/utils/format'
+import { formatNumber } from '@/lib/utils/format'
 
 export const metadata: Metadata = {
   title: 'منصة الأستاذة الشيماء أحمد — اللغة العربية',
@@ -33,6 +35,7 @@ export default async function LandingPage() {
 
   // النصوص من قاعدة البيانات مع الأصل احتياطًا — يغيّرها المدير من الإعدادات
   const t = await getSiteTexts()
+  const branding = await getBranding()
 
   const grid = (prefix: string, count: number) =>
     Array.from({ length: count }, (_, i) => ({
@@ -53,7 +56,11 @@ export default async function LandingPage() {
 
   return (
     <div className="min-h-dvh bg-canvas">
-      <Navbar name={t('site.name')} tagline={t('site.tagline')} />
+      <Navbar
+        name={branding.siteName ?? t('site.name')}
+        tagline={t('site.tagline')}
+        logoUrl={branding.logoUrl}
+      />
 
       <main>
         <HeroSection t={t} />
@@ -199,27 +206,7 @@ export default async function LandingPage() {
 
       </main>
 
-      <footer className="border-t border-border-subtle bg-surface">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-5 py-6 sm:px-8">
-          <div className="min-w-0">
-            <p className="nums-ar text-sm text-ink-muted">
-              {t('footer.about')} © {formatYear(new Date().getFullYear())}
-            </p>
-            {/* سطر جهة التطوير: منفصل وأخفت، فلا يزاحم هوية المنصة */}
-            <p className="mt-1 text-sm text-ink-faint">
-              {t('footer.credit')}
-            </p>
-          </div>
-          <nav aria-label="روابط الحساب" className="flex gap-5 text-sm text-ink-muted">
-            <Link href="/login" className="underline-offset-4 hover:underline">
-              تسجيل الدخول
-            </Link>
-            <Link href="/register" className="underline-offset-4 hover:underline">
-              إنشاء حساب
-            </Link>
-          </nav>
-        </div>
-      </footer>
+      <SiteFooter about={t('footer.about')} credit={t('footer.credit')} />
     </div>
   )
 }
