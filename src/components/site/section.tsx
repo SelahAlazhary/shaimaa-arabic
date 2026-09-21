@@ -70,7 +70,8 @@ export function LedgerGrid({
               className={`grid grid-cols-[2.5rem_1fr] gap-x-3 rounded-[var(--radius-card)] p-6 ${base} ${atCols}`}
             >
               <span className="nums-ar font-display text-[1.375rem] font-bold leading-none tabular-nums text-accent-ink">
-                {`–${formatNumber(i + 1)}`}
+                <span aria-hidden>–</span>
+                <span>{formatNumber(i + 1)}</span>
               </span>
 
               <div>
