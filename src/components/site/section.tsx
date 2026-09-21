@@ -41,19 +41,19 @@ export function LedgerGrid({
   return (
     <ul className={`mt-12 grid gap-x-14 ${cols}`}>
       {items.map((item, i) => (
-        <li
-          key={item.title}
-          className="grid grid-cols-[2.5rem_1fr] gap-x-3 border-t border-border-strong py-7"
-        >
-          <span className="nums-ar font-display text-[1.375rem] font-bold leading-none tabular-nums text-accent-ink">
-            {formatNumber(i + 1).padStart(2, '٠')}
-          </span>
+        <li key={item.title} className="border-t border-border-strong py-4">
+          {/* لوحة مظلَّلة داخل السطر: تفصل البند بصريًّا والخطّ يبقى محدِّدًا للصفّ */}
+          <div className="grid grid-cols-[2.5rem_1fr] gap-x-3 rounded-[var(--radius-card)] bg-brand-50/70 p-6">
+            <span className="nums-ar font-display text-[1.375rem] font-bold leading-none tabular-nums text-accent-ink">
+              {formatNumber(i + 1).padStart(2, '٠')}
+            </span>
 
-          <div>
-            <h3 className="font-display text-[1.375rem] font-bold leading-none text-brand-800">
-              {item.title}
-            </h3>
-            <p className="mt-3.5 text-base leading-[1.95] text-ink-muted">{item.body}</p>
+            <div>
+              <h3 className="font-display text-[1.375rem] font-bold leading-none text-brand-800">
+                {item.title}
+              </h3>
+              <p className="mt-3.5 text-base leading-[1.95] text-ink-muted">{item.body}</p>
+            </div>
           </div>
         </li>
       ))}
