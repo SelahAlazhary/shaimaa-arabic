@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { toErrorCode, messageFor } from '@/lib/errors'
+import { pluralAr } from '@/lib/utils/format'
 
 export type GenerateState =
   | { status: 'idle' }
@@ -54,7 +55,12 @@ export async function generateCodes(
 
   return {
     status: 'success',
-    message: `تم توليد ${codes.length} كود بنجاح.`,
+    message: `تم توليد ${pluralAr(codes.length, {
+      one: 'كود واحد',
+      two: 'كودين',
+      few: 'أكواد',
+      many: 'كودًا',
+    })} بنجاح.`,
     codes,
   }
 }

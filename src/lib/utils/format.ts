@@ -24,6 +24,23 @@ export function formatYear(value: number): string {
   return new Intl.NumberFormat(AR, { useGrouping: false }).format(value)
 }
 
+/**
+ * تمييز العدد في العربية أربع صور لا صورة واحدة:
+ * «كود واحد» · «كودان» · «٥ أكواد» · «١٥ كودًا».
+ * كتابة «5 كود» تُفسد النصّ مهما صحّ العدد.
+ */
+export function pluralAr(
+  count: number,
+  forms: { one: string; two: string; few: string; many: string },
+): string {
+  if (count === 1) return forms.one
+  if (count === 2) return forms.two
+
+  const rest = count % 100
+  const word = rest >= 3 && rest <= 10 ? forms.few : forms.many
+  return `${formatNumber(count)} ${word}`
+}
+
 export function formatPercent(value: number): string {
   return new Intl.NumberFormat(AR, { style: 'percent', maximumFractionDigits: 0 })
     .format(value / 100)

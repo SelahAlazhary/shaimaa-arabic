@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowRight, BookOpen, Plus, Layers, Eye, EyeOff, Clock, ExternalLink } from 'lucide-react'
+import { ArrowRight, BookOpen, Plus, Layers, Eye, EyeOff, Clock, ExternalLink, Image as ImageIcon } from 'lucide-react'
 import { requireAdmin } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader, EmptyState, Badge } from '@/components/ui/card'
@@ -11,6 +11,7 @@ import { LessonForm } from '@/components/admin/lesson-form'
 import { ModuleForm } from '@/components/admin/module-form'
 import { LessonList, type LessonRow } from '@/components/admin/lesson-list'
 import { ModuleList } from '@/components/admin/module-list'
+import { CourseImageForm } from '@/components/admin/course-image-form'
 import { formatNumber, formatDuration } from '@/lib/utils/format'
 
 export async function generateMetadata({
@@ -32,7 +33,7 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
   const [courseRes, gradesRes, modulesRes, lessonsRes, videosRes] = await Promise.all([
     supabase
       .from('courses')
-      .select('id, title, description, grade_id, price, status, slug')
+      .select('id, title, description, grade_id, price, status, slug, thumbnail_url')
       .eq('id', id)
       .maybeSingle(),
     supabase.from('grades').select('id, name_ar').order('sort_order'),
@@ -108,6 +109,15 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
             status: course.status,
             slug: course.slug,
           }}
+        />
+      </Card>
+
+      <Card>
+        <CardHeader title="صورة المقرر" icon={ImageIcon} />
+        <CourseImageForm
+          courseId={course.id}
+          current={course.thumbnail_url}
+          courseTitle={course.title}
         />
       </Card>
 

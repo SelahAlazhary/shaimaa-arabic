@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowRight, ChevronRight, ChevronLeft, Clock } from 'lucide-react'
+import { ArrowRight, ChevronRight, ChevronLeft, Clock, Download, FileText } from 'lucide-react'
 import { requireStudent } from '@/lib/permissions'
 import { getLesson } from '@/lib/queries/course'
 import { Card } from '@/components/ui/card'
 import { LessonPlayer } from '@/components/student/lesson-player'
-import { formatDuration } from '@/lib/utils/format'
+import { formatDuration, formatFileSize } from '@/lib/utils/format'
 
 export async function generateMetadata({
   params,
@@ -76,6 +76,32 @@ export default async function LessonPage({
           <p className="whitespace-pre-wrap text-base leading-relaxed text-ink-muted">
             {lesson.description}
           </p>
+        </Card>
+      )}
+
+      {lesson.attachments.length > 0 && (
+        <Card className="p-5">
+          <h2 className="mb-3 text-base font-semibold text-ink">مرفقات هذا الدرس</h2>
+          <ul className="divide-y divide-border-subtle">
+            {lesson.attachments.map((a) => (
+              <li key={a.id} className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
+                <span className="flex min-w-0 items-center gap-2.5">
+                  <FileText className="size-4 shrink-0 text-ink-faint" aria-hidden />
+                  <span className="min-w-0">
+                    <span className="block truncate text-base font-medium text-ink">{a.title}</span>
+                    <span className="nums-ar text-sm text-ink-faint">{formatFileSize(a.fileSize)}</span>
+                  </span>
+                </span>
+                <a
+                  href={`/attachments/${a.id}?download=1`}
+                  className="tap-target grid shrink-0 place-items-center rounded-[var(--radius-field)] text-ink-faint hover:bg-surface-muted hover:text-ink"
+                  aria-label={`تحميل ${a.title}`}
+                >
+                  <Download className="size-4" aria-hidden />
+                </a>
+              </li>
+            ))}
+          </ul>
         </Card>
       )}
 

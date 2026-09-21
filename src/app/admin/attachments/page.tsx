@@ -14,14 +14,39 @@ export default async function AdminAttachmentsPage() {
   await requireAdmin()
   const supabase = await createClient()
 
-  const [filesRes, linksRes, coursesRes] = await Promise.all([
+  const [filesRes, linksRes, lessonLinksRes, allLessonsRes, coursesRes] = await Promise.all([
     supabase
       .from('attachments')
       .select('id, title, file_name, file_size, mime_type, created_at')
       .order('created_at', { ascending: false }),
     supabase.from('course_attachments').select('attachment_id, course_id, courses(title)'),
+    supabase.from('lesson_attachments').select('attachment_id, lesson_id, lessons(title, courses(title))'),
+    supabase.from('lessons').select('id, title, courses(title)').order('sort_order'),
     supabase.from('courses').select('id, title').order('title'),
   ])
+
+  const lessonLinks = new Map<string, { lessonId: string; title: string; courseTitle: string }[]>()
+  for (const row of (lessonLinksRes.data ?? []) as unknown as {
+    attachment_id: string
+    lesson_id: string
+    lessons: { title: string; courses: { title: string } | null } | null
+  }[]) {
+    if (!row.lessons) continue
+    lessonLinks.set(row.attachment_id, [
+      ...(lessonLinks.get(row.attachment_id) ?? []),
+      {
+        lessonId: row.lesson_id,
+        title: row.lessons.title,
+        courseTitle: row.lessons.courses?.title ?? '—',
+      },
+    ])
+  }
+
+  const allLessons = ((allLessonsRes.data ?? []) as unknown as {
+    id: string
+    title: string
+    courses: { title: string } | null
+  }[]).map((l) => ({ id: l.id, title: l.title, courseTitle: l.courses?.title ?? '—' }))
 
   const links = new Map<string, { courseId: string; title: string }[]>()
   for (const row of (linksRes.data ?? []) as unknown as {
@@ -77,6 +102,8 @@ export default async function AdminAttachmentsPage() {
                 }}
                 courses={links.get(f.id) ?? []}
                 allCourses={coursesRes.data ?? []}
+                lessons={lessonLinks.get(f.id) ?? []}
+                allLessons={allLessons}
               />
             ))}
           </ul>

@@ -218,3 +218,48 @@ export async function linkAttachment(attachmentId: string, courseId: string) {
 
   return { ok: true, message: 'تم ربط الملف بالمقرر.' }
 }
+
+/** ربط ملف بدرس بعينه — إلى جانب الربط بمقرر كامل. */
+export async function linkAttachmentToLesson(attachmentId: string, lessonId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { ok: false, message: messageFor('UNAUTHORIZED') }
+
+  const { data: me } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+  if (!me || (me.role !== 'admin' && me.role !== 'super_admin')) {
+    return { ok: false, message: messageFor('FORBIDDEN') }
+  }
+
+  const { error } = await supabase
+    .from('lesson_attachments')
+    .upsert({ attachment_id: attachmentId, lesson_id: lessonId })
+
+  if (error) return { ok: false, message: messageFor(toErrorCode(error)) }
+
+  revalidatePath('/admin/attachments')
+  revalidatePath('/student', 'layout')
+  return { ok: true, message: 'تم ربط الملف بالدرس.' }
+}
+
+export async function unlinkAttachmentFromLesson(attachmentId: string, lessonId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { ok: false, message: messageFor('UNAUTHORIZED') }
+
+  const { data: me } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+  if (!me || (me.role !== 'admin' && me.role !== 'super_admin')) {
+    return { ok: false, message: messageFor('FORBIDDEN') }
+  }
+
+  const { error } = await supabase
+    .from('lesson_attachments')
+    .delete()
+    .eq('attachment_id', attachmentId)
+    .eq('lesson_id', lessonId)
+
+  if (error) return { ok: false, message: messageFor(toErrorCode(error)) }
+
+  revalidatePath('/admin/attachments')
+  revalidatePath('/student', 'layout')
+  return { ok: true, message: 'تم فكّ الربط عن الدرس.' }
+}

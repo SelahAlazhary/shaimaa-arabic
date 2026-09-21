@@ -692,6 +692,27 @@ export type Database = {
           },
         ]
       }
+      lesson_attachments: {
+        Row: { attachment_id: string; created_at: string; lesson_id: string }
+        Insert: { attachment_id: string; created_at?: string; lesson_id: string }
+        Update: { attachment_id?: string; created_at?: string; lesson_id?: string }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_attachments_attachment_id_fkey"
+            columns: ["attachment_id"]
+            isOneToOne: false
+            referencedRelation: "attachments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_attachments_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lesson_progress: {
         Row: {
           completed: boolean
@@ -1256,6 +1277,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_staff_account: {
+        Args: {
+          p_email: string
+          p_full_name: string
+          p_password: string
+          p_role: Database["public"]["Enums"]["user_role"]
+        }
+        Returns: string
+      }
+      set_account_password: {
+        Args: { p_password: string; p_user: string }
+        Returns: boolean
+      }
       create_manual_enrollment: {
         Args: { p_course: string; p_expires_at?: string; p_student: string }
         Returns: Json

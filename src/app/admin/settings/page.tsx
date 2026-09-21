@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader, EmptyState } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
 import { RoleManager } from '@/components/admin/role-manager'
+import { NewStaffForm } from '@/components/admin/new-staff-form'
 import { SiteTextsForm } from '@/components/admin/site-texts-form'
 import { formatDateTime, formatNumber } from '@/lib/utils/format'
 
@@ -92,6 +93,7 @@ export default async function AdminSettingsPage() {
             <span className="nums-ar text-sm text-ink-faint">{formatNumber(staff.length)} حساب</span>
           }
         />
+        <NewStaffForm />
         <RoleManager
           people={people.map((p) => ({
             id: p.id,

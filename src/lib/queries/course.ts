@@ -166,6 +166,8 @@ export type LessonView = {
   completed: boolean
   prevId: string | null
   nextId: string | null
+  /** مرفقات هذا الدرس وحده — تعود فارغة لمن لا يحقّ له الدرس */
+  attachments: { id: string; title: string; fileName: string; fileSize: number }[]
 }
 
 export async function getLesson(slug: string, lessonId: string): Promise<LessonView | null> {
@@ -192,7 +194,7 @@ export async function getLesson(slug: string, lessonId: string): Promise<LessonV
   if (l.courses.slug !== slug) return null
 
   // الرابط يعود فقط إذا سمحت سياسة lesson_videos — أي للمسجَّل أو للدرس المجاني
-  const [videoRes, progressRes, siblingsRes] = await Promise.all([
+  const [videoRes, progressRes, siblingsRes, attachRes] = await Promise.all([
     supabase.from('lesson_videos').select('video_url, provider').eq('lesson_id', l.id).maybeSingle(),
     supabase
       .from('lesson_progress')
@@ -205,7 +207,22 @@ export async function getLesson(slug: string, lessonId: string): Promise<LessonV
       .eq('course_id', l.course_id)
       .eq('is_published', true)
       .order('sort_order'),
+    supabase
+      .from('lesson_attachments')
+      .select('attachments!inner(id, title, file_name, file_size)')
+      .eq('lesson_id', l.id),
   ])
+
+  const lessonAttachments = (
+    (attachRes.data ?? []) as unknown as {
+      attachments: { id: string; title: string; file_name: string; file_size: number }
+    }[]
+  ).map((r) => ({
+    id: r.attachments.id,
+    title: r.attachments.title,
+    fileName: r.attachments.file_name,
+    fileSize: r.attachments.file_size,
+  }))
 
   const siblings = siblingsRes.data ?? []
   const index = siblings.findIndex((s) => s.id === l.id)
@@ -224,5 +241,6 @@ export async function getLesson(slug: string, lessonId: string): Promise<LessonV
     completed: progressRes.data?.completed ?? false,
     prevId: index > 0 ? (siblings[index - 1]?.id ?? null) : null,
     nextId: index >= 0 && index < siblings.length - 1 ? (siblings[index + 1]?.id ?? null) : null,
+    attachments: lessonAttachments,
   }
 }

@@ -3,7 +3,13 @@
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 import { Download, Trash2, Unlink } from 'lucide-react'
-import { deleteAttachment, unlinkAttachment, linkAttachment } from '@/lib/mutations/attachments'
+import {
+  deleteAttachment,
+  unlinkAttachment,
+  linkAttachment,
+  linkAttachmentToLesson,
+  unlinkAttachmentFromLesson,
+} from '@/lib/mutations/attachments'
 import { ConfirmButton } from '@/components/ui/confirm-button'
 import { Badge } from '@/components/ui/card'
 
@@ -11,14 +17,35 @@ export function AttachmentRow({
   file,
   courses,
   allCourses,
+  lessons,
+  allLessons,
 }: {
   file: { id: string; title: string; meta: string }
   courses: { courseId: string; title: string }[]
   allCourses: { id: string; title: string }[]
+  lessons: { lessonId: string; title: string; courseTitle: string }[]
+  allLessons: { id: string; title: string; courseTitle: string }[]
 }) {
   const [unlinking, startUnlink] = useTransition()
   const linked = new Set(courses.map((c) => c.courseId))
   const available = allCourses.filter((c) => !linked.has(c.id))
+
+  const linkedLessons = new Set(lessons.map((l) => l.lessonId))
+  const availableLessons = allLessons.filter((l) => !linkedLessons.has(l.id))
+
+  const linkLesson = (lessonId: string) =>
+    startUnlink(async () => {
+      const res = await linkAttachmentToLesson(file.id, lessonId)
+      if (res.ok) toast.success(res.message)
+      else toast.error(res.message)
+    })
+
+  const unlinkLesson = (lessonId: string) =>
+    startUnlink(async () => {
+      const res = await unlinkAttachmentFromLesson(file.id, lessonId)
+      if (res.ok) toast.success(res.message)
+      else toast.error(res.message)
+    })
 
   const link = (courseId: string) =>
     startUnlink(async () => {
@@ -52,8 +79,8 @@ export function AttachmentRow({
       </div>
 
       <div className="mt-2 flex flex-wrap items-center gap-2">
-        {courses.length === 0 ? (
-          <Badge tone="warning">غير مرتبط بمقرر — لا يراه أحد</Badge>
+        {courses.length === 0 && lessons.length === 0 ? (
+          <Badge tone="warning">غير مرتبط — لا يراه أحد</Badge>
         ) : (
           courses.map((c) => (
             <span
@@ -73,6 +100,43 @@ export function AttachmentRow({
               </button>
             </span>
           ))
+        )}
+
+        {lessons.map((l) => (
+          <span
+            key={l.lessonId}
+            className="inline-flex items-center gap-1 rounded-[var(--radius-pill)] bg-brand-50 py-1 pe-2.5 ps-1 text-sm text-brand-700"
+          >
+            {l.courseTitle} · {l.title}
+            <button
+              type="button"
+              onClick={() => unlinkLesson(l.lessonId)}
+              disabled={unlinking}
+              aria-label={`فكّ ربط ${file.title} عن درس ${l.title}`}
+              className="grid size-5 place-items-center rounded-full text-ink-faint transition-colors hover:bg-danger-bg hover:text-danger disabled:opacity-50"
+            >
+              <Unlink className="size-3" aria-hidden />
+            </button>
+          </span>
+        ))}
+
+        {availableLessons.length > 0 && (
+          <label className="inline-flex items-center gap-1.5 text-sm text-ink-muted">
+            <span className="sr-only">اربط {file.title} بدرس</span>
+            <select
+              value=""
+              onChange={(e) => e.target.value && linkLesson(e.target.value)}
+              disabled={unlinking}
+              className="h-8 rounded-[var(--radius-field)] border border-border-strong bg-surface px-2 text-sm text-ink"
+            >
+              <option value="">اربط بدرس…</option>
+              {availableLessons.map((l) => (
+                <option key={l.id} value={l.id}>
+                  {l.courseTitle} · {l.title}
+                </option>
+              ))}
+            </select>
+          </label>
         )}
 
         {available.length > 0 && (

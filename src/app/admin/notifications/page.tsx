@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
-import { Bell } from 'lucide-react'
+import { Bell, Send } from 'lucide-react'
 import { requireAdmin } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader, EmptyState } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
+import { AnnounceForm } from '@/components/admin/announce-form'
 import { formatDateTime, formatNumber } from '@/lib/utils/format'
 
 export const metadata: Metadata = { title: 'الإشعارات' }
@@ -12,7 +13,7 @@ export default async function AdminNotificationsPage() {
   await requireAdmin()
   const supabase = await createClient()
 
-  const [recentRes, totalRes, studentsRes] = await Promise.all([
+  const [recentRes, totalRes, studentsRes, gradesRes, coursesRes] = await Promise.all([
     supabase
       .from('notifications')
       .select('id, title, body, created_at, is_read')
@@ -24,6 +25,8 @@ export default async function AdminNotificationsPage() {
       .select('id', { count: 'exact', head: true })
       .eq('role', 'student')
       .eq('status', 'active'),
+    supabase.from('grades').select('id, name_ar').eq('is_visible', true).order('sort_order'),
+    supabase.from('courses').select('id, title').eq('status', 'published').order('title'),
   ])
 
   const items = recentRes.data ?? []
@@ -45,6 +48,14 @@ export default async function AdminNotificationsPage() {
           الإشعارات التلقائية (تفعيل كود، فتح مقرر) تُرسل من القاعدة مباشرة ولا تحتاج تدخّلًا.
         </p>
       </Card>
+      <Card>
+        <CardHeader title="إرسال إشعار" icon={Send} />
+        <AnnounceForm
+          grades={(gradesRes.data ?? []).map((g) => ({ id: g.id, label: g.name_ar }))}
+          courses={(coursesRes.data ?? []).map((c) => ({ id: c.id, label: c.title }))}
+        />
+      </Card>
+
 
       <Card>
         <CardHeader title="آخر الإشعارات" icon={Bell} />
