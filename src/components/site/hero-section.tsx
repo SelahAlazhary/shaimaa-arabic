@@ -50,7 +50,7 @@ function SecondaryButton({ t }: { t: Texts }) {
  * لوحة خضراء داكنة تمتدّ من الشريط العلوي ككتلة واحدة: الصورة المقصوصة
  * على أرضية داكنة تظهر بلا صندوق أبيض حولها، وهو ما كان يُفسد التخطيط الفاتح.
  */
-export function HeroSection({ t }: { t: Texts }) {
+export function HeroSection({ t, photo }: { t: Texts; photo: string }) {
   return (
     <section id="top" className="relative overflow-hidden bg-brand-800">
       <Arabesque className="text-accent" opacity={0.07} />
@@ -85,7 +85,7 @@ export function HeroSection({ t }: { t: Texts }) {
             className="reveal-arch absolute -inset-x-6 bottom-0 top-8 rounded-t-[50%] border border-accent/50 bg-brand-900/40"
           />
           <Image
-            src="/brand/teacher.webp"
+            src={photo}
             alt=""
             fill
             priority

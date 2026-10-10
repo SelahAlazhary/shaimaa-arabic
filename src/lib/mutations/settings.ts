@@ -150,13 +150,30 @@ async function sniffLogo(file: File): Promise<LogoMime | null> {
   return null
 }
 
-export async function uploadLogo(formData: FormData) {
-  const file = formData.get('logo')
+type BrandImage = { field: 'logo' | 'teacher'; noun: string; saved: string; removed: string }
+
+const LOGO: BrandImage = {
+  field: 'logo',
+  noun: 'الشعار',
+  saved: 'حُفظ الشعار الجديد.',
+  removed: 'حُذف الشعار. يظهر اسم المنصة نصًّا.',
+}
+
+const TEACHER: BrandImage = {
+  field: 'teacher',
+  noun: 'الصورة',
+  saved: 'حُفظت صورة المدرّسة، وتظهر الآن في كامل المنصة.',
+  removed: 'حُذفت الصورة. عادت الصورة الافتراضية.',
+}
+
+/** يخزّن `<field>_path` و`<field>_url` داخل صفّ branding، فكل صورة مستقلّة عن الأخرى. */
+async function uploadBrandImage(kind: BrandImage, formData: FormData) {
+  const file = formData.get(kind.field)
   if (!(file instanceof File) || file.size === 0) {
     return { ok: false, message: 'اختر صورة أولًا.' }
   }
   if (file.size > LOGO_MAX_BYTES) {
-    return { ok: false, message: 'حجم الشعار أكبر من ٢ ميجابايت.' }
+    return { ok: false, message: `حجم ${kind.noun} أكبر من ٢ ميجابايت.` }
   }
 
   const mime = await sniffLogo(file)
@@ -173,16 +190,17 @@ export async function uploadLogo(formData: FormData) {
     .eq('key', 'branding')
     .maybeSingle()
 
-  const previous = (current?.value ?? {}) as Record<string, unknown>
-  const oldPath = typeof previous.logo_path === 'string' ? previous.logo_path : null
+  const previous = (current?.value ?? {}) as Record<string, string>
+  const oldPathValue = previous[`${kind.field}_path`]
+  const oldPath = typeof oldPathValue === 'string' ? oldPathValue : null
 
-  const path = `logo-${crypto.randomUUID()}.${LOGO_TYPES[mime].ext}`
+  const path = `${kind.field}-${crypto.randomUUID()}.${LOGO_TYPES[mime].ext}`
 
   const { error: uploadError } = await ctx.supabase.storage
     .from('branding')
     .upload(path, file, { contentType: mime, upsert: false })
 
-  if (uploadError) return { ok: false, message: 'تعذّر رفع الشعار. أعد المحاولة.' }
+  if (uploadError) return { ok: false, message: `تعذّر رفع ${kind.noun}. أعد المحاولة.` }
 
   const {
     data: { publicUrl },
@@ -191,7 +209,7 @@ export async function uploadLogo(formData: FormData) {
   const { error } = await ctx.supabase.from('platform_settings').upsert(
     {
       key: 'branding',
-      value: { ...previous, logo_path: path, logo_url: publicUrl },
+      value: { ...previous, [`${kind.field}_path`]: path, [`${kind.field}_url`]: publicUrl },
       updated_by: ctx.userId,
     },
     { onConflict: 'key' },
@@ -207,10 +225,10 @@ export async function uploadLogo(formData: FormData) {
 
   revalidatePath('/admin/settings/platform')
   revalidatePath('/', 'layout')
-  return { ok: true, message: 'حُفظ الشعار الجديد.' }
+  return { ok: true, message: kind.saved }
 }
 
-export async function removeLogo() {
+async function removeBrandImage(kind: BrandImage) {
   const ctx = await adminClient()
   if (!ctx) return { ok: false, message: messageFor('FORBIDDEN') }
 
@@ -220,10 +238,10 @@ export async function removeLogo() {
     .eq('key', 'branding')
     .maybeSingle()
 
-  const previous = (current?.value ?? {}) as Record<string, string>
-  const path = typeof previous.logo_path === 'string' ? previous.logo_path : null
-
-  const { logo_path: _p, logo_url: _u, ...rest } = previous
+  const rest = { ...((current?.value ?? {}) as Record<string, string>) }
+  const path = typeof rest[`${kind.field}_path`] === 'string' ? rest[`${kind.field}_path`] : null
+  delete rest[`${kind.field}_path`]
+  delete rest[`${kind.field}_url`]
 
   const { error } = await ctx.supabase
     .from('platform_settings')
@@ -235,7 +253,23 @@ export async function removeLogo() {
 
   revalidatePath('/admin/settings/platform')
   revalidatePath('/', 'layout')
-  return { ok: true, message: 'حُذف الشعار. يظهر اسم المنصة نصًّا.' }
+  return { ok: true, message: kind.removed }
+}
+
+export async function uploadLogo(formData: FormData) {
+  return uploadBrandImage(LOGO, formData)
+}
+
+export async function removeLogo() {
+  return removeBrandImage(LOGO)
+}
+
+export async function uploadTeacherPhoto(formData: FormData) {
+  return uploadBrandImage(TEACHER, formData)
+}
+
+export async function removeTeacherPhoto() {
+  return removeBrandImage(TEACHER)
 }
 
 /* ===================== الصفحات الثابتة ===================== */

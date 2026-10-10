@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 export type Branding = {
   siteName: string | null
   logoUrl: string | null
+  teacherUrl: string | null
   supportEmail: string | null
   whatsapp: string | null
 }
@@ -21,7 +22,11 @@ export async function getBranding(): Promise<Branding> {
   return {
     siteName: v.site_name ?? null,
     logoUrl: v.logo_url ?? null,
+    teacherUrl: v.teacher_url ?? null,
     supportEmail: v.support_email ?? null,
     whatsapp: v.whatsapp ?? null,
   }
 }
+
+/** الصورة المرفوعة من لوحة الإدارة، وإلا الصورة الافتراضية المضمّنة. */
+export const DEFAULT_TEACHER_PHOTO = '/brand/teacher.webp'

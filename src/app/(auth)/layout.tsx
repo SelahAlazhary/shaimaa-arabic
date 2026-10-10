@@ -1,8 +1,11 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { GraduationCap } from 'lucide-react'
+import { getBranding, DEFAULT_TEACHER_PHOTO } from '@/lib/queries/branding'
 
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+export default async function AuthLayout({ children }: { children: React.ReactNode }) {
+  const branding = await getBranding()
+
   return (
     <div className="grid min-h-dvh lg:grid-cols-[1fr_32rem]">
       {/* لوحة الهوية: تختفي على الموبايل لأن الأولوية هناك للنموذج لا للصورة */}
@@ -35,7 +38,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           aria-hidden
         >
           <Image
-            src="/brand/teacher.webp"
+            src={branding.teacherUrl ?? DEFAULT_TEACHER_PHOTO}
             alt=""
             fill
             priority

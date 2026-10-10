@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Palette, Image as ImageIcon, Type } from 'lucide-react'
+import { Palette, Image as ImageIcon, Type, UserRound } from 'lucide-react'
 import { requireAdminPage } from '@/lib/permissions'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardHeader } from '@/components/ui/card'
@@ -7,6 +7,7 @@ import { PageHeader } from '@/components/ui/page-header'
 import { SettingsBack } from '@/components/admin/settings-back'
 import { BrandingForm, type BrandingDefaults } from '@/components/admin/branding-form'
 import { LogoForm } from '@/components/admin/logo-form'
+import { TeacherPhotoForm } from '@/components/admin/teacher-photo-form'
 import { SiteTextsForm } from '@/components/admin/site-texts-form'
 
 export const metadata: Metadata = { title: 'إعدادات المنصة' }
@@ -50,6 +51,11 @@ export default async function PlatformSettingsPage() {
           current={branding.logo_url ?? null}
           siteName={defaults.site_name || 'المنصة'}
         />
+      </Card>
+
+      <Card>
+        <CardHeader title="صورة المدرّسة" icon={UserRound} />
+        <TeacherPhotoForm current={branding.teacher_url ?? null} />
       </Card>
 
       <Card>

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Navbar } from '@/components/site/navbar'
 import { SectionHeading, LedgerGrid } from '@/components/site/section'
 import { getSiteTexts } from '@/lib/queries/site-texts'
-import { getBranding } from '@/lib/queries/branding'
+import { getBranding, DEFAULT_TEACHER_PHOTO } from '@/lib/queries/branding'
 import { HeroSection } from '@/components/site/hero-section'
 import { SiteFooter } from '@/components/site/site-footer'
 import { createClient } from '@/lib/supabase/server'
@@ -63,7 +63,7 @@ export default async function LandingPage() {
       />
 
       <main>
-        <HeroSection t={t} />
+        <HeroSection t={t} photo={branding.teacherUrl ?? DEFAULT_TEACHER_PHOTO} />
 
         {/* ما تحصل عليه */}
         <section
