@@ -87,7 +87,7 @@ export async function createHomework(input: {
 
 /**
  * فكّ ارتباط الواجب بالدرس.
- * لا يحذفه: يبقى اختبارًا في المقرر بمحاولاته ونتائجه.
+ * لا يحذفه: يبقى اختبارًا في الكورس بمحاولاته ونتائجه.
  */
 export async function detachHomework(examId: string, courseId: string) {
   const ctx = await adminClient()
@@ -101,7 +101,7 @@ export async function detachHomework(examId: string, courseId: string) {
   if (error) return { ok: false, message: messageFor(toErrorCode(error)) }
 
   refresh(courseId)
-  return { ok: true, message: 'فُكّ ارتباط الواجب بالدرس. ما زال اختبارًا في المقرر.' }
+  return { ok: true, message: 'فُكّ ارتباط الواجب بالدرس. ما زال اختبارًا في الكورس.' }
 }
 
 /**

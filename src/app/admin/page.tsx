@@ -38,7 +38,7 @@ export default async function AdminOverviewPage() {
         <StatCard icon={Users} label="إجمالي الطلاب" value={formatNumber(o.totalStudents)} tone="info" />
         <StatCard icon={UserCheck} label="طلاب نشطون" value={formatNumber(o.activeStudents)} tone="success" />
         <StatCard icon={UserX} label="حسابات موقوفة" value={formatNumber(o.suspendedStudents)} tone="warning" />
-        <StatCard icon={BookOpen} label="مقررات منشورة" value={formatNumber(o.publishedCourses)} tone="neutral" />
+        <StatCard icon={BookOpen} label="كورسات منشورة" value={formatNumber(o.publishedCourses)} tone="neutral" />
         <StatCard icon={GraduationCap} label="اشتراكات نشطة" value={formatNumber(o.activeEnrollments)} tone="success" />
         <StatCard icon={Ticket} label="أكواد متاحة" value={formatNumber(o.availableCodes)} tone="info" />
         <StatCard icon={TicketCheck} label="أكواد مستخدمة" value={formatNumber(o.usedCodes)} tone="neutral" />
@@ -100,7 +100,7 @@ export default async function AdminOverviewPage() {
           <ul className="divide-y divide-border-subtle">
             {[
               { page: 'students', href: '/admin/students', label: 'إدارة الطلاب', icon: Users, hint: `${formatNumber(o.totalStudents)} طالب` },
-              { page: 'courses', href: '/admin/courses', label: 'المقررات', icon: BookOpen, hint: `${formatNumber(o.totalCourses)} مقرر` },
+              { page: 'courses', href: '/admin/courses', label: 'الكورسات', icon: BookOpen, hint: `${formatNumber(o.totalCourses)} كورس` },
               { page: 'codes', href: '/admin/codes', label: 'أكواد التفعيل', icon: Ticket, hint: `${formatNumber(o.availableCodes)} متاح` },
               { page: 'support', href: '/admin/support', label: 'الدعم', icon: LifeBuoy, hint: `${formatNumber(o.openTickets)} مفتوحة` },
               // الاختصار لا يُعرض لمن لا يفتح صفحته: رابط يردّه لا معنى له

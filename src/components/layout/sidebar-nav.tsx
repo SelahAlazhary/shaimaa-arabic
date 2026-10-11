@@ -72,7 +72,7 @@ const NAV: Record<NavArea, NavItem[]> = {
   admin: [
     { href: '/admin', label: 'نظرة عامة', icon: LayoutGrid },
     { href: '/admin/students', label: 'الطلاب', icon: Users },
-    { href: '/admin/courses', label: 'المقررات', icon: BookOpen },
+    { href: '/admin/courses', label: 'الكورسات', icon: BookOpen },
     { href: '/admin/codes', label: 'أكواد التفعيل', icon: Ticket },
     { href: '/admin/support', label: 'الدعم', icon: LifeBuoy },
     { href: '/admin/grades', label: 'الصفوف', icon: GraduationCap },

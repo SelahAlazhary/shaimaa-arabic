@@ -868,7 +868,7 @@ export function LessonManagerDialog({
                         label="افصله عن الدرس"
                         icon={<Unlink aria-hidden />}
                         title="فصل الواجب عن الدرس؟"
-                        body={`لن يظهر «${hw.title}» مع الدرس، ويبقى اختبارًا في المقرر بنتائجه.`}
+                        body={`لن يظهر «${hw.title}» مع الدرس، ويبقى اختبارًا في الكورس بنتائجه.`}
                         confirmLabel="افصله"
                         action={() => detachHomework(hw.id, courseId)}
                       />

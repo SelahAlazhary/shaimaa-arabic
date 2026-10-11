@@ -30,7 +30,7 @@ export async function generateMetadata({
   const { id } = await params
   const supabase = await createClient()
   const { data } = await supabase.from('courses').select('title').eq('id', id).maybeSingle()
-  return { title: data?.title ?? 'المقرر' }
+  return { title: data?.title ?? 'الكورس' }
 }
 
 export default async function EditCoursePage({ params }: { params: Promise<{ id: string }> }) {
@@ -62,7 +62,7 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
   const lessons = lessonsRes.data ?? []
   const lessonIds = lessons.map((l) => l.id)
 
-  // الفيديوهات والمرفقات والواجبات تُجلب لدروس هذا المقرر وحده، لا للجدول كلّه
+  // الفيديوهات والمرفقات والواجبات تُجلب لدروس هذا الكورس وحده، لا للجدول كلّه
   const [videosRes, filesRes, homeworkRes] = lessonIds.length
     ? await Promise.all([
         supabase
@@ -164,12 +164,12 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
         className="inline-flex items-center gap-1.5 text-base text-ink-muted underline-offset-4 hover:text-ink hover:underline"
       >
         <ArrowRight className="size-4" aria-hidden />
-        كل المقررات
+        كل الكورسات
       </Link>
 
       <PageHeader
         title={course.title}
-        description="عدّل بيانات المقرر، ونظّم وحداته ودروسه."
+        description="عدّل بيانات الكورس، ونظّم وحداته ودروسه."
         action={
           course.status === 'published' ? (
             <Link
@@ -184,7 +184,7 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
       />
 
       <CollapsibleCard
-        title="بيانات المقرر"
+        title="بيانات الكورس"
         icon={BookOpen}
         summary={`${course.title} · ${STATUS_LABEL[course.status]}`}
       >
@@ -203,7 +203,7 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
       </CollapsibleCard>
 
       <CollapsibleCard
-        title="صورة المقرر"
+        title="صورة الكورس"
         icon={ImageIcon}
         summary={course.thumbnail_url ? 'صورة مرفوعة' : 'بلا صورة'}
       >
@@ -214,8 +214,8 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
         />
       </CollapsibleCard>
 
-      {/* المحتوى مفتوح افتراضيًّا: هو ما يُفتح المقرر من أجله */}
-      <CollapsibleCard title="محتوى المقرر" icon={Layers} defaultOpen>
+      {/* المحتوى مفتوح افتراضيًّا: هو ما يُفتح الكورس من أجله */}
+      <CollapsibleCard title="محتوى الكورس" icon={Layers} defaultOpen>
         <ModuleForm courseId={course.id} />
         <CourseCurriculum
           courseId={course.id}

@@ -13,7 +13,7 @@ export const metadata: Metadata = { title: 'سجلّ التدقيق' }
 const ACTION_LABELS: Record<string, string> = {
   code_redeemed: 'تفعيل كود اشتراك',
   codes_generated: 'توليد أكواد',
-  manual_enrollment: 'تسجيل يدوي في مقرر',
+  manual_enrollment: 'تسجيل يدوي في كورس',
   create_staff: 'إنشاء حساب بصلاحيات',
   reset_password: 'تغيير كلمة مرور حساب',
 }
@@ -21,7 +21,7 @@ const ACTION_LABELS: Record<string, string> = {
 const ENTITY_LABELS: Record<string, string> = {
   activation_code: 'كود تفعيل',
   enrollment: 'اشتراك',
-  course: 'مقرر',
+  course: 'كورس',
   profile: 'حساب',
 }
 

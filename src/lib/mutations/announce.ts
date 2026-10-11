@@ -20,13 +20,13 @@ const schema = z.object({
   link: z.string().trim().max(200, 'الرابط طويل جدًا').optional().or(z.literal('')),
   audience: z.enum(['all', 'grade', 'course'], { error: 'اختر الفئة' }),
   gradeId: optionalUuidField('اختر الصف'),
-  courseId: optionalUuidField('اختر المقرر'),
+  courseId: optionalUuidField('اختر الكورس'),
 })
 
 /**
  * إشعار يكتبه المدير ويصل إلى صندوق الطلاب داخل المنصة.
  *
- * الإشعارات التلقائية (تفعيل كود، فتح مقرر) تكتبها القاعدة؛ هذه هي
+ * الإشعارات التلقائية (تفعيل كود، فتح كورس) تكتبها القاعدة؛ هذه هي
  * الرسالة اليدوية التي كانت الشاشة تعرضها ولا تتيح إرسالها.
  */
 export async function sendAnnouncement(
@@ -61,11 +61,11 @@ export async function sendAnnouncement(
     return { status: 'error', message: messageFor('FORBIDDEN') }
   }
 
-  // من يستقبل: كل الطلاب النشطين، أو صفّ بعينه، أو مشتركو مقرر
+  // من يستقبل: كل الطلاب النشطين، أو صفّ بعينه، أو مشتركو كورس
   let recipients: string[] = []
 
   if (v.audience === 'course') {
-    if (!v.courseId) return { status: 'error', message: 'اختر المقرر أولًا.' }
+    if (!v.courseId) return { status: 'error', message: 'اختر الكورس أولًا.' }
     const { data } = await supabase
       .from('enrollments')
       .select('student_id')

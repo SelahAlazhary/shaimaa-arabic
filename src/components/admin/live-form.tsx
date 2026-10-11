@@ -82,7 +82,7 @@ export function LiveForm({ courses }: { courses: { id: string; title: string }[]
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Field
-          label="المقرر"
+          label="الكورس"
           error={fieldErrors?.courseId}
           hint="اتركه فارغًا لتظهر لكل الطلاب"
         >

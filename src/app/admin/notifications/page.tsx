@@ -45,7 +45,7 @@ export default async function AdminNotificationsPage() {
           <strong className="text-ink">{formatNumber(totalRes.count ?? 0)}</strong> إشعارًا.
         </p>
         <p className="mt-2 text-base leading-relaxed text-ink-faint">
-          الإشعارات التلقائية (تفعيل كود، فتح مقرر) تُرسل من القاعدة مباشرة ولا تحتاج تدخّلًا.
+          الإشعارات التلقائية (تفعيل كود، فتح كورس) تُرسل من القاعدة مباشرة ولا تحتاج تدخّلًا.
         </p>
       </Card>
       <Card>
@@ -64,7 +64,7 @@ export default async function AdminNotificationsPage() {
           <EmptyState
             icon={Bell}
             title="لا إشعارات بعد"
-            description="يظهر هنا كل إشعار تُرسله المنصة: تفعيل كود، أو فتح مقرر لطالب."
+            description="يظهر هنا كل إشعار تُرسله المنصة: تفعيل كود، أو فتح كورس لطالب."
           />
         ) : (
           <ul className="divide-y divide-border-subtle">

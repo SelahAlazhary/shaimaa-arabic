@@ -111,7 +111,7 @@ export async function uploadAttachment(
     if (linkError) {
       return {
         status: 'error',
-        message: 'رُفع الملف لكن تعذّر ربطه بالمقررات. اربطه يدويًا.',
+        message: 'رُفع الملف لكن تعذّر ربطه بالكورسات. اربطه يدويًا.',
       }
     }
   }
@@ -123,8 +123,8 @@ export async function uploadAttachment(
     status: 'success',
     message:
       courseIds.length > 0
-        ? `تم رفع «${title}» وربطه بـ${courseIds.length} مقرر.`
-        : `تم رفع «${title}». اربطه بمقرر ليظهر للطلاب.`,
+        ? `تم رفع «${title}» وربطه بـ${courseIds.length} كورس.`
+        : `تم رفع «${title}». اربطه بكورس ليظهر للطلاب.`,
   }
 }
 
@@ -133,7 +133,7 @@ export async function uploadAttachment(
  * الترتيب ليس تفصيلًا — سياسة قراءة التخزين تتحقّق من وجود صفّ في
  * `attachments` يطابق المسار، فحذف الصفّ أولًا يقطع عن المدير رؤية ملفه
  * ويترك الملف يتيمًا في التخزين بلا خطأ ظاهر.
- * وروابط المقررات تسقط مع الصفّ تلقائيًا (ON DELETE CASCADE).
+ * وروابط الكورسات تسقط مع الصفّ تلقائيًا (ON DELETE CASCADE).
  */
 export async function deleteAttachment(attachmentId: string) {
   const supabase = await createClient()
@@ -174,7 +174,7 @@ export async function deleteAttachment(attachmentId: string) {
   return { ok: true, message: 'تم حذف الملف.' }
 }
 
-/** فكّ ربط ملف عن مقرر: الملف يبقى ويُعاد ربطه بغيره. */
+/** فكّ ربط ملف عن كورس: الملف يبقى ويُعاد ربطه بغيره. */
 export async function unlinkAttachment(attachmentId: string, courseId: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -199,7 +199,7 @@ export async function unlinkAttachment(attachmentId: string, courseId: string) {
   return { ok: true, message: 'تم فكّ الربط.' }
 }
 
-/** ربط ملف موجود بمقرر إضافي — مقابل فكّ الربط، حتى لا يكون الفكّ طريقًا بلا عودة. */
+/** ربط ملف موجود بكورس إضافي — مقابل فكّ الربط، حتى لا يكون الفكّ طريقًا بلا عودة. */
 export async function linkAttachment(attachmentId: string, courseId: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -219,10 +219,10 @@ export async function linkAttachment(attachmentId: string, courseId: string) {
   revalidatePath('/admin/attachments')
   revalidatePath('/student', 'layout')
 
-  return { ok: true, message: 'تم ربط الملف بالمقرر.' }
+  return { ok: true, message: 'تم ربط الملف بالكورس.' }
 }
 
-/** ربط ملف بدرس بعينه — إلى جانب الربط بمقرر كامل. */
+/** ربط ملف بدرس بعينه — إلى جانب الربط بكورس كامل. */
 export async function linkAttachmentToLesson(attachmentId: string, lessonId: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

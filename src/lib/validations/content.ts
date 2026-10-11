@@ -27,7 +27,7 @@ export const courseSchema = z.object({
     .trim()
     .regex(/^\d+(\.\d{1,2})?$/, 'السعر رقم موجب')
     .or(z.literal('')),
-  status: z.enum(['draft', 'published', 'archived'], { error: 'اختر حالة المقرر' }),
+  status: z.enum(['draft', 'published', 'archived'], { error: 'اختر حالة الكورس' }),
   // فارغ يعني «ولّده تلقائيًا»
   slug: z
     .string()
@@ -38,12 +38,12 @@ export const courseSchema = z.object({
 })
 
 export const moduleSchema = z.object({
-  courseId: uuidField('مقرر غير صحيح'),
+  courseId: uuidField('كورس غير صحيح'),
   title,
 })
 
 export const lessonSchema = z.object({
-  courseId: uuidField('مقرر غير صحيح'),
+  courseId: uuidField('كورس غير صحيح'),
   moduleId: optionalUuidField('وحدة غير صحيحة'),
   title,
   description: optionalText(2000, 'الشرح طويل جدًا'),
@@ -63,7 +63,7 @@ export const lessonSchema = z.object({
 })
 
 export const liveSchema = z.object({
-  courseId: optionalUuidField('اختر المقرر'),
+  courseId: optionalUuidField('اختر الكورس'),
   title,
   description: optionalText(1000, 'الوصف طويل جدًا'),
   streamUrl: z.string().trim().url('رابط غير صحيح').max(500).or(z.literal('')),

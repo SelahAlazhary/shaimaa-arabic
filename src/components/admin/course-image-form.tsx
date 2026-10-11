@@ -63,7 +63,7 @@ export function CourseImageForm({
 
         <div className="min-w-0 flex-1">
           <p className="text-base leading-[1.9] text-ink-muted">
-            تظهر للطالب في قائمة المقررات وصفحة المقرر. الأنسب نسبة عرض إلى ارتفاع
+            تظهر للطالب في قائمة الكورسات وصفحة الكورس. الأنسب نسبة عرض إلى ارتفاع
             ١٦:٩، بصيغة JPG أو PNG أو WebP، وبحجم لا يتجاوز ٥ ميجابايت.
           </p>
 
@@ -92,8 +92,8 @@ export function CourseImageForm({
               <ConfirmButton
                 label="احذف الصورة"
                 icon={<Trash2 aria-hidden />}
-                title="حذف صورة المقرر؟"
-                body="سيعود المقرر بلا صورة في قائمة الطالب. يمكنك رفع صورة أخرى في أي وقت."
+                title="حذف صورة الكورس؟"
+                body="سيعود الكورس بلا صورة في قائمة الطالب. يمكنك رفع صورة أخرى في أي وقت."
                 confirmLabel="احذف الصورة"
                 action={() => removeCourseImage(courseId)}
               />

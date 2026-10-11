@@ -60,7 +60,7 @@ export function AnnounceForm({
     <form key={formKey} action={formAction} className="space-y-4 p-5" noValidate>
       <p className="text-base leading-[1.9] text-ink-muted">
         رسالة تصل إلى صندوق الإشعارات داخل حساب الطالب. الإشعارات التلقائية
-        (تفعيل كود، فتح مقرر) تُرسل وحدها ولا تحتاج هذا النموذج.
+        (تفعيل كود، فتح كورس) تُرسل وحدها ولا تحتاج هذا النموذج.
       </p>
 
       {generalError && (
@@ -112,7 +112,7 @@ export function AnnounceForm({
             >
               <option value="all">كل الطلاب النشطين</option>
               <option value="grade">صفّ دراسي بعينه</option>
-              <option value="course">مشتركو مقرر بعينه</option>
+              <option value="course">مشتركو كورس بعينه</option>
             </Select>
           )}
         </Field>
@@ -139,7 +139,7 @@ export function AnnounceForm({
         )}
 
         {audience === 'course' && (
-          <Field label="المقرر" error={fieldErrors?.courseId} required>
+          <Field label="الكورس" error={fieldErrors?.courseId} required>
             {({ id }) => (
               <Select
                 id={id}
@@ -148,7 +148,7 @@ export function AnnounceForm({
                 onChange={(e) => setCourseId(e.target.value)}
                 required
               >
-                <option value="">اختر المقرر</option>
+                <option value="">اختر الكورس</option>
                 {courses.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.label}

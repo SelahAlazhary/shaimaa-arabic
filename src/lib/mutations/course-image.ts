@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { messageFor, toErrorCode } from '@/lib/errors'
 
 /**
- * صورة المقرر.
+ * صورة الكورس.
  *
  * النوع يُقرأ من بصمة الملف لا من امتداده: ملف تنفيذي مُسمّى `a.png`
  * يمرّ من فحص الاسم ولا يمرّ من هنا.
@@ -103,7 +103,7 @@ export async function uploadCourseImage(courseId: string, formData: FormData) {
   revalidatePath('/student', 'layout')
   revalidatePath('/')
 
-  return { ok: true, message: 'تم حفظ صورة المقرر.' }
+  return { ok: true, message: 'تم حفظ صورة الكورس.' }
 }
 
 export async function removeCourseImage(courseId: string) {
@@ -136,5 +136,5 @@ export async function removeCourseImage(courseId: string) {
   revalidatePath('/student', 'layout')
   revalidatePath('/')
 
-  return { ok: true, message: 'حُذفت صورة المقرر.' }
+  return { ok: true, message: 'حُذفت صورة الكورس.' }
 }

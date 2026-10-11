@@ -7,7 +7,7 @@
  */
 export const ADMIN_PAGES = [
   { key: 'students', label: 'الطلاب', href: '/admin/students', hint: 'الحسابات والاشتراكات اليدوية' },
-  { key: 'courses', label: 'المقررات', href: '/admin/courses', hint: 'الوحدات والدروس والفيديو' },
+  { key: 'courses', label: 'الكورسات', href: '/admin/courses', hint: 'الوحدات والدروس والفيديو' },
   { key: 'codes', label: 'أكواد التفعيل', href: '/admin/codes', hint: 'توليد الأكواد وإلغاؤها' },
   { key: 'support', label: 'الدعم', href: '/admin/support', hint: 'محادثات الطلاب' },
   { key: 'grades', label: 'الصفوف', href: '/admin/grades', hint: 'المراحل والصفوف' },

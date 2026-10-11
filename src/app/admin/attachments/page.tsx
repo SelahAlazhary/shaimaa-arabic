@@ -67,7 +67,7 @@ export default async function AdminAttachmentsPage() {
     <div className="space-y-6">
       <PageHeader
         title="المرفقات"
-        description="الملازم والمذكرات. الملف يُرفع مرة واحدة ويُربط بعدة مقررات."
+        description="الملازم والمذكرات. الملف يُرفع مرة واحدة ويُربط بعدة كورسات."
       />
 
       <Card>
@@ -88,7 +88,7 @@ export default async function AdminAttachmentsPage() {
           <EmptyState
             icon={FileText}
             title="لا توجد مرفقات"
-            description="ارفع أول ملف من الأعلى واربطه بمقرر ليظهر للطلاب المشتركين فيه."
+            description="ارفع أول ملف من الأعلى واربطه بكورس ليظهر للطلاب المشتركين فيه."
           />
         ) : (
           <ul className="divide-y divide-border-subtle">
