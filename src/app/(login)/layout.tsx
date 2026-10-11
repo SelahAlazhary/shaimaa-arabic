@@ -8,7 +8,7 @@ import { BrandMark } from '@/components/site/logo'
  * النموذج، وعلى الحاسوب مشهد عريض تقف فيه يمين البطاقة. المتصفح يختار
  * بين المصدرين عند عرض 1000px، فلا تُحمَّل الصورة الأخرى.
  *
- * الصورة عنصر بصري: `alt` فارغ، فاسم الأستاذة مكتوب نصًّا في أعلى الصفحة.
+ * الصورة عنصر بصري: `alt` فارغ، واسم الأستاذة نص مخفي بصريًّا بجانب الشعار.
  */
 export default function LoginLayout({ children }: { children: React.ReactNode }) {
   const common = { alt: '', fill: true, priority: true, quality: 90, sizes: '100vw' }
@@ -41,12 +41,10 @@ export default function LoginLayout({ children }: { children: React.ReactNode })
         className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgb(7_42_37/0.55),rgb(7_42_37/0.05)_45%,rgb(7_42_37/0.5)),rgb(11_64_56/0.2)] lg:bg-[linear-gradient(to_left,rgb(7_42_37/0.1),rgb(7_42_37/0.35)),rgb(11_64_56/0.2)]"
       />
 
-      <div className="absolute inset-x-0 top-0 z-10 flex items-center gap-3 p-5 text-ink-invert lg:px-12 lg:py-8">
-        <BrandMark tone="onDark" className="h-[3.125rem] lg:h-[3.75rem]" />
-        <div>
-          <p className="text-[1.0625rem] font-semibold leading-tight">الأستاذة الشيماء أحمد</p>
-          <p className="text-sm leading-tight text-accent-soft">اللغة العربية</p>
-        </div>
+      {/* الشعار وحده؛ الاسم للقارئ الصوتي فقط */}
+      <div className="absolute inset-x-0 top-0 z-10 p-5 lg:px-12 lg:py-8">
+        <BrandMark tone="onDark" className="h-14 lg:h-[4.25rem]" />
+        <span className="sr-only">الأستاذة الشيماء أحمد، اللغة العربية</span>
       </div>
 
       <main className="relative z-10 mt-[46svh] w-full rounded-t-[1.625rem] bg-surface px-[1.375rem] pb-11 pt-[1.875rem] shadow-[0_-12px_40px_rgb(0_0_0/0.25)] md:max-lg:mt-[50svh] md:max-lg:max-w-[34rem] lg:mt-0 lg:w-[28rem] lg:rounded-[1.5rem] lg:px-9 lg:py-[2.375rem] lg:shadow-[0_30px_80px_rgb(0_0_0/0.35)]">
