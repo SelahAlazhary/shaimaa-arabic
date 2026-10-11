@@ -10,11 +10,9 @@ import { MENU } from '@/lib/site/content'
 export function Navbar({
   name,
   tagline,
-  logoUrl,
 }: {
   name: string
   tagline: string
-  logoUrl?: string | null
 }) {
   const [open, setOpen] = useState(false)
   const panelRef = useRef<HTMLDivElement>(null)
@@ -48,7 +46,7 @@ export function Navbar({
   return (
     <header className="sticky top-0 z-50 bg-brand-800">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8 lg:h-20">
-        <Logo name={name} tagline={tagline} logoUrl={logoUrl} />
+        <Logo name={name} tagline={tagline} tone="onDark" />
 
         <nav aria-label="أقسام الصفحة" className="hidden lg:block">
           <NavigationLinks />

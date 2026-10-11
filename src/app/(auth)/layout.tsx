@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { GraduationCap } from 'lucide-react'
+import { BrandMark } from '@/components/site/logo'
 import { getBranding, DEFAULT_TEACHER_PHOTO } from '@/lib/queries/branding'
 
 export default async function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -10,9 +10,12 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
     <div className="grid min-h-dvh lg:grid-cols-[1fr_32rem]">
       {/* لوحة الهوية: تختفي على الموبايل لأن الأولوية هناك للنموذج لا للصورة */}
       <aside className="relative hidden overflow-hidden bg-brand-800 lg:flex lg:flex-col">
-        <div className="rise-in relative z-10 p-12">
-          <p className="text-lg font-semibold text-ink-invert">الأستاذة الشيماء أحمد</p>
-          <p className="mt-1 text-base text-accent">اللغة العربية</p>
+        <div className="rise-in relative z-10 flex items-center gap-4 p-12">
+          <BrandMark tone="onDark" className="h-14" />
+          <div>
+            <p className="text-lg font-semibold text-ink-invert">الأستاذة الشيماء أحمد</p>
+            <p className="mt-1 text-base text-accent">اللغة العربية</p>
+          </div>
         </div>
 
         <div
@@ -60,9 +63,7 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
       <main className="flex flex-col justify-center bg-surface px-5 py-10 sm:px-10">
         <div className="mx-auto w-full max-w-md">
           <Link href="/" className="mb-8 flex items-center gap-2.5 lg:hidden">
-            <span className="grid size-9 place-items-center rounded-[var(--radius-field)] bg-brand-700 text-ink-invert">
-              <GraduationCap className="size-5" aria-hidden />
-            </span>
+            <BrandMark tone="onLight" className="h-11" />
             <span>
               <span className="block text-base font-semibold leading-tight">
                 الأستاذة الشيماء أحمد

@@ -77,7 +77,6 @@ export default async function StaticPage({ params }: { params: Promise<{ slug: s
       <Navbar
         name={branding.siteName ?? t('site.name')}
         tagline={t('site.tagline')}
-        logoUrl={branding.logoUrl}
       />
 
       <main className="mx-auto w-full max-w-3xl flex-1 px-5 py-10 sm:px-8 sm:py-14">

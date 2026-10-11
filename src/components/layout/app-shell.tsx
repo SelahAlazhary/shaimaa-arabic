@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { SidebarNav, MobileNav, type NavArea } from '@/components/layout/sidebar-nav'
 import { LogoutButton } from '@/components/auth/logout-button'
+import { BrandMark } from '@/components/site/logo'
 import type { SessionUser } from '@/lib/permissions'
 
 // كل مُصدَّر من ملف 'use client' يصير مرجعًا للعميل، فلا يستطيع الخادم استدعاءه.
@@ -46,11 +47,14 @@ export function AppShell({
       {/* الشريط الجانبي على يمين الشاشة: `start` هي اليمين في RTL لا `end` */}
       <aside className="fixed inset-y-3 start-3 hidden w-64 flex-col overflow-hidden rounded-[var(--radius-panel)] border border-border-subtle bg-surface shadow-[var(--shadow-card)] lg:flex">
         <div className="px-6 py-6">
-          <Link href={AREA_HOME[area]} className="block">
-            <span className="block text-base font-semibold leading-tight text-ink">
-              الأستاذة الشيماء أحمد
+          <Link href={AREA_HOME[area]} className="flex items-center gap-3">
+            <BrandMark tone="onLight" className="h-11" />
+            <span className="min-w-0">
+              <span className="block text-base font-semibold leading-tight text-ink">
+                الأستاذة الشيماء أحمد
+              </span>
+              <span className="mt-0.5 block text-sm text-accent-ink">اللغة العربية</span>
             </span>
-            <span className="mt-0.5 block text-sm text-accent">اللغة العربية</span>
           </Link>
         </div>
 

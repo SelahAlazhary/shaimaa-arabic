@@ -66,7 +66,6 @@ export default async function LandingPage() {
       <Navbar
         name={branding.siteName ?? t('site.name')}
         tagline={t('site.tagline')}
-        logoUrl={branding.logoUrl}
       />
 
       <main>

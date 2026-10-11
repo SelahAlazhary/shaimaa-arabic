@@ -1,68 +1,67 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
+/**
+ * على أي أرضية يوضع الشعار؟ تحدد النسخة واللون ليبقى مقروءًا:
+ * `onDark` للهيدر الأخضر الداكن (نسخة بيضاء)، و`onLight` للهيدر الفاتح (نسخة سوداء).
+ */
+export type LogoTone = 'onDark' | 'onLight'
+
+const MARK_SRC: Record<LogoTone, string> = {
+  onDark: '/brand/logo-white.png',
+  onLight: '/brand/logo-black.png',
+}
 
 /**
- * علامة المنصة: كتاب مفتوح تعلوه ورقة، مرسوم SVG لا صورة،
- * فيبقى حادًّا في كل مقاس ويرث اللون من سياقه.
+ * علامة المنصة: حرف مخطوط بخلفية شفافة، بنسختين متطابقتين في المقاس.
+ * النسختان من `public/brand`، والارتفاع من الاستدعاء والعرض يتبعه.
  */
-export function LogoMark({ className = 'size-9' }: { className?: string }) {
+export function BrandMark({
+  tone,
+  className = 'h-10',
+}: {
+  tone: LogoTone
+  className?: string
+}) {
   return (
-    <svg viewBox="0 0 32 32" className={className} fill="none" aria-hidden>
-      <path
-        d="M4 9.5c3.5-1.3 7-1.3 10.5 0v15c-3.5-1.3-7-1.3-10.5 0v-15Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M28 9.5c-3.5-1.3-7-1.3-10.5 0v15c3.5-1.3 7-1.3 10.5 0v-15Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M16 8.2c1.1-2.4 3-3.8 5.6-4.2-.2 2.8-1.5 4.7-3.9 5.7"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M16 9.2v16" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-    </svg>
+    <Image
+      src={MARK_SRC[tone]}
+      alt=""
+      width={342}
+      height={384}
+      className={`w-auto shrink-0 ${className}`}
+    />
   )
+}
+
+const TEXT: Record<LogoTone, { name: string; tagline: string }> = {
+  onDark: { name: 'text-ink-invert', tagline: 'text-accent-soft' },
+  onLight: { name: 'text-ink', tagline: 'text-accent-ink' },
 }
 
 /**
  * الهوية كاملة: العلامة ثم الاسم وتحته العبارة.
- * شعار مرفوع من الإعدادات يحلّ محلّ العلامة المرسومة إن وُجد.
+ * `tone` بحسب لون الهيدر الذي تُوضع عليه.
  */
 export function Logo({
   name,
   tagline,
-  logoUrl,
+  tone = 'onDark',
 }: {
   name: string
   tagline: string
-  logoUrl?: string | null
+  tone?: LogoTone
 }) {
   return (
-    <Link
-      href="/"
-      className="flex min-w-0 items-center gap-3 rounded-[var(--radius-field)]"
-    >
-      {logoUrl ? (
-        <span className="relative size-9 shrink-0 sm:size-10">
-          <Image src={logoUrl} alt="" fill sizes="2.5rem" className="object-contain" />
-        </span>
-      ) : (
-        <LogoMark className="size-9 shrink-0 text-accent-soft sm:size-10" />
-      )}
+    <Link href="/" className="flex min-w-0 items-center gap-3 rounded-[var(--radius-field)]">
+      <BrandMark tone={tone} className="h-10 sm:h-11" />
       <span className="min-w-0">
-        <span className="block truncate text-base font-semibold leading-tight text-ink-invert sm:text-[1.0625rem]">
+        <span
+          className={`block truncate text-base font-semibold leading-tight sm:text-[1.0625rem] ${TEXT[tone].name}`}
+        >
           {name}
         </span>
-        <span className="block truncate text-xs leading-tight text-accent-soft sm:text-[0.8125rem]">
+        <span className={`block truncate text-xs leading-tight sm:text-[0.8125rem] ${TEXT[tone].tagline}`}>
           {tagline}
         </span>
       </span>
