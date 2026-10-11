@@ -9,14 +9,30 @@ import { MENU } from '@/lib/site/content'
 
 export function Navbar({
   name,
-  tagline,
+  overlay = false,
 }: {
   name: string
-  tagline: string
+  /**
+   * شفاف فوق واجهة الصفحة (للصفحة الرئيسية)، ويتحوّل أخضر مصمتًا عند التمرير
+   * أو فتح القائمة، فلا يضيع النص الأبيض فوق الأقسام الفاتحة.
+   * بدونه: شريط أخضر ثابت كالمعتاد.
+   */
+  overlay?: boolean
 }) {
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const panelRef = useRef<HTMLDivElement>(null)
   const toggleRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (!overlay) return
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [overlay])
+
+  const solid = !overlay || scrolled || open
 
   // القائمة المفتوحة تُغلق بـEsc وبالنقر خارجها — سلوك متوقَّع لا إضافة
   useEffect(() => {
@@ -44,9 +60,11 @@ export function Navbar({
   }, [open])
 
   return (
-    <header className="sticky top-0 z-50 bg-brand-800">
+    <header
+      className={`${overlay ? 'fixed inset-x-0' : 'sticky'} top-0 z-50 transition-colors duration-300 ${solid ? 'bg-brand-800' : 'bg-transparent'}`}
+    >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8 lg:h-20">
-        <Logo name={name} tagline={tagline} tone="onDark" />
+        <Logo name={name} tone="onDark" />
 
         <nav aria-label="أقسام الصفحة" className="hidden lg:block">
           <NavigationLinks />

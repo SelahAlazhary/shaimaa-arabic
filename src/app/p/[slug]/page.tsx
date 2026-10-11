@@ -74,10 +74,7 @@ export default async function StaticPage({ params }: { params: Promise<{ slug: s
 
   return (
     <div className="flex min-h-dvh flex-col bg-canvas">
-      <Navbar
-        name={branding.siteName ?? t('site.name')}
-        tagline={t('site.tagline')}
-      />
+      <Navbar name={branding.siteName ?? t('site.name')} />
 
       <main className="mx-auto w-full max-w-3xl flex-1 px-5 py-10 sm:px-8 sm:py-14">
         <h1 className="font-display text-2xl text-ink sm:text-3xl">{page.title}</h1>

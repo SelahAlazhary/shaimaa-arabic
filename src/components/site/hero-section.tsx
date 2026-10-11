@@ -42,7 +42,7 @@ export function HeroSection({ t, highlights }: { t: Texts; highlights: readonly 
   return (
     <section
       id="top"
-      className="relative isolate flex min-h-[calc(100svh-4rem)] flex-col overflow-hidden bg-brand-900 lg:min-h-[calc(100svh-5rem)]"
+      className="relative isolate flex min-h-svh flex-col overflow-hidden bg-brand-900"
     >
       <div className="absolute inset-0 -z-20 lg:right-auto lg:w-[72%]">
         <Image
@@ -66,8 +66,14 @@ export function HeroSection({ t, highlights }: { t: Texts; highlights: readonly 
         className="absolute inset-0 -z-10 hidden bg-[linear-gradient(to_left,var(--color-brand-900)_14%,rgb(7_42_37/0.82)_36%,rgb(7_42_37/0.08)_62%),linear-gradient(to_top,var(--color-brand-900)_2%,transparent_38%)] lg:block"
       />
 
+      {/* تظليل خلف الهيدر الشفاف: يضمن قراءة الروابط البيضاء فوق الصورة */}
+      <span
+        aria-hidden
+        className="absolute inset-x-0 top-0 -z-10 h-36 bg-linear-to-b from-brand-900/85 to-transparent"
+      />
+
       <div className="mx-auto flex w-full max-w-7xl flex-1 items-end px-5 sm:px-8 lg:items-center">
-        <div className="max-w-[36rem] pb-10 pt-60 lg:py-10 lg:pb-24">
+        <div className="max-w-[36rem] pb-10 pt-72 lg:pb-24 lg:pt-28">
           <h1 className="font-display text-[2.375rem] font-bold leading-[1.45] text-ink-invert sm:text-5xl lg:text-[3.75rem]">
             {t('hero.titleLine1')} <span className="text-accent-soft">{t('hero.titleLine2')}</span>
           </h1>

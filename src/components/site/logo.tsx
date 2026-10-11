@@ -34,37 +34,14 @@ export function BrandMark({
   )
 }
 
-const TEXT: Record<LogoTone, { name: string; tagline: string }> = {
-  onDark: { name: 'text-ink-invert', tagline: 'text-accent-soft' },
-  onLight: { name: 'text-ink', tagline: 'text-accent-ink' },
-}
-
 /**
- * الهوية كاملة: العلامة ثم الاسم وتحته العبارة.
- * `tone` بحسب لون الهيدر الذي تُوضع عليه.
+ * الهوية في الهيدر: العلامة وحدها. الاسم لا يُعرض نصًّا لكنه يبقى
+ * `aria-label` للرابط، فيعرف القارئ الصوتي وجهة الرابط واسم المنصة.
  */
-export function Logo({
-  name,
-  tagline,
-  tone = 'onDark',
-}: {
-  name: string
-  tagline: string
-  tone?: LogoTone
-}) {
+export function Logo({ name, tone = 'onDark' }: { name: string; tone?: LogoTone }) {
   return (
-    <Link href="/" className="flex min-w-0 items-center gap-3 rounded-[var(--radius-field)]">
-      <BrandMark tone={tone} className="h-10 sm:h-11" />
-      <span className="min-w-0">
-        <span
-          className={`block truncate text-base font-semibold leading-tight sm:text-[1.0625rem] ${TEXT[tone].name}`}
-        >
-          {name}
-        </span>
-        <span className={`block truncate text-xs leading-tight sm:text-[0.8125rem] ${TEXT[tone].tagline}`}>
-          {tagline}
-        </span>
-      </span>
+    <Link href="/" aria-label={name} className="flex shrink-0 items-center rounded-[var(--radius-field)]">
+      <BrandMark tone={tone} className="h-12 sm:h-14" />
     </Link>
   )
 }

@@ -63,10 +63,7 @@ export default async function LandingPage() {
 
   return (
     <div className="min-h-dvh bg-canvas">
-      <Navbar
-        name={branding.siteName ?? t('site.name')}
-        tagline={t('site.tagline')}
-      />
+      <Navbar name={branding.siteName ?? t('site.name')} overlay />
 
       <main>
         <HeroSection t={t} highlights={grid('features', 4).map((f) => f.title)} />
