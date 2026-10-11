@@ -17,7 +17,7 @@ export default async function LoginPage({
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold text-ink">تسجيل الدخول</h1>
+      <h1 className="font-display text-[2.125rem] font-bold leading-[1.4] text-ink">تسجيل الدخول</h1>
       <p className="mt-1.5 text-base text-ink-muted">أدخل بريدك وكلمة المرور للمتابعة.</p>
 
       {params.reset === 'done' && (
