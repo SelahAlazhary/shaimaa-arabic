@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { toast } from 'sonner'
 import { RotateCcw, Upload } from 'lucide-react'
 import { uploadTeacherPhoto, removeTeacherPhoto } from '@/lib/mutations/settings'
-import { DEFAULT_TEACHER_PHOTO } from '@/lib/queries/branding'
+import { DEFAULT_TEACHER_PHOTO } from '@/lib/branding-constants'
 import { Button } from '@/components/ui/button'
 import { ConfirmButton } from '@/components/ui/confirm-button'
 
