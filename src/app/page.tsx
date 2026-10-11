@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { Navbar } from '@/components/site/navbar'
-import { SectionHeading, LedgerGrid } from '@/components/site/section'
+import { SectionHeading, LedgerGrid, FeatureRows, StepsPanel } from '@/components/site/section'
+import { StagesPath } from '@/components/site/stages-path'
 import { getSiteTexts } from '@/lib/queries/site-texts'
-import { getBranding, DEFAULT_TEACHER_PHOTO } from '@/lib/queries/branding'
+import { getBranding } from '@/lib/queries/branding'
 import { HeroSection } from '@/components/site/hero-section'
 import { SiteFooter } from '@/components/site/site-footer'
 import { createClient } from '@/lib/supabase/server'
@@ -54,6 +55,12 @@ export default async function LandingPage() {
   const grades = gradesRes.data ?? []
   const publishedCourses = coursesRes.count ?? 0
 
+  const stageData = stages.map((s) => ({
+    id: s.id,
+    name: s.name_ar,
+    grades: grades.filter((g) => g.stage_id === s.id).map((g) => ({ id: g.id, name: g.name_ar })),
+  }))
+
   return (
     <div className="min-h-dvh bg-canvas">
       <Navbar
@@ -63,20 +70,23 @@ export default async function LandingPage() {
       />
 
       <main>
-        <HeroSection t={t} photo={branding.teacherUrl ?? DEFAULT_TEACHER_PHOTO} />
+        <HeroSection t={t} highlights={grid('features', 4).map((f) => f.title)} />
 
-        {/* ما تحصل عليه */}
+        {/* ما تحصل عليه — أرضية داكنة تتبع واجهة الصفحة */}
         <section
           id="features"
           aria-labelledby="features-title"
-          className="mx-auto max-w-7xl scroll-mt-16 px-5 py-16 sm:px-8 sm:py-20 lg:scroll-mt-20"
+          className="scroll-mt-16 bg-brand-900 lg:scroll-mt-20"
         >
-          <SectionHeading
-            id="features-title"
-            title={t('features.title')}
-            lead={t('features.lead')}
-          />
-          <LedgerGrid items={grid('features', 4)} />
+          <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
+            <SectionHeading
+              id="features-title"
+              title={t('features.title')}
+              lead={t('features.lead')}
+              invert
+            />
+            <FeatureRows items={grid('features', 4)} />
+          </div>
         </section>
 
         {/* الصفوف — من قاعدة البيانات لا قائمة ثابتة */}
@@ -103,28 +113,7 @@ export default async function LandingPage() {
                 }
               />
 
-              <div className="mt-6 grid gap-6 sm:grid-cols-2">
-                {stages.map((s) => {
-                  const stageGrades = grades.filter((g) => g.stage_id === s.id)
-                  if (stageGrades.length === 0) return null
-
-                  return (
-                    <div key={s.id}>
-                      <h3 className="text-lg font-semibold text-brand-800">{s.name_ar}</h3>
-                      <ul className="mt-2.5 flex flex-wrap gap-2">
-                        {stageGrades.map((g) => (
-                          <li
-                            key={g.id}
-                            className="rounded-[var(--radius-pill)] border border-border-subtle bg-surface-muted px-4 py-1.5 text-base text-ink-muted"
-                          >
-                            {g.name_ar}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )
-                })}
-              </div>
+              <StagesPath stages={stageData} />
             </div>
           </section>
         )}
@@ -184,7 +173,7 @@ export default async function LandingPage() {
             title={t('steps.title')}
             lead={t('steps.lead')}
           />
-          <LedgerGrid items={grid('steps', 3)} columns={3} />
+          <StepsPanel items={grid('steps', 3)} />
 
           <div className="mt-14 overflow-hidden rounded-[var(--radius-card)] border border-accent/40 bg-brand-800">
             <div className="relative px-6 py-12 text-center sm:px-10">

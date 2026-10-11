@@ -1,25 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, BookOpen } from 'lucide-react'
-import { Reveal } from '@/components/site/reveal'
-
-function Arabesque({ className = '', opacity = 0.05 }: { className?: string; opacity?: number }) {
-  return (
-    <svg aria-hidden className={`absolute inset-0 size-full ${className}`} style={{ opacity }}>
-      <defs>
-        <pattern id={`ara-${opacity}`} width="72" height="72" patternUnits="userSpaceOnUse">
-          <circle cx="0" cy="36" r="25.4" fill="none" stroke="currentColor" strokeWidth="1" />
-          <circle cx="72" cy="36" r="25.4" fill="none" stroke="currentColor" strokeWidth="1" />
-          <circle cx="36" cy="0" r="25.4" fill="none" stroke="currentColor" strokeWidth="1" />
-          <circle cx="36" cy="72" r="25.4" fill="none" stroke="currentColor" strokeWidth="1" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill={`url(#ara-${opacity})`} />
-    </svg>
-  )
-}
+import { ArrowLeft, BookOpen, CircleCheck, FileText, MonitorPlay, Radio } from 'lucide-react'
 
 type Texts = (key: string) => string
+
+/** أيقونات شريط المزايا بترتيب بنود «ما تجده في حسابك»: فيديو، ملازم، اختبارات، بثّ. */
+const HIGHLIGHT_ICONS = [MonitorPlay, FileText, CircleCheck, Radio]
 
 function PrimaryButton({ t }: { t: Texts }) {
   return (
@@ -46,63 +32,72 @@ function SecondaryButton({ t }: { t: Texts }) {
 }
 
 /**
- * الواجهة الأولى.
- * لوحة خضراء داكنة تمتدّ من الشريط العلوي ككتلة واحدة: الصورة المقصوصة
- * على أرضية داكنة تظهر بلا صندوق أبيض حولها، وهو ما كان يُفسد التخطيط الفاتح.
+ * الواجهة الأولى: مشهد الأستاذة في استوديو الدرس بملء القسم، والعنوان فوقه.
+ *
+ * على الحاسوب تشغل الصورة ٧٢٪ من العرض من اليسار، ويغطي تدرّجٌ داكن جهة
+ * النص فيبقى مقروءًا ولا يمسّ يدها. على الهاتف تملأ الخلفية وتغمق من أسفل.
+ * شريط المزايا الأربع أسفل الواجهة بدل قسم منفصل يكرّرها.
  */
-export function HeroSection({ t, photo }: { t: Texts; photo: string }) {
+export function HeroSection({ t, highlights }: { t: Texts; highlights: readonly string[] }) {
   return (
-    <section id="top" className="relative overflow-hidden bg-brand-800">
-      <Arabesque className="text-accent" opacity={0.07} />
+    <section
+      id="top"
+      className="relative isolate flex min-h-[calc(100svh-4rem)] flex-col overflow-hidden bg-brand-900 lg:min-h-[calc(100svh-5rem)]"
+    >
+      <div className="absolute inset-0 -z-20 lg:right-auto lg:w-[72%]">
+        <Image
+          src="/brand/hero.webp"
+          alt="الأستاذة الشيماء أحمد تشرح الدرس"
+          fill
+          priority
+          quality={90}
+          sizes="(min-width: 1024px) 72vw, 100vw"
+          className="object-cover object-[28%_12%] lg:object-[25%_20%]"
+        />
+      </div>
 
-      {/* خطّ ذهبي رفيع يفصل الواجهة عمّا تحتها */}
-      <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-accent/40" />
+      {/* تدرّج للنص: من أسفل على الهاتف، ومن جهة النص على الحاسوب */}
+      <span
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-linear-to-t from-brand-900 from-[18%] via-brand-900/70 via-[52%] to-brand-900/15 lg:hidden"
+      />
+      <span
+        aria-hidden
+        className="absolute inset-0 -z-10 hidden bg-[linear-gradient(to_left,var(--color-brand-900)_14%,rgb(7_42_37/0.82)_36%,rgb(7_42_37/0.08)_62%),linear-gradient(to_top,var(--color-brand-900)_2%,transparent_38%)] lg:block"
+      />
 
-      {/*
-       * ترتيب الهاتف: عنوان، فوصف، فصورة، فأزرار — الإجراء بعد أن يرى
-       * الزائر الأستاذة. وعلى الشاشات الكبيرة يعود العمودان بوضع صريح
-       * للصفوف والأعمدة، بلا تكرار عنصر في DOM.
-       */}
-      <div className="relative mx-auto grid max-w-7xl gap-8 px-5 py-16 sm:px-8 lg:grid-cols-[1fr_26rem] lg:gap-x-14 lg:gap-y-9 lg:py-20">
-        <div className="lg:col-start-1 lg:row-start-1 lg:self-end">
-          <h1 className="font-display text-[2.25rem] font-bold leading-[1.45] text-ink-invert sm:text-[2.75rem] lg:text-[3.5rem]">
-            {t('hero.titleLine1')}
-            <br className="hidden sm:block" /> {t('hero.titleLine2')}
+      <div className="mx-auto flex w-full max-w-7xl flex-1 items-end px-5 sm:px-8 lg:items-center">
+        <div className="max-w-[36rem] pb-10 pt-60 lg:py-10 lg:pb-24">
+          <h1 className="font-display text-[2.375rem] font-bold leading-[1.45] text-ink-invert sm:text-5xl lg:text-[3.75rem]">
+            {t('hero.titleLine1')} <span className="text-accent-soft">{t('hero.titleLine2')}</span>
           </h1>
 
-          <p className="mt-6 max-w-[36rem] text-[1.125rem] leading-[1.95] text-brand-100">
+          <p className="mt-5 text-[1.125rem] leading-[1.95] text-brand-100">
             {t('hero.description')}
           </p>
-        </div>
 
-        {/*
-         * الصورة المقصوصة على أرضية داكنة: لا صندوق أبيض حولها،
-         * وحوافّها تذوب في الخلفية بدل أن تُقطع.
-         */}
-        <Reveal className="relative mx-auto aspect-[4/5] w-64 sm:w-72 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:w-full lg:self-center">
-          <span
-            aria-hidden
-            className="reveal-arch absolute -inset-x-6 bottom-0 top-8 rounded-t-[50%] border border-accent/50 bg-brand-900/40"
-          />
-          <Image
-            src={photo}
-            alt=""
-            fill
-            priority
-            quality={92}
-            sizes="(min-width: 1024px) 26rem, 18rem"
-            className="reveal-photo object-contain object-bottom"
-            style={{
-              maskImage: 'linear-gradient(to top, transparent 0%, black 10%)',
-              WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 10%)',
-            }}
-          />
-        </Reveal>
-
-        <div className="flex flex-wrap gap-3 lg:col-start-1 lg:row-start-2 lg:self-start">
-          <PrimaryButton t={t} />
-          <SecondaryButton t={t} />
+          <div className="mt-8 flex flex-wrap gap-3">
+            <PrimaryButton t={t} />
+            <SecondaryButton t={t} />
+          </div>
         </div>
+      </div>
+
+      <div className="relative z-10 border-t border-accent/35 bg-brand-900/70 backdrop-blur-md">
+        <ul className="mx-auto grid max-w-7xl grid-cols-2 px-5 sm:px-8 lg:grid-cols-4">
+          {highlights.slice(0, 4).map((title, i) => {
+            const Icon = HIGHLIGHT_ICONS[i] ?? CircleCheck
+            return (
+              <li
+                key={title}
+                className="flex items-center gap-3 border-white/10 px-2 py-4 lg:border-s lg:first:border-s-0"
+              >
+                <Icon className="size-[1.375rem] shrink-0 text-accent-soft" aria-hidden />
+                <span className="font-display text-[1.0625rem] font-bold text-ink-invert">{title}</span>
+              </li>
+            )
+          })}
+        </ul>
       </div>
     </section>
   )
